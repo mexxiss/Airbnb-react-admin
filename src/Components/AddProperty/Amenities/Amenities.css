@@ -1,0 +1,5 @@
+.form-checkbox:checked+label {
+    border-color: #bb9e6c;
+    background-color: #f0cc8d8a;
+    /* color: white; */
+}

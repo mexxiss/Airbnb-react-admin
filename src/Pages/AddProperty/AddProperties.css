@@ -1,0 +1,27 @@
+.step2 .form-radio:checked+label,
+.addProperty .form-radio:checked+label{
+	border-color: #bb9e6c;
+	color: #fff;
+	background-color: #bb9e6c;
+}
+
+.addProperty .form-radio:checked+label{
+	opacity: .85;
+}
+
+.addProperty ::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.138);
+	border-radius: 10px;
+	background-color: #f9f9f9;
+}
+
+.addProperty ::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.addProperty ::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #d0cece;
+}

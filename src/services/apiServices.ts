@@ -4,7 +4,7 @@ import axiosInstance from "./axiosInstance";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
-  const response = await axiosInstance.post("/users/login", data);
+  const response = await axiosInstance.post("/login", data);
   return response.data;
 };
 

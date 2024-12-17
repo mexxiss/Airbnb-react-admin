@@ -144,7 +144,7 @@ const PropertyList = () => {
                 Commercial Rent
               </li> */}
             </ul>
-            <Link to="/add-property" className="btn1 flex items-center">
+            <Link to="/admin/user/1/add-property" className="btn1 flex items-center">
               Add Property
             </Link>
           </div>

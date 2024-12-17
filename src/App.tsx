@@ -1,4 +1,3 @@
-import React from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -78,6 +77,14 @@ const App = () => {
           ),
         },
         {
+          path: "user/:id/add-property",
+          element: (
+            <ProtectedRoute roles={["Admin"]}>
+              <AddProperty />
+            </ProtectedRoute>
+          ),
+        },
+        {
           path: "sellers",
           element: (
             <ProtectedRoute roles={["Admin"]}>
@@ -110,14 +117,6 @@ const App = () => {
           ),
         },
       ],
-    },
-    {
-      path: "/add-property",
-      element: (
-        <ProtectedRoute roles={["Admin", "Owner"]}>
-          <AddProperty />
-        </ProtectedRoute>
-      ),
     },
   ]);
   return <RouterProvider router={router} />;

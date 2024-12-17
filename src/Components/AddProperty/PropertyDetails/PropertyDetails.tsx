@@ -3,84 +3,30 @@ import React from "react";
 const PropertyDetails = ({ setCurrentStep }: any) => {
   return (
     <>
-      <form>
-        <div className="pb-16 lg:pb-0 ">
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Category</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="xl:grow">
-                <input
-                  type="radio"
-                  name="Category"
-                  id="Rent"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Rent"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Rent</span>
-                </label>
-              </li>
-              <li className="xl:grow">
-                <input
-                  type="radio"
-                  name="Category"
-                  id="Buy"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Buy"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Buy</span>
-                </label>
-              </li>
-              <li className="xl:grow">
-                <input
-                  type="radio"
-                  name="Category"
-                  id="New_Project"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="New_Project"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>New Project</span>
-                </label>
-              </li>
-              <li className="xl:grow">
-                <input
-                  type="radio"
-                  name="Category"
-                  id="Commercial_Rent"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Commercial_Rent"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Commercial Rent</span>
-                </label>
-              </li>
-              <li className="xl:grow">
-                <input
-                  type="radio"
-                  name="Category"
-                  id="Commercial_Buy"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Commercial_Buy"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Commercial Buy</span>
-                </label>
-              </li>
-            </ul>
+
+      <form action="">
+        <div className='grid sm:grid-cols-2 gap-4'>
+          <div className="sm:col-span-2">
+            <label className="text-[15px]">
+              Title
+            </label>
+            <input
+              type="text"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+              placeholder="Title"
+            />
           </div>
-          <div className="mb-[30px]">
+          <div className="sm:col-span-2">
+            <label className="text-[15px]">
+              Description
+            </label>
+            <textarea
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white resize-none"
+              placeholder="Description"
+              rows={6}
+            ></textarea>
+          </div>
+          <div className="sm:col-span-2">
             <p className="text-[15px] text-[#040404]">Property Type</p>
             <ul className="flex flex-wrap gap-3.5 mt-2">
               <li className="lg:grow">
@@ -92,7 +38,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Appartment"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Appartment</span>
                 </label>
@@ -106,7 +52,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Villas"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Villas</span>
                 </label>
@@ -120,7 +66,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Flat"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Flat</span>
                 </label>
@@ -134,14 +80,14 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Independent Floor"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Independent Floor</span>
                 </label>
               </li>
             </ul>
           </div>
-          <div className="mb-[30px]">
+          <div className="sm:col-span-2">
             <p className="text-[15px] text-[#040404]">BHK</p>
             <ul className="flex flex-wrap gap-3.5 mt-2">
               <li className="xl:min-w-32">
@@ -153,7 +99,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="1BHK"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>1 BHK</span>
                 </label>
@@ -167,7 +113,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="12BHK"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>1 2 BHK</span>
                 </label>
@@ -181,7 +127,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="2BHK"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>2 BHK</span>
                 </label>
@@ -195,7 +141,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="3BHK"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>3 BHK</span>
                 </label>
@@ -209,358 +155,135 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="3+BHK"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>3+ BHK</span>
                 </label>
               </li>
             </ul>
           </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Bedrooms</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Studio"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Studio"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Studio</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_1"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_1"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>1</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_2"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_2"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>2</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_3"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_3"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>3</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_4"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_4"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>4</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_5"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_5"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>5</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_6"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_6"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>6</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_7"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_7"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>7</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bedrooms"
-                  id="Bed_7+"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Bed_7+"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>7+</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Bathrooms</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_1"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_1"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>1</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_2"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_2"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>2</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_3"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_3"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>3</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_4"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_4"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>4</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_5"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_5"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>5</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_6"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_6"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>6</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_7"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_7"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>7</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_8"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_8"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>8</span>
-                </label>
-              </li>
-              <li className="min-w-[60px]">
-                <input
-                  type="radio"
-                  name="Bathrooms"
-                  id="bath_8+"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="bath_8+"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-1 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>8+</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className=" mb-[30px]">
+          <div className="">
+            <label className="text-[15px]">
+              Bedrooms
+            </label>
             <input
-              type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="Built Up Area (Sq. ft)"
+              type="number"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+              placeholder="No. of Bedrooms"
             />
           </div>
-          <div className=" mb-[30px]">
+          <div className="">
+            <label className="text-[15px]">
+              Bathrooms
+            </label>
             <input
-              type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="Monthly rent"
+              type="number"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+              placeholder="No. of Bathrooms"
             />
           </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Rental Period</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Rental_Period"
-                  id="Yearly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Yearly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Yearly</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Rental_Period"
-                  id="Monthly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Monthly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Monthly</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Rental_Period"
-                  id="Weekly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Weekly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Weekly</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Rental_Period"
-                  id="Daily"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Daily"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Daily</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className=" mb-[30px]">
+          <div className="">
+            <label className="text-[15px]">
+              Guests
+            </label>
             <input
-              type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="Maintenance Charges (per month)"
+              type="number"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+              placeholder="No. of Guests"
             />
           </div>
-          <div className="mb-[30px]">
+          <div className='sm:col-span-2 my-3'>
+            <p className="text-lg font-medium  text-primary">Price Details</p>
+            <div className='grid sm:grid-cols-2 gap-4 mt-2'>
+              <div className="">
+                <label className="text-[15px]">
+                  Weekly Discount %
+                </label>
+                <input
+                  type="number"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Weekly Discount %"
+                />
+              </div>
+              <div className="">
+                <label className="text-[15px]">
+                  Monthly Discount %
+                </label>
+                <input
+                  type="number"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Monthly Discount %"
+                />
+              </div>
+              <div className="">
+                <label className="text-[15px]">
+                  Price Per Night
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Price Per Night"
+                />
+              </div>
+              <div className="">
+                <label className="text-[15px]">
+                  Security Amount
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Security Amount"
+                />
+              </div>
+              <div className="">
+                <label className="text-[15px]">
+                  Cleaning Fee
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Cleaning Fee"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="text-[15px]">
+                  Security Details
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+                  placeholder="Security Details"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="">
+            <label className="text-[15px]">
+              Check-In
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <input type="time" id="time" className="py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]" min="09:00" max="18:00" value="00:00" required />
+            </div>
+          </div>
+          <div className="">
+            <label className="text-[15px]">
+              Check-Out
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <input type="time" id="time" className="py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]" min="09:00" max="18:00" value="00:00" required />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
             <p className="text-[15px] text-[#040404]">Furnish Type</p>
             <ul className="flex flex-wrap gap-3.5 mt-2">
               <li className="xl:min-w-32">
@@ -572,7 +295,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Fully_Furnished"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Fully Furnished</span>
                 </label>
@@ -586,7 +309,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Semi_Furnished"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Semi Furnished</span>
                 </label>
@@ -600,183 +323,46 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 />
                 <label
                   htmlFor="Unfrinshed"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
+                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
                 >
                   <span>Unfrinshed</span>
                 </label>
               </li>
             </ul>
           </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Payment plan</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Payment_plan"
-                  id="Payment_plan_Yearly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Payment_plan_Yearly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Yearly</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Payment_plan"
-                  id="Payment_plan_Monthly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Payment_plan_Monthly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Monthly</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Payment_plan"
-                  id="Payment_plan_Weekly"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Payment_plan_Weekly"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Weekly</span>
-                </label>
-              </li>
-            </ul>
+          <div className="sm:col-span-2">
+            <label className="text-[15px]">
+              Staying rules
+            </label>
+            <textarea
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white resize-none"
+              placeholder="Staying rules"
+              value="Please don't forget to send your passport/valid ID as well as those checking in with you. This is a strict requirement of Dubai's Economy and Tourism Department (DET)"
+              rows={4}
+            ></textarea>
           </div>
-          <div className=" mb-[30px]">
+          <div className="">
+            <label className="text-[15px]">
+              Permit Code
+            </label>
             <input
               type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="Start Date of Construction"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
+              placeholder="Permit Code"
             />
           </div>
-          <div className=" mb-[30px]">
+          <div className="">
+            <label className="text-[15px]">
+              Expiry Date
+            </label>
             <input
-              type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="End Date of Construction"
+              type="date"
+              className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
             />
-          </div>
-          <div className=" mb-[30px]">
-            <input
-              type="text"
-              className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-[#F7F8FF] h-[45px]"
-              placeholder="Available from"
-            />
-          </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Maintenance Charges</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Maintenance"
-                  id="Included"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Included"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Include in rent</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Maintenance"
-                  id="Separate"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Separate"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Separate</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className="mb-[30px]">
-            <p className="text-[15px] text-[#040404]">Security Deposit</p>
-            <ul className="flex flex-wrap gap-3.5 mt-2">
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Security"
-                  id="None"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="None"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>None</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Security"
-                  id="1Month"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="1Month"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>1 Month</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Security"
-                  id="2Month"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="2Month"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>2 Month</span>
-                </label>
-              </li>
-              <li className="xl:min-w-32">
-                <input
-                  type="radio"
-                  name="Security"
-                  id="Custom"
-                  className="form-radio hidden"
-                />
-                <label
-                  htmlFor="Custom"
-                  className="w-full text-center text-[15px] text-[#8B8B8B] bg-[#F7F8FF] py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] "
-                >
-                  <span>Custom</span>
-                </label>
-              </li>
-            </ul>
           </div>
         </div>
-        <div className="fixed lg:static bottom-3 w-full left-0 lg:px-0 sm:px-6 px-4 ">
-          <button
-            className="lg:my-5 text-white bg-primary font-medium text-lg lg:text-xl py-2 lg:py-3 rounded-md lg:rounded-xl px-10 lg:min-w-80 w-full lg:w-auto"
-            onClick={() => setCurrentStep(2)}
-          >
-            Next
-          </button>
+        <div className='mt-8'>
+          <button className='btn1 !rounded !px-10' onClick={() => setCurrentStep(2)}>Next</button>
         </div>
       </form>
     </>

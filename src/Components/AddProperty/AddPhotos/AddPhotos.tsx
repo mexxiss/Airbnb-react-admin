@@ -68,7 +68,7 @@ const AddPhotos = ({ setCurrentStep }: any) => {
         </div>
         <div className="fixed lg:static bottom-3 w-full left-0 lg:px-0 sm:px-6 px-4 lg:mt-12 lg:mb-5 ">
           <button
-            className=" text-white bg-primary font-medium text-lg lg:text-xl py-2 lg:py-3 rounded-md lg:rounded-xl px-10 lg:min-w-80 w-full lg:w-auto"
+            className="btn1 !rounded !px-10"
             onClick={() => setCurrentStep(4)}
           >
             Next

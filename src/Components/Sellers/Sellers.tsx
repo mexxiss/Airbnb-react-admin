@@ -43,7 +43,7 @@ const Sellers = () => {
 
   return (
     <div>
-      <div className="px-10 py-[32px] flex items-center justify-between">
+      <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
             className="lg:hidden hover:text-primary active:text-primary"
@@ -71,7 +71,7 @@ const Sellers = () => {
           </button>
         </div>
       </div>
-      <div className="px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+      <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
         <div>
           <div className="mb-6">
             <ul className="flex gap-2">

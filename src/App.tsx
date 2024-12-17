@@ -11,6 +11,7 @@ import NewPassword from "./Pages/Auth/NewPassword";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import DashboardHome from "./Components/Dashboard/Dashboard";
 import Users from "./Components/Users/Users";
+import UserDetails from "./Components/Users/UserDetails.tsx";
 import Sellers from "./Components/Sellers/Sellers";
 import PropertyList from "./Components/PropertyList/PropertyList";
 import AdminChangePassword from "./Components/ChangePassword/ChangePassword";
@@ -65,6 +66,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin"]}>
               <Users />,
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "user/:id",
+          element: (
+            <ProtectedRoute roles={["Admin"]}>
+              <UserDetails />,
             </ProtectedRoute>
           ),
         },

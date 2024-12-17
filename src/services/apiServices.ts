@@ -1,6 +1,8 @@
+import { AxiosResponse } from "axios";
 import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
 import { User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
+import { PropertyResponse } from "../types/propertiesTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -60,4 +62,49 @@ export const toggleUserDeletedStatus = async (
 ): Promise<DeletePropes> => {
   const response = await axiosInstance.delete(`/admin/users/${id}`);
   return response.data;
+};
+
+//** properties services */
+
+export const fetchProperties = async (
+  page: number,
+  limit: number = 10
+): Promise<{
+  data: any[];
+  currentPage: number;
+  totalPages: number;
+  totalProperties: number;
+}> => {
+  const response = await axiosInstance.get(
+    `/admin/properties?page=${page}&limit=${limit}`
+  );
+  return response.data;
+};
+
+//** Update properties */
+
+interface UpdatePropertyPayload {
+  updates: Record<string, any>; // Generic object to handle dynamic update fields
+}
+
+interface ApiResponse<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+}
+
+// Service method to update a property
+export const updateProperty = async (
+  propertyId: string,
+  payload: UpdatePropertyPayload
+): Promise<ApiResponse<PropertyResponse>> => {
+  try {
+    const response: AxiosResponse<ApiResponse<PropertyResponse>> =
+      await axiosInstance.put(`/admin/properties/${propertyId}`, payload);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to update the property."
+    );
+  }
 };

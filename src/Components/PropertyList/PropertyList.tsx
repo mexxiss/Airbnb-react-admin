@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import house1 from "../../assets/images/house1.png";
 import UpDown from "../../assets/icons/UpDown.png";
@@ -12,36 +12,91 @@ import {
 import { ToggleSwitch } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { DashboardContext, DashboardContextType } from "../../ContextApi";
+import { useFetchProperties } from "../../hooks/react-query/properties-query";
+import { PropertyResponse } from "../../types/propertiesTypes";
+import { filterAndSortProperties } from "./utils/helpers";
+import Loader from "../Loader/Loader";
+import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
+import { formatAmountWithCurrency } from "../../utils/common";
+import { useUpdateProperties } from "../../hooks/react-query/properties-query/useUpdateProperties";
 
 const PropertyList = () => {
+  const [propertiesList, setpropertiesList] = useState<PropertyResponse[]>([]);
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
   ) as DashboardContextType;
-  const [isActive, setIsActive] = useState("Buy");
-  const initialData = [
-    {
-      name: "Skyline Residences ",
-      status: "blocked",
-    },
-    {
-      name: "Skyline Residences",
-      status: "Active",
-    },
-  ];
-  const [sellers, setSellers] = useState(initialData);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading, isError, error } = useFetchProperties(page, 10);
+  const { mutate: updateProperty, isPending: togglePending } =
+    useUpdateProperties();
+
+  useEffect(() => {
+    if (data) {
+      setpropertiesList(data.data);
+    }
+  }, [data]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSort = (field: string) => {
+    setSortField(field);
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
+  const filteredSortedProperties = filterAndSortProperties({
+    propertiesList,
+    searchTerm,
+    sortField,
+    sortOrder,
+  });
+
+  const itemsPerPage = 10; // Number of users per page
+  const startUserIndex = (page - 1) * itemsPerPage + 1;
+  const endUserIndex = Math.min(
+    page * itemsPerPage,
+    data?.totalProperties || 0
+  );
 
   // Handle status change
-  const handleToggle = (index: any) => {
-    const updatedSellers = sellers.map((seller, i) =>
-      i === index
-        ? {
-            ...seller,
-            status: seller.status === "Active" ? "blocked" : "Active",
-          }
-        : seller
-    );
-    setSellers(updatedSellers);
+  const handleToggleStatus = async (id: string, statusStr: string) => {
+    const updates = { status: statusStr === "Active" ? "Inactive" : "Active" };
+    try {
+      updateProperty(
+        { id, updates },
+        {
+          onSuccess: (updatedUser) => {
+            // Update the query cache after the mutation succeeds
+            const updatedData = propertiesList?.map(
+              (property: PropertyResponse) =>
+                property._id === updatedUser?.data?._id
+                  ? updatedUser?.data
+                  : property
+            );
+            setpropertiesList(updatedData);
+          },
+          onError: (error) => {
+            console.error("Error toggling user status:", error);
+          },
+        }
+      );
+    } catch (error) {
+      console.log({ error });
+    }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError && error instanceof Error) {
+    return <ErrorHandleMessage msg={error?.message} />;
+  }
+
   return (
     <div>
       <div className="px-10 py-[32px] flex items-center justify-between">
@@ -60,6 +115,8 @@ const PropertyList = () => {
               type="text"
               placeholder="Search"
               className="p-0 placeholder:text-[#4E307A80] text-[#4E307A80] text-sm border-none lg:min-w-[350px]"
+              value={searchTerm}
+              onChange={handleSearch}
             />
             <img
               src={searchIcon}
@@ -76,47 +133,7 @@ const PropertyList = () => {
         <div>
           <div className="flex items-center justify-between mb-6">
             <ul className="flex gap-2">
-              <li
-                className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-                  isActive === "Buy"
-                    ? "font-medium bg-primary border-pribg-primary text-white"
-                    : "border-border1 text-text2"
-                }`}
-                onClick={() => setIsActive("Buy")}
-              >
-                Buy
-              </li>
-              <li
-                className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-                  isActive === "Rent"
-                    ? "font-medium bg-primary border-pribg-primary text-white"
-                    : "border-border1 text-text2"
-                }`}
-                onClick={() => setIsActive("Rent")}
-              >
-                Rent
-              </li>
-              <li
-                className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-                  isActive === "New Project"
-                    ? "font-medium bg-primary border-pribg-primary text-white"
-                    : "border-border1 text-text2"
-                }`}
-                onClick={() => setIsActive("New Project")}
-              >
-                New Project
-              </li>
-              <li
-                className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-                  isActive === "Commercial Buy"
-                    ? "font-medium bg-primary border-pribg-primary text-white"
-                    : "border-border1 text-text2"
-                }`}
-                onClick={() => setIsActive("Commercial Buy")}
-              >
-                Commercial Buy
-              </li>
-              <li
+              {/* <li
                 className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
                   isActive === "Commercial Rent"
                     ? "font-medium bg-primary border-pribg-primary text-white"
@@ -125,14 +142,14 @@ const PropertyList = () => {
                 onClick={() => setIsActive("Commercial Rent")}
               >
                 Commercial Rent
-              </li>
+              </li> */}
             </ul>
             <Link to="/add-property" className="btn1 flex items-center">
               Add Property
             </Link>
           </div>
           <p className="text-lg text-[#040404] font-medium">
-            Total Buy (<span>15</span>)
+            Total Properties (<span>{data?.totalProperties}</span>)
           </p>
           <div className="mt-3">
             <div className="relative overflow-x-auto">
@@ -146,6 +163,7 @@ const PropertyList = () => {
                       scope="col"
                       className="py-2 px-3 pl-6"
                       style={{ minWidth: "270px" }}
+                      onClick={() => handleSort("title")}
                     >
                       <div className="flex items-center gap-2.5">
                         Name <img src={UpDown} className="w-2" />
@@ -175,7 +193,7 @@ const PropertyList = () => {
                       style={{ minWidth: "130px" }}
                     >
                       <div className="flex items-center gap-2.5">
-                        Price <img src={UpDown} className="w-2" />
+                        Price Per Night <img src={UpDown} className="w-2" />
                       </div>
                     </th>
                     <th
@@ -197,7 +215,7 @@ const PropertyList = () => {
                   </tr>
                 </thead>
                 <tbody className="">
-                  {sellers.map((seller, index) => (
+                  {filteredSortedProperties.map((property, index) => (
                     <tr className="bg-white mb-2" key={index}>
                       <td className=" py-4 px-3 pl-6 rounded-l-xl">
                         <div>
@@ -211,32 +229,37 @@ const PropertyList = () => {
                               to={"#"}
                               className="text-sm text-[#040404] font-medium hover:text-primary duration-300 block)]"
                             >
-                              {seller.name}
+                              {property.title}
                             </Link>
                           </div>
                         </div>
                       </td>
                       <td className=" py-4 px-3">
                         <span className="text-sm text-[#040404]">
-                          5th Avenue, New York, USA
+                          {`${property.address.building_no}, ${property.address.street}, ${property.address.city}, ${property.address.country}`}
                         </span>
                       </td>
                       <td className=" py-4 px-3">
                         <span className="text-sm text-[#040404] font-medium">
-                          Walter Horton
+                          air bnb
                         </span>
                       </td>
                       <td className=" py-4 px-3">
                         <span className="text-sm text-[#040404] font-medium">
-                          $934,200
+                          {formatAmountWithCurrency(
+                            property.costs.prices.price_per_night || 0,
+                            property?.costs?.currency || "AED"
+                          )}
                         </span>
                       </td>
                       <td className=" py-4 px-3">
                         <div className="">
                           <ToggleSwitch
-                            checked={seller.status === "Active"}
-                            label={seller.status}
-                            onChange={() => handleToggle(index)}
+                            checked={property.status === "Active"}
+                            label={property.status}
+                            onChange={() =>
+                              handleToggleStatus(property._id, property.status)
+                            }
                             className="*:focus:!shadow-none *:focus:!ring-0 toggleBtn flex items-center"
                           />
                         </div>
@@ -254,16 +277,37 @@ const PropertyList = () => {
             <div className="mt-8">
               <div className="flex justify-between items-center">
                 <p className="text-sm text-[#8B8B8B">
-                  Showing 10 of 1265 users
+                  Showing {startUserIndex} - {endUserIndex} of{" "}
+                  {data?.totalProperties} Properties
                 </p>
                 <div>
                   <ul className="flex items-center gap-3">
                     <li>
-                      <button className="text-[#8B8B8B]">
+                      <button
+                        className="text-[#8B8B8B]"
+                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                      >
                         <KeyboardArrowLeftOutlined />
                       </button>
                     </li>
-                    <li>
+                    {Array.from(
+                      { length: data?.totalPages || 0 },
+                      (_, index) => (
+                        <li key={index}>
+                          <button
+                            className={`${
+                              page === index + 1
+                                ? "text-white bg-primary"
+                                : "text-text2"
+                            } w-10 h-10 rounded-full flex items-center justify-center`}
+                            onClick={() => setPage(index + 1)}
+                          >
+                            {index + 1}
+                          </button>
+                        </li>
+                      )
+                    )}
+                    {/* <li>
                       <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
                         1
                       </button>
@@ -272,8 +316,8 @@ const PropertyList = () => {
                       <button className="text-white bg-primary w-10 h-10 rounded-full flex items-center justify-center">
                         2
                       </button>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
                         3
                       </button>
@@ -282,19 +326,26 @@ const PropertyList = () => {
                       <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
                         4
                       </button>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
                         ...
                       </button>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
                         10
                       </button>
-                    </li>
+                    </li> */}
                     <li>
-                      <button className="text-[#8B8B8B]">
+                      <button
+                        className="text-[#8B8B8B]"
+                        onClick={() =>
+                          setPage((prev) =>
+                            Math.min(prev + 1, data?.totalPages || 1)
+                          )
+                        }
+                      >
                         <KeyboardArrowRightOutlined />
                       </button>
                     </li>

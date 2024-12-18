@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
 import { User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
-import { PropertyResponse } from "../types/propertiesTypes";
+import { PropertiesResponse, PropertyResponse } from "../types/propertiesTypes";
 import { BankDetails } from "../types/bankDetailsTypes";
 import { SignUpRequest, SignUpResponse } from "../types/signupUserTypes";
 
@@ -192,4 +192,21 @@ export const upsertBankDetails = async (
     data
   );
   return response.data; // Assuming the API response wraps data in a `data` field
+};
+
+//** Get Property By user Id */
+
+export const fetchPropertiesByUser = async (
+  userId: string
+): Promise<PropertiesResponse> => {
+  try {
+    const response = await axiosInstance.get<PropertiesResponse>(
+      `/admin/properties/${userId}`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch properties"
+    );
+  }
 };

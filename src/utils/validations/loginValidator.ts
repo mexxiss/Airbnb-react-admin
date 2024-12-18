@@ -19,3 +19,16 @@ export const changePasswordSchema = Yup.object().shape({
     .oneOf([Yup.ref("newPassword")], "Passwords must match")
     .required("Confirm password is required"),
 });
+
+export const signupValidationSchema = Yup.object({
+  first_name: Yup.string().required("First name is required"),
+  last_name: Yup.string().required("Last name is required"),
+  email: Yup.string()
+    .required("Please enter your email")
+    .email("Invalid email format")
+    .matches(EMAIL_REGEX, "Invalid email: example@mail.abc"),
+  password: Yup.string()
+    .required("No password provided.")
+    .min(8, "Password is too short - should be 8 chars minimum.")
+    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+});

@@ -6,6 +6,8 @@ import Input from "../../Input/Input";
 import Loader from "../../Loader/Loader";
 import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
 import { useToggle } from "../../../hooks/custom-hook/useToggle";
+import { useUpsertBankDetails } from "../../../hooks/react-query/bank-details-queries/useUpsertBankDetails";
+import { showToast } from "../../../utils/toaster/toastWrapper";
 
 const BankDetails = () => {
   const { id } = useParams();
@@ -15,6 +17,8 @@ const BankDetails = () => {
   const { data, isLoading, isError, error } = useFetchBankDetailById({
     userId: id || "",
   });
+
+  const { mutate: upsertDetails, isPending } = useUpsertBankDetails();
 
   const initialValues = {
     accountHolderName: data?.data?.accountHolderName || "",
@@ -28,6 +32,13 @@ const BankDetails = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
+      if (!id) {
+        console.error();
+        showToast("error", "User ID is missing or undefined");
+        return;
+      }
+
+      upsertDetails({ userId: id!, details: values });
       console.log("Submitted Values:", values);
     },
     enableReinitialize: true, // Ensure Formik reinitializes when `data` changes
@@ -77,7 +88,7 @@ const BankDetails = () => {
                   label="Account Name"
                   placeholder="Enter Account Name"
                   value={formik.values.accountHolderName}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
               <div>
@@ -86,7 +97,7 @@ const BankDetails = () => {
                   label="Bank Name"
                   placeholder="Enter Bank Name"
                   value={formik.values.bankName}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
               <div>
@@ -95,7 +106,7 @@ const BankDetails = () => {
                   label="Currency"
                   placeholder="Enter Currency"
                   value={formik.values.currency}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
               <div>
@@ -104,7 +115,7 @@ const BankDetails = () => {
                   label="IBAN"
                   placeholder="Enter IBAN"
                   value={formik.values.iban}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
               <div>
@@ -113,7 +124,7 @@ const BankDetails = () => {
                   label="Account Number"
                   placeholder="Enter Account Number"
                   value={formik.values.accountNumber}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
               <div>
@@ -122,7 +133,7 @@ const BankDetails = () => {
                   label="Bank Address"
                   placeholder="Enter Bank Address"
                   value={formik.values.address}
-                  disabled={!isOpen}
+                  disabled={!isOpen || isPending}
                 />
               </div>
             </div>

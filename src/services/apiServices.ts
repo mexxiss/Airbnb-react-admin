@@ -3,12 +3,22 @@ import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
 import { User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
 import { PropertyResponse } from "../types/propertiesTypes";
-import { string } from "yup";
 import { BankDetails } from "../types/bankDetailsTypes";
+import { SignUpRequest, SignUpResponse } from "../types/signupUserTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
   const response = await axiosInstance.post("/login", data);
+  return response.data;
+};
+
+export const signUpUser = async (
+  userData: SignUpRequest
+): Promise<SignUpResponse> => {
+  const response = await axiosInstance.post<SignUpResponse>(
+    "/admin/signup",
+    userData
+  );
   return response.data;
 };
 
@@ -162,4 +172,24 @@ export const fetchUserBankDetailsById = async (
       error.response?.data?.message || "Failed to fetch user details."
     );
   }
+};
+
+interface BankDetailsApiResponse<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+}
+
+export const upsertBankDetails = async (
+  userId: string,
+  data: Record<string, any>
+): Promise<BankDetailsApiResponse<BankDetails>> => {
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+  const response = await axiosInstance.put(
+    `/admin/bank-details/${userId}`,
+    data
+  );
+  return response.data; // Assuming the API response wraps data in a `data` field
 };

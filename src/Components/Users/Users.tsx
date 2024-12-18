@@ -135,7 +135,12 @@ const Users: React.FC = () => {
               <p className="text-lg text-[#040404] font-medium">
                 Total users (<span>{data?.totalUsers}</span>)
               </p>
-              <button className="btn1">Add User</button>
+              <Link
+                to={"/admin/user/new-user"}
+                className="btn1 flex items-center justify-center"
+              >
+                Add User
+              </Link>
             </div>
             <div className="mt-3">
               <div className="relative overflow-x-auto">
@@ -294,10 +299,11 @@ const Users: React.FC = () => {
                         (_, index) => (
                           <li key={index}>
                             <button
-                              className={`${page === index + 1
+                              className={`${
+                                page === index + 1
                                   ? "text-white bg-[#040404]"
                                   : "text-text2"
-                                } w-10 h-10 rounded-full flex items-center justify-center`}
+                              } w-10 h-10 rounded-full flex items-center justify-center`}
                               onClick={() => setPage(index + 1)}
                             >
                               {index + 1}

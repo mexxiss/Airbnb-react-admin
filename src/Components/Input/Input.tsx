@@ -13,6 +13,7 @@ interface IInput {
   inputClass?: string; //  i am taking label class, input class in differnet because of tailwind , as passing tailwind class is easy as compared to giving parent class and writing manual css
   labelClass?: string;
   disabled?: boolean;
+  onChangeValue?: (name: string, value: string) => void;
 }
 
 const Input: React.FC<IInput> = ({
@@ -24,6 +25,7 @@ const Input: React.FC<IInput> = ({
   inputClass,
   labelClass,
   disabled,
+  onChangeValue,
 }) => {
   const { handleBlur, handleChange, values } = useFormikContext();
 
@@ -31,6 +33,14 @@ const Input: React.FC<IInput> = ({
   const handlePasswordVisibility = useCallback(() => {
     setIsPasswordShow(!isPasswordShow);
   }, [isPasswordShow]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (onChangeValue) {
+      onChangeValue(name, value);
+    }
+    handleChange(e);
+  };
 
   return (
     <div className="">
@@ -47,7 +57,7 @@ const Input: React.FC<IInput> = ({
       <div className="relative">
         <input
           disabled={disabled}
-          onChange={handleChange}
+          onChange={handleInputChange}
           onBlur={handleBlur}
           type={type !== "password" ? type : isPasswordShow ? "text" : type}
           name={name}

@@ -144,9 +144,6 @@ const PropertyList = () => {
                 Commercial Rent
               </li> */}
             </ul>
-            <Link to="/admin/user/1/add-property" className="btn1 flex items-center">
-              Add Property
-            </Link>
           </div>
           <p className="text-lg text-[#040404] font-medium">
             Total Properties (<span>{data?.totalProperties}</span>)

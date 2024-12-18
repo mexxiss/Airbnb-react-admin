@@ -3,6 +3,8 @@ import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
 import { User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
 import { PropertyResponse } from "../types/propertiesTypes";
+import { string } from "yup";
+import { BankDetails } from "../types/bankDetailsTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -18,9 +20,10 @@ export const fetchUserProfile = async (): Promise<any> => {
 
 // Example: Update User Details
 export const updateUserDetails = async (
+  id: string,
   data: Record<string, any>
 ): Promise<any> => {
-  const response = await axiosInstance.put("/users/update", data);
+  const response = await axiosInstance.put(`/admin/users/${id}`, data);
   return response.data;
 };
 
@@ -52,6 +55,32 @@ export const fetchUsers = async (
   return response.data;
 };
 
+// API service to fetch user details by ID
+interface ApiResponseUserDetail<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+}
+
+export const fetchUserById = async (
+  userId: string
+): Promise<ApiResponse<User>> => {
+  if (!userId) {
+    throw new Error("User ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<ApiResponseUserDetail<User>> =
+      await axiosInstance.get(`/admin/users/${userId}`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch user details."
+    );
+  }
+};
+
+//** Soft Delete Api */
 interface DeletePropes {
   message: string;
   data: User;
@@ -105,6 +134,32 @@ export const updateProperty = async (
   } catch (error: any) {
     throw new Error(
       error.response?.data?.message || "Failed to update the property."
+    );
+  }
+};
+
+//** Bank details of user by id */
+
+interface ApiResponseBankDetail<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+}
+
+export const fetchUserBankDetailsById = async (
+  userId: string
+): Promise<ApiResponse<BankDetails>> => {
+  if (!userId) {
+    throw new Error("User ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<ApiResponseBankDetail<BankDetails>> =
+      await axiosInstance.get(`/admin/bank-details/${userId}`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch user details."
     );
   }
 };

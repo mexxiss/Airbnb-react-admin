@@ -19,6 +19,7 @@ import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { IconButton } from "@mui/material";
 import { ToggleSwitch } from "flowbite-react";
 import { filterAndSortUsers } from "./utils/helpers";
+import { Link } from "react-router-dom";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
@@ -255,9 +256,11 @@ const Users: React.FC = () => {
                               />
                             </div>
                           </td>
-                          <IconButton onClick={() => alert(`${user._id}`)}>
-                            <VisibilityIcon className="text-[#bb9e6c]" />
-                          </IconButton>
+                          <Link to={`/admin/user/${user._id}`}>
+                            <IconButton>
+                              <VisibilityIcon className="text-[#bb9e6c]" />
+                            </IconButton>
+                          </Link>
                         </td>
                       </tr>
                     ))}

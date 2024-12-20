@@ -9,10 +9,7 @@ import Amenities from "../../Components/AddProperty/Amenities/Amenities";
 import AddPhotos from "../../Components/AddProperty/AddPhotos/AddPhotos";
 import AddAddress from "../../Components/AddProperty/AddAddress/AddAddress";
 import { useFormik } from "formik";
-import {
-  initialPropertyValues,
-  validationPropertySchema,
-} from "../../utils/validations/createPropertiesValidator";
+import useCreatePropertyStoreNew from "../../store/useCreatePropertyStoreNew";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
@@ -21,19 +18,33 @@ const AddProperty = () => {
   const { id } = useParams();
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
+  const {
+    handleChange,
+    resetPropertyState,
+    property_details,
+    costs,
+    address,
+    title,
+    description,
+  } = useCreatePropertyStoreNew();
 
-  const formik = useFormik({
-    initialValues: initialPropertyValues,
-    validationSchema: validationPropertySchema,
-    onSubmit: async (values) => {
-      try {
-        console.log({ values });
-      } catch (error) {
-        console.error("Failed to update user details:", error);
-        alert("Failed to update details. Please try again.");
-      }
-    },
-  });
+  console.log({ property_details });
+
+  // const formik = useFormik({
+  //   initialValues: initialPropertyValues,
+  //   validationSchema: validationPropertySchema,
+  //   onSubmit: async (values) => {
+  //     try {
+  //       Object.entries(values).forEach(([key, value]) => {
+  //         handleChange(key as keyof typeof values, value);
+  //       });
+  //       console.log({ values });
+  //     } catch (error) {
+  //       console.error("Failed to update user details:", error);
+  //       alert("Failed to update details. Please try again.");
+  //     }
+  //   },
+  // });
 
   const renderStepContent = (step: any) => {
     switch (step) {

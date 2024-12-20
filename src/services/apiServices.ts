@@ -5,6 +5,8 @@ import axiosInstance from "./axiosInstance";
 import { PropertiesResponse, PropertyResponse } from "../types/propertiesTypes";
 import { BankDetails } from "../types/bankDetailsTypes";
 import { SignUpRequest, SignUpResponse } from "../types/signupUserTypes";
+import { UploadResponse } from "../types/uploadFileTypes";
+import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -207,6 +209,76 @@ export const fetchPropertiesByUser = async (
   } catch (error: any) {
     throw new Error(
       error.response?.data?.message || "Failed to fetch properties"
+    );
+  }
+};
+
+export const uploadFile = async (
+  folder: string = "properties",
+  file: File
+): Promise<UploadResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await axiosInstance.post<UploadResponse>(
+      `/users/upload/single?folder=${folder}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to upload file");
+  }
+};
+
+export const fetchGallery = async (data: {
+  img_url: string;
+  type: string;
+}): Promise<GalleryResponse> => {
+  try {
+    const response = await axiosInstance.post<GalleryResponse>(
+      `/admin/gallery`,
+      data
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch gallery data"
+    );
+  }
+};
+
+export const deleteGalleryItem = async (
+  id: string
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const response = await axiosInstance.delete<{
+      success: boolean;
+      message: string;
+    }>(`/admin/gallery/${id}`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to delete gallery item"
+    );
+  }
+};
+
+export const fetchGalleryTypes = async (): Promise<GalleryTypesResponse> => {
+  try {
+    const response = await axiosInstance.get<GalleryTypesResponse>(
+      "/admin/gallery-types/"
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch gallery types"
     );
   }
 };

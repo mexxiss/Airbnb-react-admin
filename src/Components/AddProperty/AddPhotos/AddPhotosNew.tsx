@@ -1,8 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import uploadIcon from "../../../assets/icons/uploadIcon.png";
 import trashIcon from "../../../assets/icons/trashIcon.png";
 import Select, { SingleValue } from "react-select";
-import useCreatePropertyStoreNew from "../../../store/useCreatePropertyStoreNew";
+import useCreatePropertyStoreNew, {
+  ItemDetails,
+} from "../../../store/useCreatePropertyStoreNew";
+import { validationImageSchema } from "../../../utils/validations/reArrengeSchemaValidation";
+import { Form, FormikProvider, useFormik } from "formik";
 import {
   deleteGalleryItem,
   fetchGallery,
@@ -15,39 +19,42 @@ import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
 interface UploadedImage {
   id: string;
   file: File | null;
-  preview: string;
-  name: string;
-  selectedOption: { value: string; label: string } | null;
-  _id?: string;
+  preview: string; // Image preview URL
+  name: string; // Custom name input
+  selectedOption: { value: string; label: string } | null; // Associated option
+  _id?: string; //
 }
 
-const AddPhotos = ({
+const AddPhotosNew = ({
   setCurrentStep,
 }: {
   setCurrentStep: (step: number) => void;
 }) => {
   const { handleChange, property_images_urls } = useCreatePropertyStoreNew();
+
   const { data, isLoading, error, isError } = useFetchGalleryType();
+
+  const formattedOptions = data?.data.map((option) => ({
+    value: option._id,
+    label: option.name,
+  }));
+
   const [selectedOption, setSelectedOption] =
     useState<SingleValue<{ value: string; label: string }>>(null);
   const [selectedName, setSelectedName] = useState<SingleValue<string>>("");
+
   const [images, setImages] = useState<UploadedImage[]>(
-    property_images_urls || []
+    (property_images_urls || []).map((data: ItemDetails) => ({
+      ...data,
+    }))
   );
 
-  const formattedOptions =
-    data?.data.map((option) => ({
-      value: option._id,
-      label: option.name,
-    })) || [];
-
-  const handleOptionChange = useCallback(
-    (option: SingleValue<{ value: string; label: string }>) => {
-      setSelectedOption(option);
-      setSelectedName(option?.label || "");
-    },
-    []
-  );
+  const handleOptionChange = (
+    selectedOption: SingleValue<{ value: string; label: string }>
+  ) => {
+    setSelectedOption(selectedOption);
+    setSelectedName(selectedOption?.label || "");
+  };
 
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -57,56 +64,65 @@ const AddPhotos = ({
       try {
         const uploadedImages = await Promise.all(
           Array.from(files).map(async (file) => {
-            const { imageUrl } = await uploadFile("properties", file);
-            const { data } = await fetchGallery({
-              img_url: imageUrl || "",
+            const uploadResponse = await uploadFile("properties", file);
+            const imgUrl = uploadResponse?.imageUrl;
+
+            const galleryResponse = await fetchGallery({
+              img_url: imgUrl || "",
               type: selectedOption.value,
             });
+            console.log({ galleryResponse });
 
             return {
               id: crypto.randomUUID(),
               file,
-              preview: imageUrl,
+              preview: imgUrl,
               name: selectedName || "",
               selectedOption,
-              _id: data?._id,
+              url: imgUrl,
+              _id: galleryResponse?.data?._id,
             };
           })
         );
         setImages((prevImages) => [...prevImages, ...uploadedImages]);
-        setSelectedOption(null); // Reset after successful upload
+        setSelectedOption(null);
       } catch (error) {
-        console.error("Upload error:", error);
-        setSelectedOption(null); // Reset the selection if error occurs
-        alert("Failed to upload images. Please try again.");
+        console.log({ error });
+        setSelectedOption(null);
+        alert("Please select an option before uploading images.");
       }
     }
   };
 
   const handleDeleteImage = async (id: string, _id: string) => {
     try {
-      setImages((prevImages) => prevImages.filter((image) => image.id !== id));
-      if (_id) {
-        await deleteGalleryItem(_id);
+      setImages((prevImages) => prevImages.filter((img) => img.id !== id));
+      if (_id && _id !== undefined) {
+        const response = await deleteGalleryItem(_id);
+        console.log({ response });
       }
     } catch (error) {
-      console.error("Delete error:", error);
-      alert("Failed to delete image. Please try again.");
+      console.log({ error });
     }
   };
 
   const handleSubmitImage = () => {
-    if (images.length > 0) {
-      const imageIds = images.map((image) => image._id || "");
+    if (images?.length > 0) {
       handleChange("property_images_urls", [...images]);
-      handleChange("property_images", imageIds);
-      setCurrentStep(4);
+      handleChange("property_images", [
+        ...images.map((imgIds: UploadedImage) => imgIds._id || ""),
+      ]);
+      // setCurrentStep(4);
     }
   };
 
-  if (isLoading) return <Loader />;
-  if (isError && error instanceof Error)
-    return <ErrorHandleMessage msg={error.message} />;
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError && error instanceof Error) {
+    return <ErrorHandleMessage msg={error?.message} />;
+  }
 
   return (
     <>
@@ -133,8 +149,7 @@ const AddPhotos = ({
                   type="text"
                   className="w-full mb-2 p-2 border rounded"
                   placeholder="Type name here..."
-                  disabled
-                  defaultValue={image.name}
+                  value={image.name || ""}
                 />
               </div>
             </div>
@@ -176,12 +191,13 @@ const AddPhotos = ({
           </div>
         </div>
       </div>
-
       <div className="fixed lg:static bottom-3 w-full left-0 lg:px-0 sm:px-6 px-4 lg:mt-[6rem] lg:mb-5">
         <button
           type="button"
           className="btn1 !rounded !px-10"
-          onClick={handleSubmitImage}
+          onClick={() => {
+            handleSubmitImage();
+          }}
         >
           Next
         </button>
@@ -190,4 +206,4 @@ const AddPhotos = ({
   );
 };
 
-export default AddPhotos;
+export default AddPhotosNew;

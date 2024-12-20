@@ -70,7 +70,7 @@ export interface PropertyResponse {
   description: string;
   property_images: string[]; // Array of image IDs
   costs: Costs;
-  staying_rules: string[]; // Array of staying rules
+  staying_rules: string; // Array of staying rules
   cancellation_policy: string;
   amenities: string[]; // Array of amenity IDs
   createdAt: string; // ISO 8601 date format

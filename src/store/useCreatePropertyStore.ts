@@ -76,7 +76,7 @@ interface CreatePropertyState {
   description: string;
   property_images: string[];
   costs: Costs;
-  staying_rules: string[];
+  staying_rules: string;
   cancellation_policy: string;
   amenities: string[];
   user: string;
@@ -125,6 +125,11 @@ const useCreatePropertyStore = create<CreatePropertyState>()(
       title: "",
       description: "",
       property_images: [],
+      staying_rules: "",
+      cancellation_policy: "",
+      amenities: [],
+      user: "",
+      status: "",
       costs: {
         prices: {
           security_amount: 0,
@@ -138,12 +143,6 @@ const useCreatePropertyStore = create<CreatePropertyState>()(
           total_revenue: 0,
         },
       },
-      staying_rules: [],
-      cancellation_policy: "",
-      amenities: [],
-      user: "",
-      status: "",
-
       // Actions
       setPropertyDetails: (details) =>
         set((state) => ({
@@ -201,7 +200,7 @@ const useCreatePropertyStore = create<CreatePropertyState>()(
               total_revenue: 0,
             },
           },
-          staying_rules: [],
+          staying_rules: "",
           cancellation_policy: "",
           amenities: [],
           user: "",

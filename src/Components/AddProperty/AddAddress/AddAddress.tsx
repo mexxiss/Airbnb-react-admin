@@ -1,14 +1,28 @@
 import { Link } from "react-router-dom";
+import useCreatePropertyStoreNew from "../../../store/useCreatePropertyStoreNew";
 
 const AddAddress = ({ setCurrentStep }: any) => {
+  // const {
+  //   handleChange,
+  //   property_details,
+  //   discounts_percentage,
+  //   costs,
+  //   title,
+  //   property_types,
+  //   property_check_details,
+  //   description,
+  //   staying_rules,
+  //   cancellation_policy,
+  //   important_information,
+  //   user,
+  //   status,
+  // } = useCreatePropertyStoreNew();
   return (
     <>
       <form>
         <div className="pb-16 lg:pb-0 grid grid-cols-1 gap-4">
           <div className="">
-            <label className="text-[15px]">
-              Flat No.
-            </label>
+            <label className="text-[15px]">Flat No.</label>
             <input
               type="text"
               className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
@@ -16,9 +30,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
             />
           </div>
           <div className="">
-            <label className="text-[15px]">
-              Floor No.
-            </label>
+            <label className="text-[15px]">Floor No.</label>
             <input
               type="text"
               className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
@@ -36,9 +48,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
             />
           </div>
           <div className="">
-            <label className="text-[15px]">
-              City
-            </label>
+            <label className="text-[15px]">City</label>
             <input
               type="text"
               className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
@@ -46,9 +56,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
             />
           </div>
           <div className="">
-            <label className="text-[15px]">
-              Locality
-            </label>
+            <label className="text-[15px]">Locality</label>
             <input
               type="text"
               className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"
@@ -56,9 +64,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
             />
           </div>
           <div className="">
-            <label className="text-[15px]">
-              Parking No.
-            </label>
+            <label className="text-[15px]">Parking No.</label>
             <input
               type="text"
               className="py-3 px-4 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white h-[45px]"

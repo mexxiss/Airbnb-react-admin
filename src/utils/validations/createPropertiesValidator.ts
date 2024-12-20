@@ -1,6 +1,5 @@
 import * as Yup from "yup";
-
-export const initialPropertyValues = {
+const initialPropertyValues = {
   property_details: {
     permit: {
       permit_code: "",
@@ -59,14 +58,13 @@ export const initialPropertyValues = {
       total_revenue: 0,
     },
   },
-  staying_rules: [],
+  staying_rules: "",
   cancellation_policy: "",
   amenities: [],
   user: "",
   status: "",
 };
-
-export const validationPropertySchema = Yup.object({
+const validationPropertySchema = Yup.object({
   property_details: Yup.object({
     permit: Yup.object({
       permit_code: Yup.string().required("Permit code is required"),
@@ -114,9 +112,6 @@ export const validationPropertySchema = Yup.object({
     ),
     other: Yup.string().required("Other important information is required"),
   }),
-  property_types: Yup.string().required("Property type is required"),
-  title: Yup.string().required("Title is required"),
-  description: Yup.string().required("Description is required"),
   property_images: Yup.array().of(
     Yup.string().required("Image ID is required")
   ),
@@ -137,9 +132,10 @@ export const validationPropertySchema = Yup.object({
       total_revenue: Yup.number().min(0),
     }),
   }),
-  staying_rules: Yup.array().of(
-    Yup.string().required("Staying rule is required")
-  ),
+  staying_rules: Yup.string().required("Staying rule is required"),
+  property_types: Yup.string().required("Property type is required"),
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
   cancellation_policy: Yup.string().required("Cancellation policy is required"),
   amenities: Yup.array().of(Yup.string().required("Amenity ID is required")),
   user: Yup.string().required("User ID is required"),

@@ -13,6 +13,14 @@ import {
   MenuOutlined,
 } from "@mui/icons-material";
 import { DashboardContext, DashboardContextType } from "../../ContextApi";
+import RevenueChart from "../charts/line-charts/RevenueChart";
+import CityDistributionChart from "../charts/pie-charts/CityDistributionChart";
+import { colors } from "../../theme/colors";
+import InfoCard from "../InfoCard/InfoCard";
+import { primaryFilter } from "../charts/utils/cssSupportFile";
+import HorizontalCard from "../InfoCard/HorizontalCard";
+import LineChart from "../charts/line-charts/LineChart";
+import PropertyListedChart from "../charts/Column-charts/PropertyListedChart";
 
 const Dashboard: React.FC = () => {
   // Context for mobile menu
@@ -63,6 +71,34 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
+  const revenueData = [2800, 1500, 2200, 2100, 3200, 2900, 2100];
+  const percentageIncrease = 32.5;
+
+  const cityData = [
+    { name: "Chandigarh", percentage: 30, color: colors.primary[500] },
+    { name: "Mohali", percentage: 20, color: colors.primary[600] },
+    { name: "Patiala", percentage: 15, color: colors.primary[900] },
+    { name: "Others", percentage: 35, color: colors.primary[300] },
+  ];
+  const sampleData = [
+    { x: Date.UTC(2024, 3, 1), y: 50000 },
+    { x: Date.UTC(2024, 3, 10), y: 100000 },
+    { x: Date.UTC(2024, 3, 20), y: 75000 },
+    { x: Date.UTC(2024, 4, 1), y: 150000 },
+    { x: Date.UTC(2024, 4, 10), y: 200000 },
+    { x: Date.UTC(2024, 4, 20), y: 120000 },
+  ];
+
+  const sampleData2 = [
+    { x: 23, y: 50 },
+    { x: 24, y: 70 },
+    { x: 25, y: 60 },
+    { x: 26, y: 80 },
+    { x: 27, y: 120 }, // Annotated point
+    { x: 28, y: 70 },
+    { x: 29, y: 60 },
+  ];
+
   return (
     <div>
       <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
@@ -91,91 +127,51 @@ const Dashboard: React.FC = () => {
           <div className="2xl:w-[75%]">
             <div className="flex flex-wrap sm:grid grid-cols-2 lg:flex gap-5">
               {/* Cards for Top Brokers, Total Users, Sellers, and Properties */}
-              <div className="w-full lg:basis-1/3 bg-white rounded-2xl p-4">
-                <p className="text-lg text-[#101828] font-medium mb-5">
-                  Top Brokers
-                </p>
-                <ul className="flex">
-                  <li className="w-[34px] h-[34px] rounded-full bg-primary text-white text-xs font-normal border border-white flex items-center justify-center">
-                    CK
-                  </li>
-                  <li className="w-[34px] h-[34px] rounded-full bg-[#a58b5e] text-white text-xs font-normal border border-white flex items-center justify-center -ml-1.5">
-                    TN
-                  </li>
-                  <li className="w-[34px] h-[34px] rounded-full bg-[#8f7850] text-white text-xs font-normal border border-white flex items-center justify-center -ml-1.5">
-                    RT
-                  </li>
-                  <li className="w-[34px] h-[34px] rounded-full bg-[#a58b5e] text-white text-xs font-normal border border-white flex items-center justify-center -ml-1.5">
-                    UK
-                  </li>
-                  <li className="w-[34px] h-[34px] rounded-full bg-primary text-white text-xs font-normal border border-white flex items-center justify-center -ml-1.5">
-                    UR
-                  </li>
-                  <li className="w-[34px] h-[34px] rounded-full bg-[#8f7850] text-white text-xs font-normal border border-white flex items-center justify-center -ml-1.5">
-                    +8
-                  </li>
-                </ul>
-              </div>
-              <div className="w-full xs:flex-1 bg-primary bg-opacity-80 rounded-2xl p-4 flex xs:block gap-4 items-center ">
-                <div className=" xs:w-[34px] w-12 h-12 xs:h-[34px] rounded-[10px] bg-white flex items-center justify-center xs:mb-3.5">
-                  <img
-                    src={users}
-                    alt=""
-                    className="w-6 xs:w-4 imgColor opacity-60"
-                  />
-                </div>
-                <div>
-                  <p className="text-2xl text-white font-medium">460</p>
-                  <p className="text-xs text-white">Total Users</p>
-                </div>
-              </div>
-              <div className="w-full xs:flex-1 bg-primary rounded-2xl p-4 flex xs:block gap-4 items-center ">
-                <div className=" xs:w-[34px] w-12 h-12 xs:h-[34px] rounded-[10px] bg-white flex items-center justify-center xs:mb-3.5">
-                  <img
-                    src={sellers}
-                    alt=""
-                    className="w-6 xs:w-4 imgColor opacity-80"
-                  />
-                </div>
-                <div>
-                  <p className="text-2xl text-white font-medium">460</p>
-                  <p className="text-xs text-white">Total Sellers</p>
-                </div>
-              </div>
-              <div className="w-full xs:flex-1 bg-[#a58b5e] rounded-2xl p-4 flex xs:block gap-4 items-center ">
-                <div className=" xs:w-[34px] w-12 h-12 xs:h-[34px] rounded-[10px] bg-white flex items-center justify-center xs:mb-3.5">
-                  <img
-                    src={properties}
-                    alt=""
-                    className="w-6 xs:w-4 imgColor"
-                  />
-                </div>
-                <div>
-                  <p className="text-2xl text-white font-medium">460</p>
-                  <p className="text-xs text-white">Total Propertries</p>
-                </div>
-              </div>
+
+              <InfoCard
+                count={460}
+                label="Total Users"
+                icon={users}
+                bgColor={"#bb9e6ccc"}
+                iconBgColor={colors.others.white}
+                textColor="#f9f7f2"
+                filter={primaryFilter}
+              />
+
+              <InfoCard
+                count={460}
+                label="Total Propertries"
+                icon={properties}
+                bgColor={colors.primary[500]}
+                iconBgColor={colors.others.white}
+                textColor="#f9f7f2"
+                filter={primaryFilter}
+              />
             </div>
 
             {/* Revenue and other graphs */}
             <div className="mt-8 bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-5 px-8 pb-8">
-              <div className="pl-8">
-                <p className="text-lg text-[#667085] mb-4">Revenue This Week</p>
-                <p className="text-[#0B2443] flex items-center gap-1.5">
-                  <ArrowUpwardOutlined className="!text-4xl font-bold" />
-                  <span className="text-[32px] font-medium">32.5%</span>
-                </p>
-              </div>
-              <div className="mt-5">
-                <img src={lineGraph} alt="Revenue Graph" />
-              </div>
+              <RevenueChart
+                data={revenueData}
+                percentage={percentageIncrease}
+              />
             </div>
 
             {/* Graphs for User Numbers and Listed Properties */}
             <div className="mt-8">
               <div className="grid lg:grid-cols-2 gap-x-5 gap-y-8">
                 <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
-                  <p className="text-lg text-[#101828] font-medium">
+                  <LineChart
+                    data={sampleData}
+                    title="Number of Users"
+                    subtitle="April - May"
+                    showPercent={true}
+                    percent={38}
+                    xAxisLabel="April - May"
+                    yAxisLabel="Number of Users"
+                  />
+
+                  {/* <p className="text-lg text-[#101828] font-medium">
                     Number of Users
                   </p>
                   <div className="mt-1">
@@ -185,10 +181,20 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div className="mt-5">
                     <img src={waveChart} alt="Wave Graph" />
-                  </div>
+                  </div> */}
                 </div>
+
                 <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
-                  <div className="flex justify-between items-center">
+                  <PropertyListedChart
+                    data={sampleData2}
+                    title="No. of property listed"
+                    subtitle="April - May"
+                    selectedDateRange="This Week"
+                    annotationText="22-30% ↑"
+                    annotationIndex={27} // Highlight the 27th
+                  />
+
+                  {/* <div className="flex justify-between items-center">
                     <p className="text-lg text-[#101828] font-medium">
                       No. of property listed
                     </p>
@@ -244,7 +250,7 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div className="mt-5">
                     <img src={barChart} alt="Bar Graph" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -253,27 +259,21 @@ const Dashboard: React.FC = () => {
           {/* Right Sidebar */}
           <div className="2xl:w-[25%] mt-8 2xl:mt-0">
             <div className="grid lg:grid-cols-2 2xl:grid-cols-1 gap-x-5 gap-y-8">
-              <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-5 px-8 pb-6">
-                <p className="text-[18px] text-[#101828] font-medium">
-                  Leading Cities
-                </p>
-                <div className="mt-5">
-                  <img src={pieChart} alt="" className="w-[180px] mx-auto" />
-                </div>
+              <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-1">
+                <CityDistributionChart title="Leading Cities" data={cityData} />
               </div>
               <div className="">
                 <div className="grid xs:grid-cols-2 gap-5">
-                  <div className="bg-primary rounded-2xl p-4">
-                    <div className="w-[34px] h-[34px] rounded-[10px] bg-white flex items-center justify-center mb-3.5">
-                      <img src={properties} alt="" className="w-4 imgColor" />
-                    </div>
-                    <p className="mt-5 text-2xl lg:text-3xl font-medium text-white">
-                      128
-                    </p>
-                    <p className="text-sm mt-2 text-white">
-                      Total Sold Properties
-                    </p>
-                  </div>
+                  <HorizontalCard
+                    icon={properties}
+                    count={156}
+                    label="Total Rentel Properties"
+                    bgColor={colors.primary[500]}
+                    iconBgColor={colors.others.white}
+                    textColor="#f9f7f2"
+                    filter={primaryFilter}
+                  />
+
                   <div className="bg-[#a58b5e] rounded-2xl p-4">
                     <div className="w-[34px] h-[34px] rounded-[10px] bg-white flex items-center justify-center mb-3.5">
                       <img src={sellers} alt="" className="w-4 imgColor" />

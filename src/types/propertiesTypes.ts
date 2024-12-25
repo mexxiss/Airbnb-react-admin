@@ -61,7 +61,7 @@ export interface PropertyResponse {
   _id: string;
   title: string;
   description: string;
-  property_images: string[]; // Array of image IDs
+  property_images?: string[] | any; // Array of image IDs
   costs: Costs;
   staying_rules: string; // Array of staying rules
   cancellation_policy: string;

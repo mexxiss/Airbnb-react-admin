@@ -34,14 +34,11 @@ const UserPropertiesList = () => {
         {!data?.properties?.length
           ? "User don't have properties"
           : data?.properties.map((property) => {
-              console.log({ property });
-
               return (
-                <div className="border border-primary flex flex-col gap-2 sm:gap-3 relative">
-                  <a
-                    className="absolute w-full h-full"
-                    href="/user-panel/calender"
-                  ></a>
+                <div
+                  className="border border-primary flex flex-col gap-2 sm:gap-3 relative"
+                  key={property._id}
+                >
                   <div className="">
                     <img
                       src={property?.property_images[0]?.img_url}

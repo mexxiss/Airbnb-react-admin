@@ -3,7 +3,7 @@ interface PropertyDetails {
     permit_code: string;
     permit_expiry_date: string; // ISO 8601 date format
   };
-  wifi: {
+  wifi?: {
     name: string;
     password: string;
   };
@@ -12,7 +12,7 @@ interface PropertyDetails {
   beds_count: number;
   bathrooms_count: number;
   furnishing: string;
-  utilities: string[]; // Array of utilities (can be empty)
+  utilities?: string[]; // Array of utilities (can be empty)
   parking_no: string;
 }
 
@@ -36,13 +36,6 @@ interface PropertyCheckDetails {
   check_out: string; // Time format (HH:mm)
 }
 
-interface ImportantInformation {
-  about_space: string;
-  guest_access: string;
-  getting_around: string;
-  other: string;
-}
-
 interface Costs {
   prices: {
     security_amount: number;
@@ -55,7 +48,7 @@ interface Costs {
     future_occupancy: string;
     total_revenue: number;
   };
-  _id: string;
+  _id?: string;
 }
 
 export interface PropertyResponse {
@@ -63,7 +56,7 @@ export interface PropertyResponse {
   address: Address;
   discounts_percentage: DiscountsPercentage;
   property_check_details: PropertyCheckDetails;
-  important_information: ImportantInformation;
+  important_information: string;
   status: string;
   _id: string;
   title: string;
@@ -73,9 +66,9 @@ export interface PropertyResponse {
   staying_rules: string; // Array of staying rules
   cancellation_policy: string;
   amenities: string[]; // Array of amenity IDs
-  createdAt: string; // ISO 8601 date format
+  createdAt?: string; // ISO 8601 date format
   updatedAt: string; // ISO 8601 date format
-  __v: number;
+  __v?: number;
   user: string; // User ID who owns the property
 }
 
@@ -89,4 +82,11 @@ export interface ApiResponseProperties {
 export interface PropertiesResponse {
   properties: PropertyResponse[];
   totalCount: number;
+}
+
+export interface PropertiesPostResponse<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+  success: boolean;
 }

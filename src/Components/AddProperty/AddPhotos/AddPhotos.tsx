@@ -26,7 +26,12 @@ const AddPhotos = ({
 }: {
   setCurrentStep: (step: number) => void;
 }) => {
-  const { handleChange, property_images_urls } = useCreatePropertyStoreNew();
+  const { handleChange, property_images_urls, property_images } =
+    useCreatePropertyStoreNew();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  console.log({ property_images_urls }, { property_images });
+
   const { data, isLoading, error, isError } = useFetchGalleryType();
   const [selectedOption, setSelectedOption] =
     useState<SingleValue<{ value: string; label: string }>>(null);
@@ -54,6 +59,7 @@ const AddPhotos = ({
   ) => {
     const files = event.target.files;
     if (files && files.length > 0 && selectedOption) {
+      setIsUploading(true);
       try {
         const uploadedImages = await Promise.all(
           Array.from(files).map(async (file) => {
@@ -79,18 +85,29 @@ const AddPhotos = ({
         console.error("Upload error:", error);
         setSelectedOption(null); // Reset the selection if error occurs
         alert("Failed to upload images. Please try again.");
+      } finally {
+        setIsUploading(false); // Reset uploading state after process completes
       }
+    } else {
+      alert("Please select an option before uploading images.");
     }
   };
 
   const handleDeleteImage = async (id: string, _id: string) => {
     try {
-      setImages((prevImages) => prevImages.filter((image) => image.id !== id));
+      setImages((prevImages) => {
+        const updatedImages = prevImages.filter((image) => image.id !== id);
+        const imageIds = updatedImages.map((image) => image._id || "");
+        handleChange("property_images_urls", updatedImages);
+        handleChange("property_images", imageIds);
+
+        return updatedImages;
+      });
       if (_id) {
         await deleteGalleryItem(_id);
       }
     } catch (error) {
-      console.error("Delete error:", error);
+      console.error("Failed to delete image:");
       alert("Failed to delete image. Please try again.");
     }
   };
@@ -146,7 +163,7 @@ const AddPhotos = ({
             >
               <img src={uploadIcon} alt="Upload" className="w-5" />
               <span className="font-medium text-sm text-[#A9ACB4]">
-                Upload Images
+                {isUploading ? "Uploading..." : "Upload Images"}
               </span>
             </label>
             {!selectedOption ? (
@@ -160,12 +177,14 @@ const AddPhotos = ({
                 id="addPhotos"
                 className="hidden"
                 accept="image/*"
-                multiple
+                // multiple
                 onChange={handleImageUpload}
+                disabled={isUploading}
               />
             )}
 
             <Select
+              maxMenuHeight={100}
               options={formattedOptions}
               placeholder="Select an option"
               value={selectedOption}
@@ -179,6 +198,7 @@ const AddPhotos = ({
 
       <div className="fixed lg:static bottom-3 w-full left-0 lg:px-0 sm:px-6 px-4 lg:mt-[6rem] lg:mb-5">
         <button
+          disabled={images?.length === 0}
           type="button"
           className="btn1 !rounded !px-10"
           onClick={handleSubmitImage}

@@ -70,11 +70,14 @@ export const validationAmenitiesDetailSchema = Yup.object({
     .of(Yup.string().required("Amenity ID is required"))
     .min(1, "At least one amenity must be selected"),
 });
-export const validationImageSchema = Yup.object({
-  property_images: Yup.array().of(
-    Yup.string().required("Image ID is required")
-  ),
-  property_images_urls: Yup.array().of(
-    Yup.string().required("Image ID is required")
-  ),
+export const validationAddressSchema = Yup.object({
+  address: Yup.object({
+    building_no: Yup.string().required("Building number is required"),
+    city: Yup.string().required("City is required"),
+    street: Yup.string().required("Street is required"),
+    area: Yup.string().required("Area is required"),
+    landmark: Yup.string(),
+    pincode: Yup.string().required("Pincode is required"),
+    country: Yup.string().required("Country is required"),
+  }),
 });

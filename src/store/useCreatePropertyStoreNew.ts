@@ -100,11 +100,12 @@ interface CreatePropertyState {
   // Actions
   handleChange: (key: keyof CreatePropertyState, value: any) => void;
   resetPropertyState: () => void;
+  resetAmeitiesState: () => void;
 }
 
 const initialState: Omit<
   CreatePropertyState,
-  "handleChange" | "resetPropertyState"
+  "handleChange" | "resetPropertyState" | "resetAmeitiesState"
 > = {
   property_details: {
     permit: { permit_code: "", permit_expiry_date: "" },
@@ -161,6 +162,7 @@ const useCreatePropertyStoreNew = create<CreatePropertyState>()(
       handleChange: (key, value) =>
         set((state) => ({ ...state, [key]: value })),
       resetPropertyState: () => set(() => ({ ...initialState })),
+      resetAmeitiesState: () => set(() => ({ amenities: [] })),
     }),
     {
       name: "create-property-storage",

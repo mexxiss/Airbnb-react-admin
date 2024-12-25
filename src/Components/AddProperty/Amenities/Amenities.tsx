@@ -1,64 +1,16 @@
 import React from "react";
-import breakfast from "../../../assets/icons/breakfast.png";
-import wheelchair from "../../../assets/icons/wheelchair.png";
-import smoking from "../../../assets/icons/smoking.png";
-import elevator from "../../../assets/icons/elevator.png";
-import kidFriendly from "../../../assets/icons/kidFriendly.png";
-import parking from "../../../assets/icons/parking.png";
-import pet from "../../../assets/icons/pet.png";
-import pool from "../../../assets/icons/pool.png";
-import multiFamlily from "../../../assets/icons/multiFamlily.png";
-import restaurant from "../../../assets/icons/restaurant.png";
-import "./Amenities.css";
 import useCreatePropertyStoreNew from "../../../store/useCreatePropertyStoreNew";
 import { Form, FormikProvider, useFormik } from "formik";
 import { validationAmenitiesDetailSchema } from "../../../utils/validations/reArrengeSchemaValidation";
 import { CheckboxHiddenInput } from "../../Checkbox/CheckboxHiddenInput";
+import "./Amenities.css";
+import { useFetchAmenities } from "../../../hooks/react-query/amenities";
+import Loader from "../../Loader/Loader";
+import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
 
 const Amenities = ({ setCurrentStep }: any) => {
   const { handleChange, amenities } = useCreatePropertyStoreNew();
-  const options = [
-    {
-      id: "Restaurant",
-      name: "Restaurant",
-      label: "Restaurant",
-      icon: restaurant,
-    },
-    { id: "Pool", name: "Pool", label: "Pool", icon: pool },
-    {
-      id: "Smoking",
-      name: "Smoking",
-      label: "Smoking not allowed",
-      icon: smoking,
-    },
-    {
-      id: "Wheelchair",
-      name: "Wheelchair",
-      label: "Wheelchair Accessible",
-      icon: wheelchair,
-    },
-    {
-      id: "Elevator",
-      name: "Elevator",
-      label: "Elevator in building",
-      icon: elevator,
-    },
-    {
-      id: "Breakfast",
-      name: "Breakfast",
-      label: "Breakfast Included",
-      icon: breakfast,
-    },
-    { id: "Parking", name: "parking", label: "Free parking", icon: parking },
-    {
-      id: "Multifamily",
-      name: "Multi_family",
-      label: "Multi family",
-      icon: multiFamlily,
-    },
-    { id: "Kids", name: "Kids", label: "Kids Friendly", icon: kidFriendly },
-    { id: "Pet", name: "Pet", label: "Pet Allowed", icon: pet },
-  ];
+  const { data, isLoading, error, isError } = useFetchAmenities();
 
   const formik = useFormik({
     initialValues: {
@@ -68,17 +20,23 @@ const Amenities = ({ setCurrentStep }: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
+        console.log({ values });
+
         Object.entries(values).forEach(([key, value]) => {
           handleChange(key as keyof typeof values, value);
         });
         setCurrentStep(3);
-        console.log({ values });
       } catch (error) {
         console.error("Failed to update user details:", error);
         alert("Failed to update details. Please try again.");
       }
     },
   });
+
+  if (isLoading) return <Loader />;
+  if (isError && error instanceof Error)
+    return <ErrorHandleMessage msg={error.message} />;
+
   return (
     <>
       <FormikProvider value={formik}>
@@ -86,14 +44,13 @@ const Amenities = ({ setCurrentStep }: any) => {
           <div className="pb-16 lg:pb-0 ">
             <div className="mb-[30px]">
               <ul className="flex flex-wrap gap-3.5 mt-2">
-                {options.map((option) => (
+                {data.data?.map((amenity: any) => (
                   <CheckboxHiddenInput
-                    key={option.id}
-                    name="amenities"
-                    value={option.id}
-                    label={option.label}
-                    icon={option.icon}
-                    containerClass="min-w-24"
+                    key={amenity._id}
+                    name="amenities" // This can be the name of the form field where selected amenities will be stored
+                    label={amenity.title} // Use the title as the label
+                    value={amenity._id} // Pass the _id as the value
+                    icon={amenity?.icon} // Icon URL
                   />
                 ))}
               </ul>
@@ -103,11 +60,7 @@ const Amenities = ({ setCurrentStep }: any) => {
             </div>
           </div>
           <div className="fixed lg:static bottom-3 w-full left-0 lg:px-0 sm:px-6 px-4 ">
-            <button
-              type="submit"
-              className="btn1 !rounded !px-10"
-              // onClick={() => setCurrentStep(3)}
-            >
+            <button type="submit" className="btn1 !rounded !px-10">
               Next
             </button>
           </div>

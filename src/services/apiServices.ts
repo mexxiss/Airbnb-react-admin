@@ -2,11 +2,16 @@ import { AxiosResponse } from "axios";
 import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
 import { User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
-import { PropertiesResponse, PropertyResponse } from "../types/propertiesTypes";
+import {
+  PropertiesPostResponse,
+  PropertiesResponse,
+  PropertyResponse,
+} from "../types/propertiesTypes";
 import { BankDetails } from "../types/bankDetailsTypes";
 import { SignUpRequest, SignUpResponse } from "../types/signupUserTypes";
 import { UploadResponse } from "../types/uploadFileTypes";
 import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
+import { AmenitiesResponse } from "../types/amenitiesTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -280,5 +285,32 @@ export const fetchGalleryTypes = async (): Promise<GalleryTypesResponse> => {
     throw new Error(
       error.response?.data?.message || "Failed to fetch gallery types"
     );
+  }
+};
+
+//** Create property */
+
+export const createProperty = async (
+  payload: Omit<PropertyResponse, "_id" | "createdAt" | "updatedAt">
+): Promise<PropertiesPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<PropertiesPostResponse<any>>(
+      "/admin/properties",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create property"
+    );
+  }
+};
+
+export const fetchAmenities = async (): Promise<AmenitiesResponse> => {
+  try {
+    const response = await axiosInstance.get(`/admin/amenities`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error fetching amenities data");
   }
 };

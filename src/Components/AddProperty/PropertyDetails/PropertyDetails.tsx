@@ -26,10 +26,10 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
     status,
   } = useCreatePropertyStoreNew();
   const propertyOptions = [
-    { id: "Appartment", label: "Appartment" },
-    { id: "Villas", label: "Villas" },
-    { id: "Flat", label: "Flat" },
-    { id: "Independent_Floor", label: "Independent Floor" },
+    { id: "apartment", label: "Appartment" },
+    { id: "villas", label: "Villas" },
+    { id: "flat", label: "Flat" },
+    { id: "independent floor", label: "Independent Floor" },
   ];
 
   const options = [
@@ -43,15 +43,15 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
   ];
 
   const bhkOptions = [
-    { id: "1BHK", label: "1 BHK" },
-    { id: "12BHK", label: "1 2 BHK" },
-    { id: "2BHK", label: "2 BHK" },
-    { id: "3BHK", label: "3 BHK" },
-    { id: "3+BHK", label: "3+ BHK" },
+    { id: "1rk", label: "1 RK" },
+    { id: "1bhk", label: "1 BHK" },
+    { id: "2bhk", label: "2 BHK" },
+    { id: "3bhk", label: "3 BHK" },
+    { id: "3+bhk", label: "3+ BHK" },
   ];
   const furnishTypeOptions = [
-    { id: "premium", label: "Premium" },
-    { id: "standard", label: "Standard" },
+    { id: "Premium", label: "Premium" },
+    { id: "Standard", label: "Standard" },
   ];
 
   const formik = useFormik({
@@ -84,9 +84,6 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
       }
     },
   });
-  console.log(formik.values);
-  console.log(formik.errors.property_details);
-  console.log(formik.status);
 
   return (
     <>

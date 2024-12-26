@@ -189,7 +189,6 @@ const Dashboard: React.FC = () => {
                     data={sampleData2}
                     title="No. of property listed"
                     subtitle="April - May"
-                    selectedDateRange="This Week"
                     annotationText="22-30% ↑"
                     annotationIndex={27} // Highlight the 27th
                   />

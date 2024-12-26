@@ -53,7 +53,7 @@ const SelectInputFlowbit: React.FC<SelectInputProps> = ({
 
   return (
     <div className={className}>
-      <Label htmlFor={name} className="text-[15px] block mb-2 font-medium">
+      <Label htmlFor={name} className="text-[1px] block mb-2 font-medium">
         {label}
       </Label>
       <Select

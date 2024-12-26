@@ -65,7 +65,7 @@ const App = () => {
           path: "users",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <Users />,
+              <Users />
             </ProtectedRoute>
           ),
         },
@@ -73,7 +73,7 @@ const App = () => {
           path: "user/:id",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <UserDetails />,
+              <UserDetails />
             </ProtectedRoute>
           ),
         },
@@ -81,7 +81,7 @@ const App = () => {
           path: "user/new-user",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <CreateUser />,
+              <CreateUser />
             </ProtectedRoute>
           ),
         },

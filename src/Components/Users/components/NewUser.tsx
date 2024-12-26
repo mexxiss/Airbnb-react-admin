@@ -59,7 +59,7 @@ const NewUser = () => {
                   type="text"
                   placeholder="Enter First Name"
                 />
-                {formik.errors.first_name && (
+                {formik.errors.first_name && formik.touched.first_name && (
                   <span className="text-red-600">
                     {formik.errors.first_name}
                   </span>
@@ -72,7 +72,7 @@ const NewUser = () => {
                   type="text"
                   placeholder="Enter Last Name"
                 />
-                {formik.errors.last_name && (
+                {formik.errors.last_name && formik.touched.last_name && (
                   <span className="text-red-600">
                     {formik.errors.last_name}
                   </span>
@@ -86,7 +86,7 @@ const NewUser = () => {
                   type="email"
                   placeholder="Enter Email"
                 />
-                {formik.errors.email && (
+                {formik.errors.email && formik.touched.email && (
                   <span className="text-red-600">{formik.errors.email}</span>
                 )}
               </div>
@@ -97,7 +97,7 @@ const NewUser = () => {
                   type="password"
                   placeholder="Enter Password"
                 />
-                {formik.errors.password && (
+                {formik.errors.password && formik.touched.password && (
                   <span className="text-red-600">{formik.errors.password}</span>
                 )}
               </div>

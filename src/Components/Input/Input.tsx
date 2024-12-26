@@ -52,7 +52,7 @@ const Input: React.FC<InputProps> = ({
   const inputValue = value ?? values?.[name] ?? "";
 
   return (
-    <div className={classNames("mb-4", containerClass)}>
+    <div className={classNames("", containerClass)}>
       {label && (
         <label
           htmlFor={name}

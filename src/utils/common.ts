@@ -89,3 +89,24 @@ export const getDateRange = (
 
   return { startDate, endDate };
 };
+
+export const assignDynamicColors = (
+  leadingCities: { name: string; percentage: string }[]
+) => {
+  // Define the colors for the leading cities in order
+  const predefinedColors = [
+    colors.primary[500],
+    colors.primary[600],
+    colors.primary[900],
+    colors.primary[300],
+  ];
+
+  return leadingCities.map((city, index) => {
+    const color = predefinedColors[index % predefinedColors.length]; // Cycle through colors if more than 4 cities
+
+    return {
+      ...city,
+      color,
+    };
+  });
+};

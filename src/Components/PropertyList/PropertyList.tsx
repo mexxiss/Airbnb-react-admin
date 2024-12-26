@@ -212,62 +212,71 @@ const PropertyList = () => {
                   </tr>
                 </thead>
                 <tbody className="">
-                  {filteredSortedProperties.map((property, index) => (
-                    <tr className="bg-white mb-2" key={index}>
-                      <td className=" py-4 px-3 pl-6 rounded-l-xl">
-                        <div>
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={house1}
-                              className="border-2 border-[#E8E1F6] rounded-lg w-16 h-12 object-cover"
-                              alt=""
-                            />
-                            <Link
-                              to={"#"}
-                              className="text-sm text-[#040404] font-medium hover:text-primary duration-300 block)]"
-                            >
-                              {property.title}
-                            </Link>
+                  {filteredSortedProperties.map((property, index) => {
+                    return (
+                      <tr className="bg-white mb-2" key={index}>
+                        <td className=" py-4 px-3 pl-6 rounded-l-xl">
+                          <div>
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={property.property_images[0]?.img_url}
+                                className="border-2 border-[#E8E1F6] rounded-lg w-16 h-12 object-cover"
+                                alt=""
+                              />
+                              <Link
+                                to={"#"}
+                                className="text-sm text-[#040404] font-medium hover:text-primary duration-300 block)]"
+                              >
+                                {property.title}
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className=" py-4 px-3">
-                        <span className="text-sm text-[#040404]">
-                          {`${property.address.building_no}, ${property.address.street}, ${property.address.city}, ${property.address.country}`}
-                        </span>
-                      </td>
-                      <td className=" py-4 px-3">
-                        <span className="text-sm text-[#040404] font-medium">
-                          air bnb
-                        </span>
-                      </td>
-                      <td className=" py-4 px-3">
-                        <span className="text-sm text-[#040404] font-medium">
-                          {formatAmountWithCurrency(
-                            property.costs.prices.price_per_night || 0,
-                            property?.costs?.currency || "AED"
-                          )}
-                        </span>
-                      </td>
-                      <td className=" py-4 px-3">
-                        <div className="">
-                          <ToggleSwitch
-                            checked={property.status === "Active"}
-                            label={property.status}
-                            onChange={() =>
-                              handleToggleStatus(property._id, property.status)
-                            }
-                            className="*:focus:!shadow-none *:focus:!ring-0 toggleBtn flex items-center"
-                          />
-                        </div>
-                      </td>
-                      <td className=" py-4 px-3 text-center pr-6 rounded-r-xl">
-                        <button className="mx-auto">
-                          <img src={trashIcon} alt="" className="w-5 grayImg" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className=" py-4 px-3">
+                          <span className="text-sm text-[#040404]">
+                            {`${property.address.building_no}, ${property.address.street}, ${property.address.city}, ${property.address.country}`}
+                          </span>
+                        </td>
+                        <td className=" py-4 px-3">
+                          <span className="text-sm text-[#040404] font-medium">
+                            air bnb
+                          </span>
+                        </td>
+                        <td className=" py-4 px-3">
+                          <span className="text-sm text-[#040404] font-medium">
+                            {formatAmountWithCurrency(
+                              property.costs.prices.price_per_night || 0,
+                              property?.costs?.currency || "AED"
+                            )}
+                          </span>
+                        </td>
+                        <td className=" py-4 px-3">
+                          <div className="">
+                            <ToggleSwitch
+                              checked={property.status === "Active"}
+                              label={property.status}
+                              onChange={() =>
+                                handleToggleStatus(
+                                  property._id,
+                                  property.status
+                                )
+                              }
+                              className="*:focus:!shadow-none *:focus:!ring-0 toggleBtn flex items-center"
+                            />
+                          </div>
+                        </td>
+                        <td className=" py-4 px-3 text-center pr-6 rounded-r-xl">
+                          <button className="mx-auto">
+                            <img
+                              src={trashIcon}
+                              alt=""
+                              className="w-5 grayImg"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

@@ -5,7 +5,7 @@ import { colors } from "../../../theme/colors";
 
 interface CityData {
   name: string;
-  percentage: number;
+  percentage: number | string;
   color: string;
 }
 
@@ -100,7 +100,7 @@ const CityDistributionChart: React.FC<CityDistributionChartProps> = ({
         name: "Distribution",
         data: data.map((city) => ({
           name: city.name,
-          y: city.percentage,
+          y: Number(city.percentage),
           color: city.color,
         })),
       },

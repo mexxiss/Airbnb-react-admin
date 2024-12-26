@@ -30,8 +30,8 @@ export const filterAndSortProperties = ({
         amenityId.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      const wifiMatch = property.property_details.wifi.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        property.property_details.wifi.password.toLowerCase().includes(searchTerm.toLowerCase());
+      const wifiMatch = property?.property_details?.wifi?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        property?.property_details?.wifi?.password.toLowerCase().includes(searchTerm.toLowerCase());
 
       return (
         titleMatch || descriptionMatch || addressMatch || amenitiesMatch || wifiMatch

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { colors } from "../../../theme/colors";
+import { DateOption, getDateRange } from "../../../utils/common";
+import SelectInputFlowbitWithoutFormik from "../../SelectInput/SelectInputFlowbitWithoutFormik";
 
 interface ColumnChartProps {
   data: { x: number; y: number }[]; // Array of data points with x (categories) and y (values)
   title: string; // Chart title
   subtitle?: string; // Optional subtitle
-  selectedDateRange?: string; // Dropdown label for date range
   annotationText?: string; // Annotation text, e.g., "22-30%"
   annotationIndex?: number; // Index of the data point to annotate
 }
@@ -16,10 +17,27 @@ const PropertyListedChart: React.FC<ColumnChartProps> = ({
   data,
   title,
   subtitle,
-  selectedDateRange = "This Week",
   annotationText = "",
   annotationIndex,
 }) => {
+  const optionsDates: DateOption[] = [
+    { label: "This Week", value: getDateRange("week") },
+    { label: "This Month", value: getDateRange("month") },
+    { label: "This Year", value: getDateRange("year") },
+  ];
+
+  // Set default selection to "This Week"
+  const [selectedOption, setSelectedOption] = useState<DateOption>(
+    optionsDates[0]
+  );
+
+  const handleChange = (name: string, value: string) => {
+    const option = optionsDates.find((opt) => opt.label === value) || null;
+
+    if (!option) throw new Error("Invalid range type");
+    setSelectedOption(option);
+  };
+
   const options: Highcharts.Options = {
     chart: {
       type: "column",
@@ -129,10 +147,19 @@ const PropertyListedChart: React.FC<ColumnChartProps> = ({
   return (
     <div className="relative">
       {/* Dropdown for Date Range */}
-      <div className="absolute top-0 right-0">
-        <button className="px-3 py-1 text-sm bg-gray-200 rounded-lg shadow">
-          {selectedDateRange}
-        </button>
+      <div className="absolute top-0 right-0 z-40">
+        <SelectInputFlowbitWithoutFormik
+          islableVisible={false}
+          label="Select Date Range"
+          name="dateRange"
+          options={optionsDates.map((opt) => ({
+            value: opt.label, // Use label as the value
+            label: opt.label,
+          }))}
+          value={selectedOption.label}
+          onChange={(name, value) => handleChange(name, value as string)}
+          placeholder="Select a range"
+        />
       </div>
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>

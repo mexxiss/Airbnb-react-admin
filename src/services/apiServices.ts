@@ -58,19 +58,9 @@ export const changePassword = async (
   return response.data;
 };
 
-export const fetchUsers = async (
-  page: number,
-  limit: number = 10
-): Promise<{
-  data: any[];
-  currentPage: number;
-  totalPages: number;
-  totalUsers: number;
-}> => {
-  const response = await axiosInstance.get(
-    `/admin/users?page=${page}&limit=${limit}`
-  );
-  return response.data;
+export const fetchUsers = async (query: string): Promise<any> => {
+  const response = await axiosInstance.get(`/admin/users?${query}`);
+  return response;
 };
 
 // API service to fetch user details by ID

@@ -21,6 +21,10 @@ import { primaryFilter } from "../charts/utils/cssSupportFile";
 import HorizontalCard from "../InfoCard/HorizontalCard";
 import LineChart from "../charts/line-charts/LineChart";
 import PropertyListedChart from "../charts/Column-charts/PropertyListedChart";
+import { useFetchDashboard } from "../../hooks/react-query/dashboard/useFetchDashboard";
+import Loader from "../Loader/Loader";
+import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
+import { assignDynamicColors } from "../../utils/common";
 
 const Dashboard: React.FC = () => {
   // Context for mobile menu
@@ -31,6 +35,9 @@ const Dashboard: React.FC = () => {
   // State for option menu
   const [optionShow, setOptionShow] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("This Week");
+  const { data, isLoading, isError, error } = useFetchDashboard();
+
+  const updatedLeadingCities = assignDynamicColors(data?.leadingCities || []);
 
   // Ref for option menu
   const optionRef = useRef<HTMLDivElement>(null);
@@ -74,12 +81,6 @@ const Dashboard: React.FC = () => {
   const revenueData = [2800, 1500, 2200, 2100, 3200, 2900, 2100];
   const percentageIncrease = 32.5;
 
-  const cityData = [
-    { name: "Chandigarh", percentage: 30, color: colors.primary[500] },
-    { name: "Mohali", percentage: 20, color: colors.primary[600] },
-    { name: "Patiala", percentage: 15, color: colors.primary[900] },
-    { name: "Others", percentage: 35, color: colors.primary[300] },
-  ];
   const sampleData = [
     { x: Date.UTC(2024, 3, 1), y: 50000 },
     { x: Date.UTC(2024, 3, 10), y: 100000 },
@@ -90,14 +91,29 @@ const Dashboard: React.FC = () => {
   ];
 
   const sampleData2 = [
-    { x: 23, y: 50 },
-    { x: 24, y: 70 },
-    { x: 25, y: 60 },
-    { x: 26, y: 80 },
-    { x: 27, y: 120 }, // Annotated point
-    { x: 28, y: 70 },
-    { x: 29, y: 60 },
+    { x: 17, y: 60 },
+    { x: 18, y: 70 },
+    { x: 19, y: 80 },
+    { x: 20, y: 90 }, // Annotated point
+    { x: 21, y: 100 },
+    { x: 22, y: 120 },
+    { x: 23, y: 130 },
+    { x: 24, y: 140 },
+    { x: 25, y: 150 },
+    { x: 26, y: 160 },
+    { x: 27, y: 170 }, // Annotated point
+    { x: 28, y: 180 },
+    { x: 29, y: 190 },
+    { x: 30, y: 200 },
   ];
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError && error instanceof Error) {
+    return <ErrorHandleMessage msg={error?.message} />;
+  }
 
   return (
     <div>
@@ -129,7 +145,7 @@ const Dashboard: React.FC = () => {
               {/* Cards for Top Brokers, Total Users, Sellers, and Properties */}
 
               <InfoCard
-                count={460}
+                count={data?.totalUsers || 0}
                 label="Total Users"
                 icon={users}
                 bgColor={"#bb9e6ccc"}
@@ -139,7 +155,7 @@ const Dashboard: React.FC = () => {
               />
 
               <InfoCard
-                count={460}
+                count={data?.totalProperties || 0}
                 label="Total Propertries"
                 icon={properties}
                 bgColor={colors.primary[500]}
@@ -170,18 +186,6 @@ const Dashboard: React.FC = () => {
                     xAxisLabel="April - May"
                     yAxisLabel="Number of Users"
                   />
-
-                  {/* <p className="text-lg text-[#101828] font-medium">
-                    Number of Users
-                  </p>
-                  <div className="mt-1">
-                    <span className="text-sm text-[#101828] pb-1 border-b border-[#101828]">
-                      April - May
-                    </span>
-                  </div>
-                  <div className="mt-5">
-                    <img src={waveChart} alt="Wave Graph" />
-                  </div> */}
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
@@ -189,67 +193,9 @@ const Dashboard: React.FC = () => {
                     data={sampleData2}
                     title="No. of property listed"
                     subtitle="April - May"
-                    annotationText="22-30% ↑"
+                    annotationText="50-80% ↑"
                     annotationIndex={27} // Highlight the 27th
                   />
-
-                  {/* <div className="flex justify-between items-center">
-                    <p className="text-lg text-[#101828] font-medium">
-                      No. of property listed
-                    </p>
-                    <div>
-                      <div
-                        className="my-3 md:my-0 py-1.5 px-3 lg:pl-4 lg:pr-3 rounded-lg border border-border1 hover:border-primary relative hover:text-primary flex gap-3 justify-between items-center cursor-pointer"
-                        onClick={toggleOptionMenu}
-                        ref={optionRef}
-                      >
-                        <div
-                          className={`select-menu flex ${
-                            optionShow ? "active" : ""
-                          }`}
-                        >
-                          <div className="select-btn">
-                            <p className="sBtn-text text-sm text-primary">
-                              {selectedOption}
-                            </p>
-                          </div>
-                          {optionShow && (
-                            <div className="w-full lg:w-fit left-1/2 top-full absolute z-[1] mt-2.5 -translate-x-1/2 bg-white px-2 shadow-md">
-                              <ul className="options w-fit text-text2">
-                                {seviceOptions.map((option) => (
-                                  <li
-                                    key={option.id}
-                                    className={`flex cursor-pointer items-center bg-white hover:bg-[#f2f2f2] rounded-lg px-3 sm:px-4 py-1.5 mb-1 ${
-                                      option.text === selectedOption &&
-                                      "bg-[#f2f2f2]"
-                                    }`}
-                                    onClick={() => handleOptionClick(option)}
-                                  >
-                                    <span className="text-base text-nowrap">
-                                      {option.text}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                        <span
-                          className={`${optionShow ? "" : "rotate-[180deg]"}`}
-                        >
-                          <KeyboardArrowUpOutlined />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-1">
-                    <span className="text-sm text-[#101828]pb-1 border-b border-[#101828]">
-                      April - May
-                    </span>
-                  </div>
-                  <div className="mt-5">
-                    <img src={barChart} alt="Bar Graph" />
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -259,31 +205,35 @@ const Dashboard: React.FC = () => {
           <div className="2xl:w-[25%] mt-8 2xl:mt-0">
             <div className="grid lg:grid-cols-2 2xl:grid-cols-1 gap-x-5 gap-y-8">
               <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-1">
-                <CityDistributionChart title="Leading Cities" data={cityData} />
+                <CityDistributionChart
+                  title="Leading Cities"
+                  data={updatedLeadingCities}
+                />
               </div>
               <div className="">
                 <div className="grid xs:grid-cols-2 gap-5">
                   <HorizontalCard
                     icon={properties}
-                    count={156}
-                    label="Total Rentel Properties"
+                    count={data?.activeProperties || 0}
+                    label={`Total Active Propert${
+                      data?.activeProperties === 1 ? "y" : "ies"
+                    }`}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"
                     filter={primaryFilter}
                   />
-
-                  <div className="bg-[#a58b5e] rounded-2xl p-4">
-                    <div className="w-[34px] h-[34px] rounded-[10px] bg-white flex items-center justify-center mb-3.5">
-                      <img src={sellers} alt="" className="w-4 imgColor" />
-                    </div>
-                    <p className="mt-5 text-2xl lg:text-3xl font-medium text-white">
-                      156
-                    </p>
-                    <p className="text-sm mt-2 text-white">
-                      Total Active Sellers
-                    </p>
-                  </div>
+                  <HorizontalCard
+                    icon={properties}
+                    count={data?.activeProperties || 0}
+                    label={`Total Book${
+                      data?.totalBookings === 1 ? "ing" : "ings"
+                    }`}
+                    bgColor={colors.primary[500]}
+                    iconBgColor={colors.others.white}
+                    textColor="#f9f7f2"
+                    filter={primaryFilter}
+                  />
                 </div>
               </div>
             </div>

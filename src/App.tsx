@@ -98,7 +98,7 @@ const App = () => {
           path: "sellers",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <Sellers />,
+              <Sellers />
             </ProtectedRoute>
           ),
         },
@@ -106,7 +106,7 @@ const App = () => {
           path: "properties",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <PropertyList />,
+              <PropertyList />
             </ProtectedRoute>
           ),
         },
@@ -114,7 +114,7 @@ const App = () => {
           path: "change-password",
           element: (
             <ProtectedRoute roles={["Admin"]}>
-              <AdminChangePassword />,
+              <AdminChangePassword />
             </ProtectedRoute>
           ),
         },
@@ -122,7 +122,7 @@ const App = () => {
           path: "account-setting",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
-              <AdminAccountSetting />,
+              <AdminAccountSetting />
             </ProtectedRoute>
           ),
         },

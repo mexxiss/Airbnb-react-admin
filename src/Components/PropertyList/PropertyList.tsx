@@ -5,6 +5,7 @@ import UpDown from "../../assets/icons/UpDown.png";
 import trashIcon from "../../assets/icons/trashIcon.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import {
+  Clear,
   KeyboardArrowLeftOutlined,
   KeyboardArrowRightOutlined,
   MenuOutlined,
@@ -19,8 +20,11 @@ import Loader from "../Loader/Loader";
 import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { formatAmountWithCurrency } from "../../utils/common";
 import { useUpdateProperties } from "../../hooks/react-query/properties-query/useUpdateProperties";
+import Flatpickr from "react-flatpickr";
 
 const PropertyList = () => {
+  const [dates, setDates] = useState<Date[]>([]);
+  const [showMonths, setShowMonths] = useState(2);
   const [propertiesList, setpropertiesList] = useState<PropertyResponse[]>([]);
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
@@ -33,6 +37,21 @@ const PropertyList = () => {
   const { data, isLoading, isError, error } = useFetchProperties(page, 10);
   const { mutate: updateProperty, isPending: togglePending } =
     useUpdateProperties();
+
+
+  useEffect(() => {
+    const updateShowMonths = () => {
+      setShowMonths(window.innerWidth < 768 ? 1 : 2);
+    };
+
+    updateShowMonths(); // Initial call
+
+    window.addEventListener("resize", updateShowMonths);
+
+    return () => {
+      window.removeEventListener("resize", updateShowMonths);
+    };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -110,11 +129,11 @@ const PropertyList = () => {
           <h5 className="text-22 text-primary font-bold">Properties</h5>
         </div>
         <div className="flex items-center gap-6">
-          <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5">
+          <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5 hidden sm:block border border-gray-300">
             <input
               type="text"
               placeholder="Search"
-              className="p-0 placeholder:text-[#4E307A80] text-[#4E307A80] text-sm border-none lg:min-w-[350px]"
+              className="p-0 placeholder:text-gray-600 text-gray-600 text-sm border-none lg:min-w-[350px]"
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -148,7 +167,47 @@ const PropertyList = () => {
           <p className="text-lg text-[#040404] font-medium">
             Total Properties (<span>{data?.totalProperties}</span>)
           </p>
-          <div className="mt-3">
+          <div className="grid sm:grid-cols-2 sm:flex gap-2 sm:gap-4 mt-4">
+            <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5 sm:hidden border border-gray-300">
+              <input
+                type="text"
+                placeholder="Search"
+                className="p-0 placeholder:text-gray-600 text-gray-600 text-sm border-none w-full"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+              <img
+                src={searchIcon}
+                className="w-4 brightness-50 absolute left-4 top-1/2 -translate-y-1/2"
+                alt=""
+              />
+            </div>
+            <div className="">
+              <Flatpickr
+                options={{
+                  mode: "range", // Enables range selection
+                  dateFormat: "d-m-Y", // Format of the displayed date
+                  showMonths: showMonths, // Show two calendars side by side
+                }}
+                value={dates}
+                onChange={(selectedDates: Date[]) => setDates(selectedDates)}
+                className="w-full border !border-gray-300 rounded-lg p-2 text-sm text-gray-600"
+                placeholder="DD-MM-YYYY – DD-MM-YYYY"
+              />
+            </div>
+            <div className="bg-white px-3 flex items-center justify-between text-gray-600 rounded-md border border-gray-300">
+              Status:
+              <select className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div className="sm:col-span-2">
+              <button className="w-full btn1 !bg-transparent !text-red-600 border border-red-600 hover:!bg-red-600 hover:!text-white flex items-center justify-center gap-1"><Clear className="!text-lg" /> Clear</button>
+            </div>
+          </div>
+          <div className="mt-4 sm:mt-0">
             <div className="relative overflow-x-auto">
               <table
                 className="w-full border-separate min-w-full"
@@ -292,11 +351,10 @@ const PropertyList = () => {
                       (_, index) => (
                         <li key={index}>
                           <button
-                            className={`${
-                              page === index + 1
-                                ? "text-white bg-primary"
-                                : "text-text2"
-                            } w-10 h-10 rounded-full flex items-center justify-center`}
+                            className={`${page === index + 1
+                              ? "text-white bg-primary"
+                              : "text-text2"
+                              } w-10 h-10 rounded-full flex items-center justify-center`}
                             onClick={() => setPage(index + 1)}
                           >
                             {index + 1}

@@ -54,11 +54,11 @@ const Sellers = () => {
           <h5 className="text-22 text-primary font-bold">Sellers</h5>
         </div>
         <div className="flex items-center gap-6">
-          <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5">
+          <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5 hidden sm:block border border-gray-300">
             <input
               type="text"
               placeholder="Search"
-              className="p-0 placeholder:text-[#4E307A80] text-[#4E307A80] text-sm border-none lg:min-w-[350px]"
+              className="p-0 placeholder:text-gray-600 text-gray-600 text-sm border-none lg:min-w-[350px]"
             />
             <img
               src={searchIcon}

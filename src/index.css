@@ -123,7 +123,31 @@ input:focus {
 .btn1:hover {
   background: #896830;
 }
-
+.flatpickr-months .flatpickr-month,
+.flatpickr-weekdays,
+span.flatpickr-weekday,
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: #a58143 !important;
+}
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
+  box-shadow: -10px 0 0 #a58143 !important;
+}
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+  border: #a58143 !important;
+}
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: #a58143 !important;
+}
+.flatpickr-weekdaycontainer span.flatpickr-weekday {
+  color: rgba(255, 255, 255, 0.74);
+}
 @media (max-width: 576px) {
   .container {
     padding: 0 10px;

@@ -18,6 +18,7 @@ import AdminAccountSetting from "./Components/AccountSetting/AccountSetting";
 import AddProperty from "./Pages/AddProperty/AddProperty";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import CreateUser from "./Components/Users/CreateUser.tsx";
+import "flatpickr/dist/themes/material_green.css";
 
 const App = () => {
   const router = createBrowserRouter([

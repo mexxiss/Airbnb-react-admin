@@ -103,18 +103,8 @@ export const toggleUserDeletedStatus = async (
 
 //** properties services */
 
-export const fetchProperties = async (
-  page: number,
-  limit: number = 10
-): Promise<{
-  data: any[];
-  currentPage: number;
-  totalPages: number;
-  totalProperties: number;
-}> => {
-  const response = await axiosInstance.get(
-    `/admin/properties?page=${page}&limit=${limit}`
-  );
+export const fetchProperties = async (query: string): Promise<any> => {
+  const response = await axiosInstance.get(`/admin/properties?${query}`);
   return response.data;
 };
 

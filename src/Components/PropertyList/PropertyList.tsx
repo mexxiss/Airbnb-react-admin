@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import house1 from "../../assets/images/house1.png";
 import UpDown from "../../assets/icons/UpDown.png";
@@ -21,9 +21,13 @@ import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { formatAmountWithCurrency } from "../../utils/common";
 import { useUpdateProperties } from "../../hooks/react-query/properties-query/useUpdateProperties";
 import Flatpickr from "react-flatpickr";
+import { useToggle } from "../../hooks/custom-hook/useToggle";
 
 const PropertyList = () => {
+  const refComp = useRef<Flatpickr | null>(null);
+  const [isOpen, toggleOpen] = useToggle();
   const [dates, setDates] = useState<Date[]>([]);
+  const [status, setStatus] = useState("");
   const [showMonths, setShowMonths] = useState(2);
   const [propertiesList, setpropertiesList] = useState<PropertyResponse[]>([]);
   const { setIsActiveMobileMenu } = useContext(
@@ -33,11 +37,16 @@ const PropertyList = () => {
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
+  const limit = 10;
+  const { data, isLoading, isError, error } = useFetchProperties({
+    dates,
+    limit,
+    page,
+    status,
+  });
 
-  const { data, isLoading, isError, error } = useFetchProperties(page, 10);
   const { mutate: updateProperty, isPending: togglePending } =
     useUpdateProperties();
-
 
   useEffect(() => {
     const updateShowMonths = () => {
@@ -106,6 +115,14 @@ const PropertyList = () => {
     } catch (error) {
       console.log({ error });
     }
+  };
+
+  const handleClear = () => {
+    toggleOpen(false);
+    setSearchTerm("");
+    setDates([]);
+    setStatus("");
+    refComp.current?.flatpickr?.clear();
   };
 
   if (isLoading) {
@@ -184,28 +201,45 @@ const PropertyList = () => {
             </div>
             <div className="">
               <Flatpickr
+                ref={refComp}
                 options={{
                   mode: "range", // Enables range selection
                   dateFormat: "d-m-Y", // Format of the displayed date
                   showMonths: showMonths, // Show two calendars side by side
                 }}
                 value={dates}
-                onChange={(selectedDates: Date[]) => setDates(selectedDates)}
+                onChange={(selectedDates: Date[]) => {
+                  setDates(selectedDates);
+                  toggleOpen(selectedDates.length > 0);
+                }}
                 className="w-full border !border-gray-300 rounded-lg p-2 text-sm text-gray-600"
                 placeholder="DD-MM-YYYY – DD-MM-YYYY"
               />
             </div>
             <div className="bg-white px-3 flex items-center justify-between text-gray-600 rounded-md border border-gray-300">
               Status:
-              <select className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full">
+              <select
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                  toggleOpen(true);
+                }}
+                className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full"
+              >
                 <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
             </div>
-            <div className="sm:col-span-2">
-              <button className="w-full btn1 !bg-transparent !text-red-600 border border-red-600 hover:!bg-red-600 hover:!text-white flex items-center justify-center gap-1"><Clear className="!text-lg" /> Clear</button>
-            </div>
+            {isOpen && (
+              <div className="sm:col-span-2">
+                <button
+                  onClick={() => handleClear()}
+                  className="w-full btn1 !bg-transparent !text-red-600 border border-red-600 hover:!bg-red-600 hover:!text-white flex items-center justify-center gap-1"
+                >
+                  <Clear className="!text-lg" /> Clear
+                </button>
+              </div>
+            )}
           </div>
           <div className="mt-4 sm:mt-0">
             <div className="relative overflow-x-auto">
@@ -271,7 +305,7 @@ const PropertyList = () => {
                   </tr>
                 </thead>
                 <tbody className="">
-                  {filteredSortedProperties.map((property, index) => {
+                  {filteredSortedProperties?.map((property, index) => {
                     return (
                       <tr className="bg-white mb-2" key={index}>
                         <td className=" py-4 px-3 pl-6 rounded-l-xl">
@@ -360,10 +394,11 @@ const PropertyList = () => {
                       (_, index) => (
                         <li key={index}>
                           <button
-                            className={`${page === index + 1
-                              ? "text-white bg-primary"
-                              : "text-text2"
-                              } w-10 h-10 rounded-full flex items-center justify-center`}
+                            className={`${
+                              page === index + 1
+                                ? "text-white bg-primary"
+                                : "text-text2"
+                            } w-10 h-10 rounded-full flex items-center justify-center`}
                             onClick={() => setPage(index + 1)}
                           >
                             {index + 1}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import UpDown from "../../assets/icons/UpDown.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
@@ -22,44 +22,49 @@ import { ToggleSwitch } from "flowbite-react";
 import { filterAndSortUsers } from "./utils/helpers";
 import { Link } from "react-router-dom";
 import Flatpickr from "react-flatpickr";
+import { useToggle } from "../../hooks/custom-hook/useToggle";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
 }
 
 const Users: React.FC = () => {
-  const [dates, setDates] = useState<Date[]>([]);
-  const [showMonths, setShowMonths] = useState(2);
-  const [usersList, setusersList] = useState<User[]>([]);
+  const refComp = useRef<Flatpickr | null>(null);
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
   ) as DashboardContextType;
+
+  const [isOpen, toggleOpen] = useToggle();
+  const [dates, setDates] = useState<Date[]>([]);
+  const [showMonths, setShowMonths] = useState(2);
+  const [usersList, setUsersList] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState("");
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
+  const limit = 10;
 
-  const { data, isLoading, isError, error } = userFetchQuery(page, 10);
+  const { data, isLoading, isError, error } = userFetchQuery({
+    dates,
+    searchTerm,
+    isDeleted: status,
+    limit,
+    page,
+  });
+
   const { mutate: toggleDelete, isPending: togglePending } = useDeleteUser();
 
   useEffect(() => {
-    const updateShowMonths = () => {
+    const updateShowMonths = () =>
       setShowMonths(window.innerWidth < 768 ? 1 : 2);
-    };
-
-    updateShowMonths(); // Initial call
-
+    updateShowMonths();
     window.addEventListener("resize", updateShowMonths);
-
-    return () => {
-      window.removeEventListener("resize", updateShowMonths);
-    };
+    return () => window.removeEventListener("resize", updateShowMonths);
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setusersList(data.data);
-    }
+    if (data) setUsersList(data.data);
   }, [data]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,10 +73,34 @@ const Users: React.FC = () => {
 
   const handleSort = (field: string) => {
     setSortField(field);
-    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  //** Filter Sorting And Searching */
+  const handleToggleDelete = (id: string) => {
+    toggleDelete(id, {
+      onSuccess: (updatedUser) => {
+        setUsersList((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === updatedUser?.data?._id ? updatedUser?.data : user
+          )
+        );
+      },
+      onError: (err) => console.error("Error toggling user status:", err),
+    });
+  };
+
+  const handleClear = () => {
+    toggleOpen(false);
+    setSearchTerm("");
+    setDates([]);
+    setStatus("");
+    refComp.current?.flatpickr?.clear();
+  };
+
+  if (isLoading) return <Loader />;
+  if (isError && error instanceof Error)
+    return <ErrorHandleMessage msg={error.message} />;
+
   const filteredUsers = filterAndSortUsers({
     usersList,
     searchTerm,
@@ -79,36 +108,8 @@ const Users: React.FC = () => {
     sortOrder,
   });
 
-  const itemsPerPage = 10; // Number of users per page
-  const startUserIndex = (page - 1) * itemsPerPage + 1;
-  const endUserIndex = Math.min(page * itemsPerPage, data?.totalUsers || 0);
-
-  const handleToggleDelete = async (id: string) => {
-    try {
-      toggleDelete(id, {
-        onSuccess: (updatedUser) => {
-          // Update the query cache after the mutation succeeds
-          const updatedData = usersList?.map((user: User) =>
-            user._id === updatedUser?.data?._id ? updatedUser?.data : user
-          );
-          setusersList(updatedData);
-        },
-        onError: (error) => {
-          console.error("Error toggling user status:", error);
-        },
-      });
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError && error instanceof Error) {
-    return <ErrorHandleMessage msg={error?.message} />;
-  }
+  const startUserIndex = (page - 1) * limit + 1;
+  const endUserIndex = Math.min(page * limit, data?.totalUsers || 0);
 
   return (
     <div>
@@ -177,28 +178,46 @@ const Users: React.FC = () => {
               </div>
               <div className="">
                 <Flatpickr
+                  ref={refComp}
                   options={{
                     mode: "range", // Enables range selection
                     dateFormat: "d-m-Y", // Format of the displayed date
                     showMonths: showMonths, // Show two calendars side by side
                   }}
-                  value={dates}
-                  onChange={(selectedDates: Date[]) => setDates(selectedDates)}
+                  value={dates || []}
+                  onChange={(selectedDates: Date[]) => {
+                    setDates(selectedDates);
+                    toggleOpen(selectedDates.length > 0);
+                  }}
                   className="w-full border !border-gray-300 rounded-lg p-2 text-sm text-gray-600"
                   placeholder="DD-MM-YYYY – DD-MM-YYYY"
                 />
               </div>
               <div className="bg-white px-3 flex items-center justify-between text-gray-600 rounded-md border border-gray-300">
                 Status:
-                <select className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full">
+                <select
+                  value={status || ""}
+                  className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full"
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                    toggleOpen(true);
+                  }}
+                >
                   <option value="all">All</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="false">Active</option>
+                  <option value="true">Inactive</option>
                 </select>
               </div>
-              <div className="sm:col-span-2">
-                <button className="w-full btn1 !bg-transparent !text-red-600 border border-red-600 hover:!bg-red-600 hover:!text-white flex items-center justify-center gap-1"><Clear className="!text-lg" /> Clear</button>
-              </div>
+              {isOpen && (
+                <div className="sm:col-span-2">
+                  <button
+                    onClick={() => handleClear()}
+                    className="w-full btn1 !bg-transparent !text-red-600 border border-red-600 hover:!bg-red-600 hover:!text-white flex items-center justify-center gap-1"
+                  >
+                    <Clear className="!text-lg" /> Clear
+                  </button>
+                </div>
+              )}
             </div>
             <div className="mt-4 sm:mt-0">
               <div className="relative overflow-x-auto">
@@ -333,7 +352,6 @@ const Users: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              Total Brokers
               <div className="mt-8">
                 <div className="flex justify-between items-center">
                   <p className="text-sm text-[#8B8B8B]">
@@ -357,10 +375,11 @@ const Users: React.FC = () => {
                         (_, index) => (
                           <li key={index}>
                             <button
-                              className={`${page === index + 1
-                                ? "text-white bg-[#040404]"
-                                : "text-text2"
-                                } w-10 h-10 rounded-full flex items-center justify-center`}
+                              className={`${
+                                page === index + 1
+                                  ? "text-white bg-[#040404]"
+                                  : "text-text2"
+                              } w-10 h-10 rounded-full flex items-center justify-center`}
                               onClick={() => setPage(index + 1)}
                             >
                               {index + 1}

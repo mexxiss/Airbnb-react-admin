@@ -1,30 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import users from "../../assets/icons/users.png";
-import sellers from "../../assets/icons/sellers.png";
 import properties from "../../assets/icons/properties.png";
 import userImg from "../../assets/images/userImg.png";
-import lineGraph from "../../assets/images/lineGraph.png";
-import pieChart from "../../assets/images/pieChart.png";
-import waveChart from "../../assets/images/waveChart.png";
-import barChart from "../../assets/images/barChart.png";
-import {
-  ArrowUpwardOutlined,
-  KeyboardArrowUpOutlined,
-  MenuOutlined,
-} from "@mui/icons-material";
+import { MenuOutlined } from "@mui/icons-material";
 import { DashboardContext, DashboardContextType } from "../../ContextApi";
-import RevenueChart from "../charts/line-charts/RevenueChart";
 import CityDistributionChart from "../charts/pie-charts/CityDistributionChart";
 import { colors } from "../../theme/colors";
 import InfoCard from "../InfoCard/InfoCard";
 import { primaryFilter } from "../charts/utils/cssSupportFile";
 import HorizontalCard from "../InfoCard/HorizontalCard";
-import LineChart from "../charts/line-charts/LineChart";
-import PropertyListedChart from "../charts/Column-charts/PropertyListedChart";
 import { useFetchDashboard } from "../../hooks/react-query/dashboard/useFetchDashboard";
 import Loader from "../Loader/Loader";
 import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { assignDynamicColors } from "../../utils/common";
+import {
+  ChartData,
+  MonthlyChartData,
+  WeeklyChartData,
+  YearlyChartData,
+} from "../../types/chartsTypes";
+import SelectInputFlowbitWithoutFormik from "../SelectInput/SelectInputFlowbitWithoutFormik";
+import {
+  ReceivedRevenueCharts,
+  StatisticsApplicationsChart,
+  StatisticsApplicationsChartUsers,
+} from "../charts/Apex-chart/ApexChart";
+type DateOption = {
+  label: string;
+  value: "weekly" | "monthly" | "yearly";
+};
 
 const Dashboard: React.FC = () => {
   // Context for mobile menu
@@ -32,80 +36,83 @@ const Dashboard: React.FC = () => {
     DashboardContext
   ) as DashboardContextType;
 
-  // State for option menu
-  const [optionShow, setOptionShow] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("This Week");
+  type SelectedKeySelect = "weekly" | "monthly" | "yearly";
+
+  const [selectedKey, setSelectedKey] = useState<SelectedKeySelect>("weekly");
+
+  const [revenukey, setSelectedKeyRevenu] =
+    useState<SelectedKeySelect>("weekly");
+
+  const [selectedKeyUsers, setSelectedKeyUsers] =
+    useState<SelectedKeySelect>("weekly");
+
+  const optionsDates: DateOption[] = [
+    { label: "This Week", value: "weekly" },
+    { label: "This Month", value: "monthly" },
+    { label: "This Year", value: "yearly" },
+  ];
+
   const { data, isLoading, isError, error } = useFetchDashboard();
 
   const updatedLeadingCities = assignDynamicColors(data?.leadingCities || []);
 
-  // Ref for option menu
-  const optionRef = useRef<HTMLDivElement>(null);
-
-  // Service options for the dropdown
-  const seviceOptions = [
-    { id: 1, text: "This Week" },
-    { id: 2, text: "Last week" },
-    { id: 3, text: "Last Month" },
-  ];
-
-  // Toggle the option menu visibility
-  const toggleOptionMenu = () => {
-    setOptionShow((prev) => !prev);
+  const mockChartData: ChartData = {
+    weekly: [
+      { year: 2023, month: 12, day: 22, total: 40 },
+      { year: 2023, month: 12, day: 23, total: 50 },
+      { year: 2023, month: 12, day: 24, total: 30 },
+      { year: 2023, month: 12, day: 25, total: 70 },
+      { year: 2023, month: 12, day: 26, total: 60 },
+      { year: 2023, month: 12, day: 27, total: 90 },
+      { year: 2023, month: 12, day: 28, total: 80 },
+    ],
+    monthly: [
+      { year: 2023, month: 1, total: 300 },
+      { year: 2023, month: 2, total: 450 },
+      { year: 2023, month: 3, total: 500 },
+      { year: 2023, month: 4, total: 350 },
+      { year: 2023, month: 5, total: 400 },
+      { year: 2023, month: 6, total: 600 },
+    ],
+    yearly: [
+      { year: 2021, total: 2500 },
+      { year: 2022, total: 3000 },
+      { year: 2023, total: 4000 },
+    ],
   };
 
-  // Handle option click
-  const handleOptionClick = (option: { id: number; text: string }) => {
-    setSelectedOption(option.text);
-    setOptionShow(false);
+  // Type for selected keys
+  type SelectedKey = keyof ChartData;
+
+  // Mock API Response Type
+  interface MockApiResponse<T> {
+    final: T[];
+  }
+
+  // Mock API Functions
+  const mockFetchChartData = async (
+    selectedKey: SelectedKey
+  ): Promise<
+    MockApiResponse<WeeklyChartData | MonthlyChartData | YearlyChartData>
+  > => {
+    return { final: data?.propertiesChart[selectedKey] || [] };
   };
 
-  // Handle click outside of the option menu
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      optionRef.current &&
-      !optionRef.current.contains(event.target as Node)
-    ) {
-      setOptionShow(false);
-    }
+  const mockFetchChartUsers = async (
+    selectedKeyUsers: SelectedKey
+  ): Promise<
+    MockApiResponse<WeeklyChartData | MonthlyChartData | YearlyChartData>
+  > => {
+    return { final: data?.usersChart[selectedKeyUsers] || [] };
   };
 
-  // Add event listener for click outside
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const revenueData = [2800, 1500, 2200, 2100, 3200, 2900, 2100];
-  const percentageIncrease = 32.5;
-
-  const sampleData = [
-    { x: Date.UTC(2024, 3, 1), y: 50000 },
-    { x: Date.UTC(2024, 3, 10), y: 100000 },
-    { x: Date.UTC(2024, 3, 20), y: 75000 },
-    { x: Date.UTC(2024, 4, 1), y: 150000 },
-    { x: Date.UTC(2024, 4, 10), y: 200000 },
-    { x: Date.UTC(2024, 4, 20), y: 120000 },
-  ];
-
-  const sampleData2 = [
-    { x: 17, y: 60 },
-    { x: 18, y: 70 },
-    { x: 19, y: 80 },
-    { x: 20, y: 90 }, // Annotated point
-    { x: 21, y: 100 },
-    { x: 22, y: 120 },
-    { x: 23, y: 130 },
-    { x: 24, y: 140 },
-    { x: 25, y: 150 },
-    { x: 26, y: 160 },
-    { x: 27, y: 170 }, // Annotated point
-    { x: 28, y: 180 },
-    { x: 29, y: 190 },
-    { x: 30, y: 200 },
-  ];
+  const mockFetchChartRevanue = async (
+    revenukey: SelectedKey
+  ): Promise<
+    MockApiResponse<WeeklyChartData | MonthlyChartData | YearlyChartData>
+  > => {
+    return { final: mockChartData[revenukey] || [] };
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -145,8 +152,17 @@ const Dashboard: React.FC = () => {
               {/* Cards for Top Brokers, Total Users, Sellers, and Properties */}
 
               <InfoCard
-                count={data?.totalUsers || 0}
-                label="Total Users"
+                count={data?.activeProperties || 0}
+                label="Active Properties"
+                icon={users}
+                bgColor={"#bb9e6ccc"}
+                iconBgColor={colors.others.white}
+                textColor="#f9f7f2"
+                filter={primaryFilter}
+              />
+              <InfoCard
+                count={data?.inactiveProperties || 0}
+                label="Inactive Properties"
                 icon={users}
                 bgColor={"#bb9e6ccc"}
                 iconBgColor={colors.others.white}
@@ -167,37 +183,33 @@ const Dashboard: React.FC = () => {
 
             {/* Revenue and other graphs */}
             <div className="mt-8 bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-5 px-8 pb-8">
-              <RevenueChart
-                data={revenueData}
-                percentage={percentageIncrease}
-              />
-            </div>
-
-            {/* Graphs for User Numbers and Listed Properties */}
-            <div className="mt-8">
-              <div className="grid lg:grid-cols-2 gap-x-5 gap-y-8">
-                <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
-                  <LineChart
-                    data={sampleData}
-                    title="Number of Users"
-                    subtitle="April - May"
-                    showPercent={true}
-                    percent={38}
-                    xAxisLabel="April - May"
-                    yAxisLabel="Number of Users"
-                  />
-                </div>
-
-                <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
-                  <PropertyListedChart
-                    data={sampleData2}
-                    title="No. of property listed"
-                    subtitle="April - May"
-                    annotationText="50-80% ↑"
-                    annotationIndex={27} // Highlight the 27th
-                  />
-                </div>
+              <div className="flex items-center justify-between">
+                <h6
+                  style={{ color: colors.primary[500] }}
+                  className="text-lg font-bold"
+                >
+                  Revenue
+                </h6>
+                <SelectInputFlowbitWithoutFormik
+                  islableVisible={false}
+                  label="Select Date Range"
+                  name="dateRange"
+                  options={optionsDates.map((opt) => ({
+                    value: opt.value,
+                    label: opt.label,
+                  }))}
+                  value={revenukey}
+                  onChange={(name, value) => {
+                    setSelectedKeyRevenu(value as SelectedKeySelect);
+                  }}
+                  placeholder="Select a range"
+                />
               </div>
+              <ReceivedRevenueCharts
+                selectedKeyRevenue={revenukey}
+                dataColors='["#0b2443","#ff0000", "#00ff00", "#0000ff"]'
+                onFetchChartUserData={mockFetchChartRevanue}
+              />
             </div>
           </div>
 
@@ -213,11 +225,11 @@ const Dashboard: React.FC = () => {
               <div className="">
                 <div className="grid xs:grid-cols-2 gap-5">
                   <HorizontalCard
-                    icon={properties}
-                    count={data?.activeProperties || 0}
-                    label={`Total Active Propert${
-                      data?.activeProperties === 1 ? "y" : "ies"
-                    }`}
+                    icon={users}
+                    count={data?.totalUsers || 0}
+                    label={`Total ${
+                      data?.totalUsers === 1 ? "User" : "Users"
+                    } `}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"
@@ -225,7 +237,7 @@ const Dashboard: React.FC = () => {
                   />
                   <HorizontalCard
                     icon={properties}
-                    count={data?.activeProperties || 0}
+                    count={data?.totalBookings || 0}
                     label={`Total Book${
                       data?.totalBookings === 1 ? "ing" : "ings"
                     }`}
@@ -236,6 +248,70 @@ const Dashboard: React.FC = () => {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8">
+          <div className="grid lg:grid-cols-2 gap-x-5 gap-y-8">
+            <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
+              <div className="flex items-center justify-between">
+                <h6
+                  style={{ color: colors.primary[500] }}
+                  className="text-lg font-bold"
+                >
+                  Number of Users
+                </h6>
+                <SelectInputFlowbitWithoutFormik
+                  islableVisible={false}
+                  label="Select Date Range"
+                  name="dateRange"
+                  options={optionsDates.map((opt) => ({
+                    value: opt.value,
+                    label: opt.label,
+                  }))}
+                  value={selectedKey}
+                  onChange={(name, value) => {
+                    setSelectedKeyUsers(value as SelectedKeySelect);
+                  }}
+                  placeholder="Select a range"
+                />
+              </div>
+              <StatisticsApplicationsChartUsers
+                dataColors='["#a58b5e","#ff0000", "#00ff00", "#0000ff"]'
+                selectedKeyCompany={selectedKeyUsers}
+                onFetchChartCompanyData={mockFetchChartUsers}
+              />
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] p-5">
+              <div className="flex items-center justify-between">
+                <h6
+                  style={{ color: colors.primary[500] }}
+                  className="text-lg font-bold"
+                >
+                  No. of property listed
+                </h6>
+                <SelectInputFlowbitWithoutFormik
+                  islableVisible={false}
+                  label="Select Date Range"
+                  name="dateRange"
+                  options={optionsDates.map((opt) => ({
+                    value: opt.value,
+                    label: opt.label,
+                  }))}
+                  value={selectedKey}
+                  onChange={(name, value) => {
+                    setSelectedKey(value as SelectedKeySelect);
+                  }}
+                  placeholder="Select a range"
+                />
+              </div>
+
+              <StatisticsApplicationsChart
+                dataColors='["#a58b5e","#ff0000", "#00ff00", "#0000ff"]'
+                selectedKey={selectedKey}
+                onFetchChartData={mockFetchChartData}
+              />
             </div>
           </div>
         </div>

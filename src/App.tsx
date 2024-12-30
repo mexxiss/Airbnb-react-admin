@@ -18,6 +18,9 @@ import AdminAccountSetting from "./Components/AccountSetting/AccountSetting";
 import AddProperty from "./Pages/AddProperty/AddProperty";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import CreateUser from "./Components/Users/CreateUser.tsx";
+import AdminPrivacyPolicy from "./Components/AccountSettings/AdminPrivacyPolicy.tsx";
+import AdminTermsAndConditions from "./Components/AccountSettings/AdminTermsAndConditions.tsx";
+import AdminAboutSettings from "./Components/AccountSettings/AdminAboutSettings.tsx";
 import "flatpickr/dist/themes/material_green.css";
 
 const App = () => {
@@ -119,10 +122,34 @@ const App = () => {
           ),
         },
         {
-          path: "account-setting",
+          path: "setting/account-setting",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <AdminAccountSetting />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "setting/privacy-policy",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <AdminPrivacyPolicy />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "setting/terms-and-conditions",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <AdminTermsAndConditions />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "setting/about-us",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <AdminAboutSettings />
             </ProtectedRoute>
           ),
         },

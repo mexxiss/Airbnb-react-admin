@@ -13,6 +13,7 @@ import { UploadResponse } from "../types/uploadFileTypes";
 import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
 import { AmenitiesResponse } from "../types/amenitiesTypes";
 import { DashboardData } from "../types/dashboard";
+import { LegalContent, LegalContentResponse } from "../types/legalsTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -298,5 +299,14 @@ export const fetchAmenities = async (): Promise<AmenitiesResponse> => {
 
 export const fetchDashboardData = async (): Promise<DashboardData> => {
   const response = await axiosInstance.get<DashboardData>(`/admin/dashboard`);
+  return response.data;
+};
+
+export const fetchLegilesData = async (
+  type = "policy"
+): Promise<LegalContentResponse> => {
+  const response = await axiosInstance.get<LegalContentResponse>(
+    `/content?type=${type}`
+  );
   return response.data;
 };

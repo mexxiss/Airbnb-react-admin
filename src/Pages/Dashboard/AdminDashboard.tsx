@@ -26,7 +26,7 @@ const AdminDashboard: React.FC = () => {
               isActiveMenu ? "min-w-[86px] w-[86px]" : "min-w-[250px] w-[250px]"
             } duration-100 h-screen rounded-r-[30px] bg-white relative`}
           >
-            <button
+            {/* <button
               className="w-10 h-10 rounded-full border-[#4E307A1A] bg-white border-2 flex items-center justify-center absolute -right-5 top-1/2 -translate-y-1/2 text-primary"
               onClick={handleToggle}
             >
@@ -35,7 +35,7 @@ const AdminDashboard: React.FC = () => {
               ) : (
                 <KeyboardArrowLeftOutlined />
               )}
-            </button>
+            </button> */}
             <Sidebar isActiveMenu={isActiveMenu} />
           </div>
           <MobileMenu

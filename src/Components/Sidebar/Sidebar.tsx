@@ -39,10 +39,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
             <NavLink
               to="/admin/dashboard"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
-                  isActive
-                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                    : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
+                  : ""
                 }`
               }
             >
@@ -54,10 +53,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
             <NavLink
               to="/admin/users"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
-                  isActive
-                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                    : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                  : ""
                 }`
               }
             >
@@ -69,10 +67,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
             <NavLink
               to="/admin/sellers"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
-                  isActive
-                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                    : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                  : ""
                 }`
               }
             >
@@ -84,10 +81,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
             <NavLink
               to="/admin/properties"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
-                  isActive
-                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                    : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                  : ""
                 }`
               }
             >
@@ -103,9 +99,8 @@ const Sidebar = ({ isActiveMenu }: any) => {
               <img src={settingIcon} className="min-w-6 w-6" alt="Settings" />
               <span className={`${isActiveMenu && "hidden"}`}>Settings</span>
               <span
-                className={`ml-auto duration-300 ${
-                  isSettingOpen && "transform rotate-180"
-                }`}
+                className={`ml-auto duration-300 ${isSettingOpen && "transform rotate-180"
+                  }`}
               >
                 <KeyboardArrowDownOutlined />
               </span>
@@ -116,10 +111,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
                   <NavLink
                     to="/admin/setting/account-setting"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
-                        isActive
-                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                          : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
                       }`
                     }
                   >
@@ -130,10 +124,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
                   <NavLink
                     to="/admin/setting/about-us"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
-                        isActive
-                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                          : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
                       }`
                     }
                   >
@@ -144,10 +137,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
                   <NavLink
                     to="/admin/setting/privacy-policy"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
-                        isActive
-                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                          : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
                       }`
                     }
                   >
@@ -158,10 +150,9 @@ const Sidebar = ({ isActiveMenu }: any) => {
                   <NavLink
                     to="/admin/setting/terms-and-conditions"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
-                        isActive
-                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                          : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
                       }`
                     }
                   >
@@ -173,12 +164,31 @@ const Sidebar = ({ isActiveMenu }: any) => {
           </li>
           <li className="py-2">
             <NavLink
+              to="/admin/invoice/1"
+              className={({ isActive }) =>
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
+                  : ""
+                }`
+              }
+            >
+              <img
+                src={settingIcon}
+                className={`min-w-6 w-6 `}
+                alt="account-setting"
+              />
+              <span className={`${isActiveMenu && "hidden"}`}>
+                Invoice
+              </span>
+            </NavLink>
+          </li>
+          <li className="py-2">
+            <NavLink
               to="/admin/change-password"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
-                  isActive
-                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                    : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
+                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                  : ""
                 }`
               }
             >

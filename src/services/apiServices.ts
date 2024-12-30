@@ -13,6 +13,7 @@ import { UploadResponse } from "../types/uploadFileTypes";
 import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
 import { AmenitiesResponse } from "../types/amenitiesTypes";
 import { DashboardData } from "../types/dashboard";
+import { LegalContent, LegalContentResponse } from "../types/legalsTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -58,19 +59,9 @@ export const changePassword = async (
   return response.data;
 };
 
-export const fetchUsers = async (
-  page: number,
-  limit: number = 10
-): Promise<{
-  data: any[];
-  currentPage: number;
-  totalPages: number;
-  totalUsers: number;
-}> => {
-  const response = await axiosInstance.get(
-    `/admin/users?page=${page}&limit=${limit}`
-  );
-  return response.data;
+export const fetchUsers = async (query: string): Promise<any> => {
+  const response = await axiosInstance.get(`/admin/users?${query}`);
+  return response;
 };
 
 // API service to fetch user details by ID
@@ -113,18 +104,8 @@ export const toggleUserDeletedStatus = async (
 
 //** properties services */
 
-export const fetchProperties = async (
-  page: number,
-  limit: number = 10
-): Promise<{
-  data: any[];
-  currentPage: number;
-  totalPages: number;
-  totalProperties: number;
-}> => {
-  const response = await axiosInstance.get(
-    `/admin/properties?page=${page}&limit=${limit}`
-  );
+export const fetchProperties = async (query: string): Promise<any> => {
+  const response = await axiosInstance.get(`/admin/properties?${query}`);
   return response.data;
 };
 
@@ -318,5 +299,14 @@ export const fetchAmenities = async (): Promise<AmenitiesResponse> => {
 
 export const fetchDashboardData = async (): Promise<DashboardData> => {
   const response = await axiosInstance.get<DashboardData>(`/admin/dashboard`);
+  return response.data;
+};
+
+export const fetchLegilesData = async (
+  type = "policy"
+): Promise<LegalContentResponse> => {
+  const response = await axiosInstance.get<LegalContentResponse>(
+    `/content?type=${type}`
+  );
   return response.data;
 };

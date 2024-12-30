@@ -3,7 +3,7 @@ import { fetchDashboardData } from "../../../services/apiServices";
 
 export const useFetchDashboard = () => {
   return useQuery({
-    queryKey: ["userBankDetails"],
+    queryKey: ["admindashboard"],
     queryFn: fetchDashboardData,
   });
 };

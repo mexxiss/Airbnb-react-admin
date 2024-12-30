@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactQuill from "react-quill";
 import { useFormikContext } from "formik";
+import classNames from "classnames";
 
 interface ReactQuillInputProps {
-  label: string;
+  label?: string;
+  minHeight?: string;
   name: string;
   placeholder?: string;
   className?: string;
@@ -14,7 +16,49 @@ const ReactQuillInput: React.FC<ReactQuillInputProps> = ({
   name,
   placeholder = "Write something...",
   className = "",
+  minHeight = "100px",
 }) => {
+  // Define the toolbar with similar options
+  const toolbarOptions = [
+    [{ font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["blockquote", "code-block"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ align: [] }],
+    ["link", "image", "video"],
+    ["clean"],
+  ];
+
+  const formats = [
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "color",
+    "background",
+    "script",
+    "header",
+    "blockquote",
+    "code-block",
+    "list",
+    "bullet",
+    "indent",
+    "align",
+    "link",
+    "image",
+    "video",
+  ];
   const { values, errors, setFieldValue } = useFormikContext<any>();
 
   const [editorValue, setEditorValue] = useState<string>(values[name] || "");
@@ -43,19 +87,24 @@ const ReactQuillInput: React.FC<ReactQuillInputProps> = ({
           value={editorValue}
           onChange={handleChange}
           placeholder={placeholder}
-          className="mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white resize-none"
+          className={classNames(
+            "mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white resize-none"
+          )}
           style={{
-            minHeight: "110px", // Adjust height to match 4 rows
-            lineHeight: "1.5", // Match textarea line height
+            minHeight: minHeight,
+            lineHeight: "1.5",
           }}
           modules={{
-            toolbar: [
-              ["bold", "italic", "underline"],
-              [{ list: "ordered" }, { list: "bullet" }],
-              ["link"],
-            ], // Limited toolbar for simplicity
+            toolbar: toolbarOptions,
           }}
+          formats={formats}
+          theme="snow"
         />
+        <style>{`
+       .ql-editor {
+          min-height: ${minHeight};
+        }
+      `}</style>
         {errorMessage && typeof errorMessage === "string" && (
           <div className="text-red-600 text-xs mt-1">{errorMessage}</div>
         )}

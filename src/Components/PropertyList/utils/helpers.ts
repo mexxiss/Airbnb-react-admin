@@ -1,6 +1,5 @@
 import { PropertyResponse } from "../../../types/propertiesTypes";
 
-
 export interface FilterSortParams {
   propertiesList: PropertyResponse[]; // Changed to PropertyResponse[]
   searchTerm: string;
@@ -18,23 +17,45 @@ export const filterAndSortProperties = ({
   sortOrder = "asc",
 }: FilterSortParams): PropertyResponse[] => {
   return propertiesList
-    .filter((property) => {
-      const titleMatch = property.title.toLowerCase().includes(searchTerm.toLowerCase());
-      const descriptionMatch = property.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const addressMatch = property.address.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           property.address.area.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           property.address.street.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           property.address.country.toLowerCase().includes(searchTerm.toLowerCase());
+    ?.filter((property) => {
+      const titleMatch = property.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const descriptionMatch = property.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const addressMatch =
+        property.address.city
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        property.address.area
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        property.address.street
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        property.address.country
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
       const amenitiesMatch = property.amenities.some((amenityId) =>
         amenityId.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      const wifiMatch = property?.property_details?.wifi?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        property?.property_details?.wifi?.password.toLowerCase().includes(searchTerm.toLowerCase());
+      const wifiMatch =
+        property?.property_details?.wifi?.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        property?.property_details?.wifi?.password
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
       return (
-        titleMatch || descriptionMatch || addressMatch || amenitiesMatch || wifiMatch
+        titleMatch ||
+        descriptionMatch ||
+        addressMatch ||
+        amenitiesMatch ||
+        wifiMatch
       );
     })
     .sort((a, b) => {
@@ -43,10 +64,20 @@ export const filterAndSortProperties = ({
       let aValue: string | number | undefined;
       let bValue: string | number | undefined;
 
-      if (sortField === "address.city" || sortField === "address.area" || sortField === "address.street") {
+      if (
+        sortField === "address.city" ||
+        sortField === "address.area" ||
+        sortField === "address.street"
+      ) {
         // Handle nested address fields
-        aValue = a.address[sortField.split('.')[1] as keyof typeof a.address]?.toLowerCase();
-        bValue = b.address[sortField.split('.')[1] as keyof typeof b.address]?.toLowerCase();
+        aValue =
+          a.address[
+            sortField.split(".")[1] as keyof typeof a.address
+          ]?.toLowerCase();
+        bValue =
+          b.address[
+            sortField.split(".")[1] as keyof typeof b.address
+          ]?.toLowerCase();
       } else if (sortField === "property_details.max_guest_count") {
         // Handle numeric property like max_guest_count
         aValue = a.property_details.max_guest_count;

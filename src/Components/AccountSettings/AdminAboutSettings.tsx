@@ -31,7 +31,6 @@ const AdminAboutSettings = () => {
 
   const { data, error, isError, isLoading } = useFetchAboutData();
   const { mutate: createUpdateAbout, isPending } = useUpateAndCreateAbout();
-  console.log({ data });
 
   const initialValues: FormValues = {
     title: data?.title || "",

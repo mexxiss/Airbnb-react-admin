@@ -1,4 +1,5 @@
 import React from "react";
+import DeleteIcon from "../../assets/dynamic-icons/DeleteIcon";
 
 interface ImageUploadProps {
   name: string; // Field name for images
@@ -33,22 +34,53 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ name, formik }) => {
         multiple
         onChange={handleImageUpload}
       />
-      <div className="image-preview-container">
+      <div className="image-preview-container mt-3 flex gap-2">
         {formik.values[name]?.map((image: any, index: number) => (
-          <div key={index} className="image-preview">
+          <div className="border border-primary rounded-lg overflow-hidden px-2 py-2 bg-slate-100 relative">
             <img
-              src={image.isNew ? image.preview : image} // Use preview for new files, URL for existing
               alt={`preview-${index}`}
-              style={{ width: "100px", height: "100px" }}
+              className="w-full h-[120px] object-cover"
+              src={image.isNew ? image.preview : image}
             />
-            <button
-              type="button"
-              onClick={() => handleRemoveImage(index)}
-              style={{ display: "block", margin: "10px auto" }}
-            >
-              Remove
-            </button>
+            <div className="absolute right-2.5 top-2.5 flex flex-col gap-2">
+              <span className="text-red-600 bg-white w-6 h-6 rounded-full flex items-center justify-center shadow-xl border border-primary cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  style={{ display: "block", margin: "10px auto" }}
+                >
+                  <DeleteIcon
+                    size={20}
+                    color="#bb9e6c"
+                    className="hover:opacity-75"
+                  />
+                </button>
+              </span>
+            </div>
           </div>
+
+          // <div key={index} className="image-preview">
+          //   <div className="relative">
+          //     <img
+          //       className="rounded w-36 h-36"
+          //       src={image.isNew ? image.preview : image} // Use preview for new files, URL for existing
+          //       alt={`preview-${index}`}
+          //       // style={{ width: "100px", height: "100px" }}
+          //     />
+          //     <button
+          //       className="absolute top-[-6px] left-[5.5rem] transform translate-y-1/4 w-3.5 h-3.5 rounded-full"
+          //       type="button"
+          //       onClick={() => handleRemoveImage(index)}
+          //       style={{ display: "block", margin: "10px auto" }}
+          //     >
+          //       <DeleteIcon
+          //         size={20}
+          //         color="red"
+          //         className="hover:opacity-75"
+          //       />
+          //     </button>
+          //   </div>
+          // </div>
         ))}
       </div>
       {formik.touched[name] && formik.errors[name] && (

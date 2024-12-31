@@ -360,3 +360,28 @@ export const createAboutsApi = async (payload: AboutPaylod): Promise<any> => {
     );
   }
 };
+
+export interface InvoicePayload {
+  url: string;
+  title: string;
+  total_amount: number;
+  received_amount: number;
+  net_amount_to_pay: number;
+  property: string;
+}
+
+export const createInvoice = async (
+  payload: InvoicePayload
+): Promise<PropertiesPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<PropertiesPostResponse<any>>(
+      "/admin/statements",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
+};

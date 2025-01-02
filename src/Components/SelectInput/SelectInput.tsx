@@ -10,7 +10,7 @@ interface SelectOption {
 interface SelectInputProps {
   label: string;
   name: string;
-  options?: SelectOption[]; // Options for the select dropdown
+  options: SelectOption[]; // Options for the select dropdown
   isMulti?: boolean; // Enable multi-select
   className?: string;
   placeholder?: string;

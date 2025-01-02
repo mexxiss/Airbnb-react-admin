@@ -90,8 +90,8 @@ const Invoice = () => {
                 <tbody className="text-gray-700 font-medium text-sm">
                   {Array(3)
                     .fill(0)
-                    .map((_) => (
-                      <tr className="border-b last:border-b-0 border-primary border-opacity-30 border-dashed">
+                    .map((index) => (
+                      <tr key={index} className="border-b last:border-b-0 border-primary border-opacity-30 border-dashed">
                         <td className="py-4 px-3">1</td>
                         <td className="py-4 px-3">RS-dwekjwdsc</td>
                         <td className="py-4 px-3">Inder</td>

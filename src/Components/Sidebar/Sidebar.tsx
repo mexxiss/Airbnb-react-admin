@@ -9,7 +9,11 @@ import changepassword from "../../assets/icons/changepassword.png";
 import LogoutButton from "../Logout/LogoutButton";
 import { KeyboardArrowDownOutlined } from "@mui/icons-material";
 
-const Sidebar = ({ isActiveMenu }: any) => {
+interface SidebarProps {
+  isActiveMenu: boolean;
+}
+
+const Sidebar = ({ isActiveMenu }: SidebarProps) => {
   const location = useLocation();
 
   // Determine if the dropdown should be open based on the current path

@@ -13,7 +13,11 @@ import { UploadResponse } from "../types/uploadFileTypes";
 import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
 import { AmenitiesResponse } from "../types/amenitiesTypes";
 import { DashboardData } from "../types/dashboard";
-import { LegalContent, LegalContentResponse } from "../types/legalsTypes";
+import {
+  AboutUsTypes,
+  LegalContent,
+  LegalContentResponse,
+} from "../types/legalsTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -309,4 +313,75 @@ export const fetchLegilesData = async (
     `/content?type=${type}`
   );
   return response.data;
+};
+
+type PaylodLegals = {
+  title: string;
+  body: string;
+  type: string;
+};
+
+export const createLegalsApi = async (
+  payload: PaylodLegals
+): Promise<PropertiesPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<PropertiesPostResponse<any>>(
+      "/admin/content",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create property"
+    );
+  }
+};
+
+export const fetchAboutData = async (): Promise<AboutUsTypes> => {
+  const response = await axiosInstance.get<AboutUsTypes>(`/ui-content`);
+  return response.data;
+};
+
+interface AboutPaylod {
+  title: string;
+  body: string;
+  images: string[];
+}
+export const createAboutsApi = async (payload: AboutPaylod): Promise<any> => {
+  try {
+    const response = await axiosInstance.post<any>(
+      "/admin/ui-content",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create property"
+    );
+  }
+};
+
+export interface InvoicePayload {
+  url: string;
+  title: string;
+  total_amount: number;
+  received_amount: number;
+  net_amount_to_pay: number;
+  property: string;
+}
+
+export const createInvoice = async (
+  payload: InvoicePayload
+): Promise<PropertiesPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<PropertiesPostResponse<any>>(
+      "/admin/statements",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
 };

@@ -23,6 +23,7 @@ import AdminTermsAndConditions from "./Components/AccountSettings/AdminTermsAndC
 import AdminAboutSettings from "./Components/AccountSettings/AdminAboutSettings.tsx";
 import "flatpickr/dist/themes/material_green.css";
 import InvoiceDetails from "./Components/Invoice/InvoiceDetails.tsx";
+import InvoiceCreate from "./Components/Invoice/InvoiceCreate.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -119,6 +120,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin"]}>
               <AdminChangePassword />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "invoice/create",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <InvoiceCreate />
             </ProtectedRoute>
           ),
         },

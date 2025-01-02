@@ -13,12 +13,14 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import Invoice from "./Invoice";
 import InvoiceRevenueDetails from "./InvoiceRevenueDetails";
 import useAuthStore from "../../store/authStore";
+import { usePropertiesByUser } from "../../hooks/react-query/properties-query";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
 }
 const InvoiceEdit = () => {
   const location = useLocation();
+  //    const { data, isLoading, isError, error } = usePropertiesByUser(userId || "");
 
   const params = useParams();
   console.log(location.pathname.includes("edit"));

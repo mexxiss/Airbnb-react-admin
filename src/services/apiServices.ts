@@ -18,6 +18,7 @@ import {
   LegalContent,
   LegalContentResponse,
 } from "../types/legalsTypes";
+import { IMonthlyInvoice } from "../types/invoiceTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -376,6 +377,27 @@ export const createInvoice = async (
   try {
     const response = await axiosInstance.post<PropertiesPostResponse<any>>(
       "/admin/statements",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
+};
+
+interface MonthlyPostResponse<T> {
+  data: T;
+  message: string;
+}
+
+export const createMonthlyInvoice = async (
+  payload: IMonthlyInvoice
+): Promise<MonthlyPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<MonthlyPostResponse<any>>(
+      "/admin/invoice",
       payload
     );
     return response.data;

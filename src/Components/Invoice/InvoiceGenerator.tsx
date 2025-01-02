@@ -17,7 +17,6 @@ const InvoiceGenerator = () => {
 
     setIsGenerating(true);
     try {
-      // Convert Blob to File
       const file = new File(
         [blob],
         `invoice-${invoiceData.invoiceNumber}.pdf`,
@@ -26,10 +25,8 @@ const InvoiceGenerator = () => {
         }
       );
 
-      // Upload the PDF
       const uploadResponse = await uploadFile("invoice", file);
 
-      // Create the invoice record
       const invoicePayload = {
         url: uploadResponse.imageUrl,
         net_amount_to_pay: invoiceData.totalAmount,
@@ -52,8 +49,6 @@ const InvoiceGenerator = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Invoice Generator</h1>
-
-      {/* Generate the PDF Blob */}
       <BlobProvider
         document={<InvoicePDF invoice={invoiceData} currentStatus="paid" />}
       >
@@ -64,7 +59,7 @@ const InvoiceGenerator = () => {
           }
 
           if (!loading && blob) {
-            setBlob(blob); // Store the generated blob
+            setBlob(blob);
           }
 
           return null;
@@ -72,7 +67,6 @@ const InvoiceGenerator = () => {
       </BlobProvider>
 
       <div className="flex gap-4">
-        {/* Generate & Upload Button */}
         <Button
           onClick={handleGenerateAndUploadPDF}
           disabled={isGenerating || !blob}
@@ -82,7 +76,6 @@ const InvoiceGenerator = () => {
           {isGenerating ? "Generating..." : "Generate & Upload PDF"}
         </Button>
 
-        {/* Direct Download Link */}
         <a
           href={blob ? URL.createObjectURL(blob) : "#"}
           download={`invoice-${invoiceData.invoiceNumber}.pdf`}

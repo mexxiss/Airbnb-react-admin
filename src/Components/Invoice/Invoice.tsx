@@ -5,7 +5,8 @@ import InvoiceGenerator from "./InvoiceGenerator";
 const Invoice = () => {
   return (
     <>
-      <InvoiceGenerator />
+      <InvoiceGeneratorNew />
+      {/* <InvoiceGenerator /> */}
       <div className="grid grid-cols-1 gap-6">
         <div className="p-8 rounded-2xl shadow-lg bg-white">
           <div className="grid grid-cols-1 gap-4">

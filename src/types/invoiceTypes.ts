@@ -53,40 +53,40 @@ export type IInvoice = {
 };
 
 export interface IMonthlyInvoice {
-  companyDetails: {
-    name: string;
-    address: string;
-    phone: string;
+  companyDetails?: {
+    name?: string;
+    address?: string;
+    phone?: string;
   };
-  ownerDetails: {
-    name: string;
-    address: string;
-    phone: string;
+  ownerDetails?: {
+    name?: string;
+    address?: string;
+    phone?: string;
   };
-  invoiceDetails: {
-    invoiceNumber: string;
-    date: string;
-    statementPeriod: string;
+  invoiceDetails?: {
+    invoiceNumber?: string;
+    date?: string;
+    statementPeriod?: string;
   };
-  reservations: {
-    reservationCode: string;
-    guestName: string;
-    checkIn: string;
-    checkOut: string;
-    totalNights: number;
-    netRentalIncome: number;
+  reservations?: {
+    reservationCode?: string;
+    guestName?: string;
+    checkIn?: string;
+    checkOut?: string;
+    totalNights?: number;
+    netRentalIncome?: number;
   }[];
-  summary: {
-    totalIncome: number;
+  summary?: {
+    totalIncome?: number;
     managementFee: {
-      percentage: number;
-      amount: number;
+      percentage?: number;
+      amount?: number;
     };
-    expenses: {
-      description: string;
-      amount: number;
+    expenses?: {
+      description?: string;
+      amount?: number;
     }[];
-    netAmountDue: number;
+    netAmountDue?: number;
   };
-  footer: string;
+  footer?: string;
 }

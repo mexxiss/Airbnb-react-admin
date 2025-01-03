@@ -19,6 +19,7 @@ import {
   LegalContentResponse,
 } from "../types/legalsTypes";
 import { IMonthlyInvoice } from "../types/invoiceTypes";
+import { MonthlyInvoiceRevenueResponse } from "../types/revenueTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -191,7 +192,7 @@ export const upsertBankDetails = async (
 //** Get Property By user Id */
 
 export const fetchPropertiesByUser = async (
-  userId: string
+  userId: string | number | (string | number)[]
 ): Promise<PropertiesResponse> => {
   try {
     const response = await axiosInstance.get<PropertiesResponse>(
@@ -397,7 +398,7 @@ export const createMonthlyInvoice = async (
 ): Promise<MonthlyPostResponse<any>> => {
   try {
     const response = await axiosInstance.post<MonthlyPostResponse<any>>(
-      "/admin/invoice",
+      "/admin/monthly-invoice",
       payload
     );
     return response.data;
@@ -406,4 +407,22 @@ export const createMonthlyInvoice = async (
       error.response?.data?.message || "Failed to create invoice"
     );
   }
+};
+
+/**
+ * Fetch monthly invoice revenue data
+ * @param propertyId - Property ID
+ * @param targetMonth - Target month in YYYY-MM format
+ * @param userId - User ID
+ * @returns Promise<MonthlyInvoiceRevenueResponse>
+ */
+export const fetchMonthlyInvoiceRevenue = async (
+  propertyId: string,
+  targetMonth: string,
+  userId: string
+): Promise<MonthlyInvoiceRevenueResponse> => {
+  const response = await axiosInstance.get<MonthlyInvoiceRevenueResponse>(
+    `/admin/monthly-invoice-revenue?property_id=${propertyId}&target_month=${targetMonth}&user_id=${userId}`
+  );
+  return response.data;
 };

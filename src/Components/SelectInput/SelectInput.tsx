@@ -37,7 +37,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       // For multi-select, save an array of selected values
       setFieldValue(
         name,
-        selectedOption ? selectedOption.map((opt: any) => opt.value) : []
+        selectedOption ? selectedOption?.map((opt: any) => opt.value) : []
       );
     } else {
       // For single-select, save the value
@@ -47,9 +47,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
 
   const getSelectedValue = () => {
     if (isMulti) {
-      return options.filter((option) => fieldValue?.includes(option.value)); // Match selected values for multi-select
+      return options?.filter((option) => fieldValue?.includes(option.value)); // Match selected values for multi-select
     }
-    return options.find((option) => option.value === fieldValue) || null; // Match selected value for single-select
+    return options?.find((option) => option.value === fieldValue) || null; // Match selected value for single-select
   };
 
   return (

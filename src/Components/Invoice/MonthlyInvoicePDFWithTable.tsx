@@ -81,32 +81,36 @@ const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
       {/* Header */}
       <View style={styles.gridContainer}>
         <View>
-          <Text style={styles.h4}>{invoice.companyDetails.name}</Text>
-          <Text style={styles.subtitle1}>{invoice.companyDetails.address}</Text>
+          <Text style={styles.h4}>{invoice?.companyDetails?.name}</Text>
+          <Text style={styles.subtitle1}>
+            {invoice?.companyDetails?.address}
+          </Text>
           <Text>
             <Text style={styles.bold}>Phone:</Text>
-            <Text style={styles.subtitle1}>{invoice.companyDetails.phone}</Text>
+            <Text style={styles.subtitle1}>
+              {invoice?.companyDetails?.phone}
+            </Text>
           </Text>
         </View>
 
         <View>
-          <Text style={styles.h4}>{invoice.ownerDetails.name}</Text>
-          <Text style={styles.subtitle1}>{invoice.ownerDetails.address}</Text>
+          <Text style={styles.h4}>{invoice?.ownerDetails?.name}</Text>
+          <Text style={styles.subtitle1}>{invoice?.ownerDetails?.address}</Text>
           <Text style={styles.subtitle1}>
-            Phone: {invoice.ownerDetails.phone}
+            Phone: {invoice.ownerDetails?.phone}
           </Text>
         </View>
       </View>
 
       <View style={styles.mt6}>
         <Text style={styles.h3}>
-          Invoice #{invoice.invoiceDetails.invoiceNumber}
+          Invoice #{invoice?.invoiceDetails?.invoiceNumber}
         </Text>
         <Text style={styles.subtitle1}>
-          Statement Period: {invoice.invoiceDetails.statementPeriod}
+          Statement Period: {invoice?.invoiceDetails?.statementPeriod}
         </Text>
         <Text style={styles.subtitle1}>
-          Date: {invoice.invoiceDetails.date}
+          Date: {invoice?.invoiceDetails?.date}
         </Text>
       </View>
 
@@ -126,7 +130,7 @@ const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
       </View>
 
       {/* Table Rows */}
-      {invoice.reservations.map((reservation, index) => (
+      {invoice?.reservations?.map((reservation, index) => (
         <View key={index} style={styles.tableRow}>
           <Text style={[styles.tableCell_1, styles.body2]}>{index + 1}</Text>
           <Text style={[styles.tableCell_2, styles.body2]}>

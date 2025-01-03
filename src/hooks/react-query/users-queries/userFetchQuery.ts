@@ -11,7 +11,6 @@ const fetchFilteredData = async (filters: {
   limit: number;
 }) => {
   const { dates, isDeleted, searchTerm, page, limit } = filters;
-  console.log({ isDeleted });
 
   // Initialize URLSearchParams for dynamic query building
   const query = new URLSearchParams();

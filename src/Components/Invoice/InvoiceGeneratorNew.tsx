@@ -43,7 +43,7 @@ const InvoiceGeneratorNew = ({ isEdited = true }: { isEdited?: any }) => {
 
       const invoicePayload = {
         url: uploadResponse.imageUrl,
-        net_amount_to_pay: mockInvoice.summary.totalIncome,
+        net_amount_to_pay: mockInvoice?.summary?.totalIncome ?? 0,
         property: invoiceData.id,
         received_amount: invoiceData.subTotal,
         title: `Invoice #${invoiceData.invoiceNumber}`,

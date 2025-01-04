@@ -110,3 +110,37 @@ export const assignDynamicColors = (
     };
   });
 };
+
+/**
+ * Formats a date string into 'yyyy/mm/dd' format.
+ * @param {string} date - The date string to format (e.g., "2025-01-04T00:00:00.000Z").
+ * @returns {string} - The formatted date in 'yyyy/mm/dd' format.
+ */
+export const formatDate = (date: string): string => {
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate.getTime())) {
+    throw new Error("Invalid date format");
+  }
+
+  const year = parsedDate.getFullYear();
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+
+  return `${year}/${month}/${day}`;
+};
+
+export function generateRandomString(
+  prefix: string = "INV",
+  middle: string = "FEAT"
+): string {
+  // Generate a 6-character unique string using random numbers and letters
+  const uniquePart = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // Concatenate the parts to form the final string
+  return `${prefix}-${middle}-${uniquePart}`;
+}
+
+export const stripHtml = (html: string): string => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};

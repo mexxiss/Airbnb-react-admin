@@ -426,3 +426,8 @@ export const fetchMonthlyInvoiceRevenue = async (
   );
   return response.data;
 };
+
+export const fetchMonthlyInvoiceRevenueList = async (): Promise<any> => {
+  const response = await axiosInstance.get<any>(`/admin/monthly-invoice-list`);
+  return response.data;
+};

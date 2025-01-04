@@ -116,3 +116,10 @@ export const mockInvoice: IMonthlyInvoice = {
   },
   footer: "Kind regards,\nMexxstates",
 };
+
+// ["Paid", "Overdue", "Pending"]
+export const optionsStatuse = [
+  { value: "Paid", label: "Paid" },
+  { value: "Overdue", label: "Overdue" },
+  { value: "Pending", label: "Pending" },
+];

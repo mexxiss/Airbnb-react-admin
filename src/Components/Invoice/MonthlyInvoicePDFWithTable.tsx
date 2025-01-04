@@ -1,5 +1,13 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { IMonthlyInvoice } from "../../types/invoiceTypes";
+import { formatDate } from "../../utils/common";
 
 const styles = StyleSheet.create({
   col4: { width: "25%" },
@@ -67,13 +75,24 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   tableCell_3: {
-    width: "15%",
+    width: "30%",
   },
 });
 
 interface InvoicePDFProps {
   invoice: IMonthlyInvoice;
 }
+
+Font.register({
+  family: "Roboto",
+  fonts: [
+    { src: "https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf" }, // Regular
+    {
+      src: "https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1Mu51xIIzc.ttf",
+      fontWeight: 700,
+    }, // Bold
+  ],
+});
 
 const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
   <Document>
@@ -110,7 +129,7 @@ const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
           Statement Period: {invoice?.invoiceDetails?.statementPeriod}
         </Text>
         <Text style={styles.subtitle1}>
-          Date: {invoice?.invoiceDetails?.date}
+          Date: {formatDate(invoice?.invoiceDetails?.date || "")}
         </Text>
       </View>
 
@@ -140,10 +159,10 @@ const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
             {reservation.guestName}
           </Text>
           <Text style={[styles.tableCell_3, styles.body2]}>
-            {reservation.checkIn}
+            {formatDate(reservation.checkIn || "")}
           </Text>
           <Text style={[styles.tableCell_3, styles.body2]}>
-            {reservation.checkOut}
+            {formatDate(reservation.checkOut || "")}
           </Text>
           <Text style={[styles.tableCell_3, styles.body2]}>
             {reservation.totalNights}

@@ -53,6 +53,8 @@ export type IInvoice = {
 };
 
 export interface IMonthlyInvoice {
+  _id?: string;
+  property_id?: string;
   companyDetails?: {
     name?: string;
     address?: string;

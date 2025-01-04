@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import InvoiceGeneratorNew from "./InvoiceGeneratorNew";
 import InvoiceGenerator from "./InvoiceGenerator";
 
 const Invoice = () => {
   return (
     <>
-      <InvoiceGeneratorNew />
-      {/* <InvoiceGenerator /> */}
+      <InvoiceGenerator />
       <div className="grid grid-cols-1 gap-6">
         <div className="p-8 rounded-2xl shadow-lg bg-white">
           <div className="grid grid-cols-1 gap-4">
@@ -91,7 +89,10 @@ const Invoice = () => {
                   {Array(3)
                     .fill(0)
                     .map((index) => (
-                      <tr key={index} className="border-b last:border-b-0 border-primary border-opacity-30 border-dashed">
+                      <tr
+                        key={index}
+                        className="border-b last:border-b-0 border-primary border-opacity-30 border-dashed"
+                      >
                         <td className="py-4 px-3">1</td>
                         <td className="py-4 px-3">RS-dwekjwdsc</td>
                         <td className="py-4 px-3">Inder</td>

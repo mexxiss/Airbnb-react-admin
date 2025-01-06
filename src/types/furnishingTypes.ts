@@ -17,12 +17,6 @@ export interface FurnishingFormData {
   totalFurnishingCost: number;
   receivedAmount: number;
   amountOwedToFP: number;
-  bankDetails: {
-    accountName: string;
-    accountNumber: string;
-    bankName: string;
-    iban: string;
-    swiftCode: string;
-  };
+  bank_details: string;
   notes: string;
 }

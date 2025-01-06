@@ -26,12 +26,6 @@ export const furnishingValidationSchema = Yup.object({
   amountOwedToFP: Yup.number()
     .required("Amount owed is required")
     .min(0, "Must be a positive number"),
-  bankDetails: Yup.object({
-    accountName: Yup.string().required("Account name is required"),
-    accountNumber: Yup.string().required("Account number is required"),
-    bankName: Yup.string().required("Bank name is required"),
-    iban: Yup.string().required("IBAN is required"),
-    swiftCode: Yup.string().required("SWIFT code is required"),
-  }),
+  bank_details: Yup.string().required("Bank details are required"),
   notes: Yup.string().default(""),
 });

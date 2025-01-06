@@ -131,7 +131,7 @@ export const formatDate = (date: string): string => {
 
 export function generateRandomString(
   prefix: string = "INV",
-  middle: string = "FEAT"
+  middle: string = "FURNISHING"
 ): string {
   // Generate a 6-character unique string using random numbers and letters
   const uniquePart = Math.random().toString(36).substring(2, 8).toUpperCase();

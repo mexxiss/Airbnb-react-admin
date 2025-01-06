@@ -20,6 +20,7 @@ import {
 } from "../types/legalsTypes";
 import { IMonthlyInvoice } from "../types/invoiceTypes";
 import { MonthlyInvoiceRevenueResponse } from "../types/revenueTypes";
+import { FurnishingFormData } from "../types/furnishingTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -429,5 +430,43 @@ export const fetchMonthlyInvoiceRevenue = async (
 
 export const fetchMonthlyInvoiceRevenueList = async (): Promise<any> => {
   const response = await axiosInstance.get<any>(`/admin/monthly-invoice-list`);
+  return response.data;
+};
+
+export const createFurnishingInvoice = async (
+  payload: FurnishingFormData
+): Promise<MonthlyPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.post<MonthlyPostResponse<any>>(
+      "/admin/furnishings",
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
+};
+
+export const updateFurnishingInvoice = async (
+  id: string,
+  payload: FurnishingFormData
+): Promise<MonthlyPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.put<MonthlyPostResponse<any>>(
+      `/admin/furnishings/${id}`,
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
+};
+
+export const fetchFurnishingInvoiceList = async (): Promise<any> => {
+  const response = await axiosInstance.get<any>(`/admin/furnishings-list`);
   return response.data;
 };

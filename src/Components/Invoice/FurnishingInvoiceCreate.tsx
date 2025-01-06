@@ -20,16 +20,27 @@ import ReactQuillInput from "../ReactQuillInput/ReactQuillInput";
 import { generateRandomString } from "../../utils/common";
 import { RegenerateInput } from "../RegenerateInput/RegenerateInput";
 import Input from "../Input/Input";
+import { useFetchBankDetailById } from "../../hooks/react-query/bank-details-queries";
+import DataHandler from "../ErrorHandleMessage/DataHandler";
+import { useCreateFurnishingInvoice } from "../../hooks/react-query/revenue/useCreateFurnishingInvoice";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
 }
-const FeaturesInvoiceCreate = () => {
+const FurnishingInvoiceCreate = () => {
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
   ) as DashboardContextType;
 
   const { user } = useAuthStore();
+  const {
+    data: bankdetails,
+    isLoading,
+    isError,
+    error,
+  } = useFetchBankDetailById({
+    userId: user?._id || "",
+  });
 
   // Generate `invoiceNumber` only once
   const initialInvoiceNumber = useRef(generateRandomString());
@@ -59,14 +70,14 @@ const FeaturesInvoiceCreate = () => {
 
   const initialValues: FurnishingFormData = {
     invoiceNumber: initialInvoiceNumber.current || "",
-    statementPeriod: "",
+    statementPeriod: selectedMonth || "",
     property_id: selectedProperty as string,
-    ownerDetails: {
+    companyDetails: {
       name: `${user?.first_name} ${user?.last_name}`,
       address: `${user?.address.street} ${user?.address.country}`,
       phone: user?.phone[0] || user?.phone[1] || "",
     },
-    companyDetails: {
+    ownerDetails: {
       name: `${currentUser?.first_name} ${currentUser?.last_name}`,
       address: `${currentUser?.address.street} ${currentUser?.address.country}`,
       phone: currentUser?.phone[0] || currentUser?.phone[1] || "",
@@ -76,15 +87,15 @@ const FeaturesInvoiceCreate = () => {
     totalFurnishingCost: 0,
     receivedAmount: 0,
     amountOwedToFP: 0,
-    bankDetails: {
-      accountName: "",
-      accountNumber: "",
-      bankName: "",
-      iban: "",
-      swiftCode: "",
-    },
-    notes: "",
+    bank_details: bankdetails?.data?._id || "",
+    notes:
+      "<p>If you have any query regarding to furnishing invoice, then you can contact us on official mail</p>",
   };
+
+  //** Api Hooks */
+
+  const { mutate: createFurnishingInvoice, isPending } =
+    useCreateFurnishingInvoice();
 
   const formik = useFormik({
     initialValues,
@@ -92,7 +103,12 @@ const FeaturesInvoiceCreate = () => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        console.log({ values });
+        createFurnishingInvoice(values, {
+          onSuccess: () => {
+            formik.resetForm();
+            initialInvoiceNumber.current = generateRandomString();
+          },
+        });
       } catch (error) {
         console.error("Failed to update user details:", error);
         alert("Failed to update details. Please try again.");
@@ -109,6 +125,11 @@ const FeaturesInvoiceCreate = () => {
     }
   }, [formik.values.receivedAmount && formik.values.totalFurnishingCost]);
 
+  <DataHandler
+    loadingStates={[isLoading]}
+    errorStates={[{ isError, error }]}
+  />;
+
   return (
     <div>
       <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
@@ -120,7 +141,7 @@ const FeaturesInvoiceCreate = () => {
             <MenuOutlined className="!text-3xl" />
           </button>
           <h5 className="text-22 text-primary font-bold">
-            Create Feature Invoice
+            Create Furnishing Invoice
           </h5>
         </div>
         <div className="flex items-center gap-6">
@@ -227,6 +248,24 @@ const FeaturesInvoiceCreate = () => {
                   />
                 </div>
               </div>
+              {/* Notes */}
+              <div className="sm:col-span-2">
+                <div className="">
+                  <ReactQuillInput
+                    name="notes"
+                    label="Notes"
+                    placeholder="Write your notes details..."
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end mt-5">
+              <button
+                type="submit"
+                className="bg-primary p-2 text-white rounded "
+              >
+                {isPending ? "Submitting..." : "Submit Furnishing Invoice"}
+              </button>
             </div>
           </div>
         </Form>
@@ -235,4 +274,4 @@ const FeaturesInvoiceCreate = () => {
   );
 };
 
-export default FeaturesInvoiceCreate;
+export default FurnishingInvoiceCreate;

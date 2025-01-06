@@ -20,7 +20,10 @@ import {
 } from "../types/legalsTypes";
 import { IMonthlyInvoice } from "../types/invoiceTypes";
 import { MonthlyInvoiceRevenueResponse } from "../types/revenueTypes";
-import { FurnishingFormData } from "../types/furnishingTypes";
+import {
+  FurnishingFormData,
+  FurnishingResponseInvoice,
+} from "../types/furnishingTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -469,4 +472,28 @@ export const updateFurnishingInvoice = async (
 export const fetchFurnishingInvoiceList = async (): Promise<any> => {
   const response = await axiosInstance.get<any>(`/admin/furnishings-list`);
   return response.data;
+};
+
+interface ApiResponseFurnishingDetails<T> {
+  data: T;
+}
+
+export const fetchFurnishingDetailsById = async (
+  id: string
+): Promise<FurnishingResponseInvoice> => {
+  if (!id) {
+    throw new Error("Furnishing ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<
+      ApiResponseFurnishingDetails<FurnishingResponseInvoice>
+    > = await axiosInstance.get(`/admin/furnishings/${id}`);
+
+    return response.data.data; // Extract the furnishing details
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch furnishing details."
+    );
+  }
 };

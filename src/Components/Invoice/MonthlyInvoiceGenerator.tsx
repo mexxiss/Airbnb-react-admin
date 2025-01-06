@@ -74,7 +74,7 @@ const MonthlyInvoiceGenerator = ({
   };
 
   return (
-    <div className="p-6">
+    <div className="">
       <BlobProvider
         document={<MonthlyInvoicePDFWithTable invoice={invoiceData!} />}
       >

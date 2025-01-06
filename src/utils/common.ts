@@ -1,4 +1,5 @@
 import { colors } from "../theme/colors";
+import moment from "moment";
 
 /**
  * Formats the given amount with the specified currency code and symbol.
@@ -112,23 +113,31 @@ export const assignDynamicColors = (
 };
 
 /**
- * Formats a date string into 'yyyy/mm/dd' format.
- * @param {string} date - The date string to format (e.g., "2025-01-04T00:00:00.000Z").
- * @returns {string} - The formatted date in 'yyyy/mm/dd' format.
+ * Formats a date string into a specified format using Moment.js.
+ * Defaults to 'YYYY/MM/DD' if no format is provided.
+ *
+ * @param {string | undefined | null} date - The date string to format (e.g., "2025-01-04T00:00:00.000Z").
+ * @param {string} format - The desired date format (e.g., "DD/MM/YYYY", "YYYY-MM-DD"). Default is "YYYY/MM/DD".
+ * @returns {string} - The formatted date in the specified format.
  */
-export const formatDate = (date: string): string => {
-  const parsedDate = new Date(date);
-  if (isNaN(parsedDate.getTime())) {
-    throw new Error("Invalid date format");
+export const formatDate = (
+  date?: string | null,
+  format: string = "YYYY/MM/DD"
+): string => {
+  if (!date) {
+    console.error("Error: Date input is null or undefined.");
+    throw new Error("Invalid date input. Please provide a valid date string.");
   }
 
-  const year = parsedDate.getFullYear();
-  const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-  const day = String(parsedDate.getDate()).padStart(2, "0");
+  const formattedDate = moment(date);
 
-  return `${year}/${month}/${day}`;
+  if (!formattedDate.isValid()) {
+    console.error("Error: Invalid date format:", date);
+    throw new Error("Invalid date input. Please provide a valid date string.");
+  }
+
+  return formattedDate.format(format);
 };
-
 export function generateRandomString(
   prefix: string = "INV",
   middle: string = "FURNISHING"
@@ -144,3 +153,12 @@ export const stripHtml = (html: string): string => {
   const doc = new DOMParser().parseFromString(html, "text/html");
   return doc.body.textContent || "";
 };
+
+/**
+ * Formats a number with commas as thousands separators.
+ * @param num - The number to format.
+ * @returns The formatted string with commas.
+ */
+export function formatWithCommas(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

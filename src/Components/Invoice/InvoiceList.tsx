@@ -1,23 +1,11 @@
-import React, { useContext } from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { MenuOutlined } from "@mui/icons-material";
 import { DashboardContext } from "../../ContextApi";
 import userImg from "../../assets/images/userImg.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
-import { useFetchRevenueList } from "../../hooks/react-query/revenue/useFetchRevenueList";
-import DataHandler from "../ErrorHandleMessage/DataHandler";
-import { formatDate } from "../../utils/common";
-import MonthlyInvoiceGenerator from "./MonthlyInvoiceGenerator";
-import { IMonthlyInvoice } from "../../types/invoiceTypes";
+import FurnishingInvoiceList from "./FurnishingInvoiceList";
+import RevenueInvoiceList from "./RevenueInvoiceList";
 
-const statusClasses = {
-  Paid: "bg-green-100 text-green-700",
-  Pending: "bg-yellow-100 text-yellow-700",
-  Overdue: "bg-red-100 text-red-700",
-  Draft: "bg-gray-100 text-gray-700",
-};
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
@@ -27,18 +15,7 @@ const InvoiceList: React.FC = () => {
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
   ) as DashboardContextType;
-  const { data, isLoading, isError, error } = useFetchRevenueList();
-
-  if (isLoading || isError) {
-    return (
-      <DataHandler
-        loadingStates={[isLoading]}
-        errorStates={[{ isError, error }]}
-      />
-    );
-  }
-
-  const invoices: IMonthlyInvoice[] = data.data || [];
+  const [isActive, setIsActive] = useState("Revenue");
 
   return (
     <div className="">
@@ -72,54 +49,39 @@ const InvoiceList: React.FC = () => {
       </div>
 
       <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+
+        <div className="mb-6">
+          <ul className="flex gap-2">
+            <li
+              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === "Revenue"
+                ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                : "border-border1 text-text2"
+                }`}
+              onClick={() => setIsActive("Revenue")}
+            >
+              Revenue
+            </li>
+            <li
+              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === "Furninshing"
+                ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                : "border-border1 text-text2"
+                }`}
+              onClick={() => setIsActive("Furninshing")}
+            >
+              Furnishing
+            </li>
+          </ul>
+        </div>
         <div>
-          <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
-            <thead>
-              <tr className="bg-gray-50 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                <th className="px-4 py-3">Customer</th>
-                <th className="px-4 py-3">Invoice Number</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Invoice Statement Period</th>
-                <th className="px-4 py-3">Net Due</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((invoice) => (
-                <tr
-                  key={invoice._id}
-                  className="border-b last:border-0 hover:bg-gray-50"
-                >
-                  <td className="px-4 py-3 flex items-center space-x-2">
-                    <div className="font-medium text-gray-900">
-                      {invoice?.companyDetails?.name}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    {invoice?.invoiceDetails?.invoiceNumber}
-                  </td>
-                  <td className="px-4 py-3">
-                    {formatDate(invoice?.invoiceDetails?.date || "")}
-                  </td>
-                  <td className="px-4 py-3">
-                    {invoice?.invoiceDetails?.statementPeriod}
-                  </td>
-                  <td className="px-4 py-3 font-semibold text-gray-900">
-                    ${invoice?.summary?.netAmountDue?.toFixed(2)}
-                  </td>
-                  <td className="text-right">
-                    <MonthlyInvoiceGenerator
-                      invoiceData={invoice}
-                      isUseIcons={true}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="relative overflow-x-auto">
+            {isActive === "Furninshing" ?
+              <FurnishingInvoiceList />
+              : <RevenueInvoiceList />
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

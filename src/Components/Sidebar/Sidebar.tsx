@@ -16,28 +16,33 @@ interface SidebarProps {
 const Sidebar = ({ isActiveMenu }: SidebarProps) => {
   const location = useLocation();
 
-  // Determine if the dropdown should be open based on the current path
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [isInvoicesOpen, setIsInvoicesOpen] = useState(false);
 
   useEffect(() => {
-    // Open the "Settings" dropdown if the current path is a child of "Settings"
     const settingsPaths = [
       "/admin/setting/account-setting",
       "/admin/setting/privacy-policy",
       "/admin/setting/terms-and-conditions",
-      "/admin/setting/terms-and-conditions",
       "/admin/setting/about-us",
     ];
-    if (settingsPaths.includes(location.pathname)) {
-      setIsSettingOpen(true);
-    } else {
-      setIsSettingOpen(false);
-    }
+    const invoicePaths = [
+      "/admin/invoices",
+      "/admin/invoice/create",
+    ];
+
+    const isInvoiceDetailsPath = location.pathname.startsWith("/admin/invoice/");
+
+    setIsSettingOpen(settingsPaths.includes(location.pathname));
+    setIsInvoicesOpen(
+      invoicePaths.includes(location.pathname) || isInvoiceDetailsPath
+    );
   }, [location.pathname]);
+
 
   return (
     <div>
-      <div className="pt-36 h-screen overflow-auto pb-10 flex flex-col justify-between">
+      <div className="pt-32 h-screen overflow-auto pb-10 flex flex-col justify-between">
         <ul>
           <li className="py-2">
             <NavLink
@@ -167,64 +172,62 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             )}
           </li>
           <li className="py-2">
-            <NavLink
-              to="/admin/invoices"
-              className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
-                  : ""
-                }`
-              }
+            <div
+              className="flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 cursor-pointer"
+              onClick={() => setIsInvoicesOpen((prev) => !prev)}
             >
-              <img
-                src={settingIcon}
-                className={`min-w-6 w-6 `}
-                alt="account-setting"
-              />
-              <span className={`${isActiveMenu && "hidden"}`}>
-                Invoices
+              <img src={settingIcon} className="min-w-6 w-6" alt="Invoices" />
+              <span className={`${isActiveMenu && "hidden"}`}>Invoice</span>
+              <span
+                className={`ml-auto duration-300 ${isInvoicesOpen && "transform rotate-180"
+                  }`}
+              >
+                <KeyboardArrowDownOutlined />
               </span>
-            </NavLink>
-          </li>
-          <li className="py-2">
-            <NavLink
-              to="/admin/invoice/1"
-              className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
-                  : ""
-                }`
-              }
-            >
-              <img
-                src={settingIcon}
-                className={`min-w-6 w-6 `}
-                alt="account-setting"
-              />
-              <span className={`${isActiveMenu && "hidden"}`}>
-                Invoice
-              </span>
-            </NavLink>
-          </li>
-          <li className="py-2">
-            <NavLink
-              to="/admin/invoice/create"
-              className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
-                  : ""
-                }`
-              }
-            >
-              <img
-                src={settingIcon}
-                className={`min-w-6 w-6 `}
-                alt="account-setting"
-              />
-              <span className={`${isActiveMenu && "hidden"}`}>
-                Create Invoice
-              </span>
-            </NavLink>
+            </div>
+            {isInvoicesOpen && (
+              <ul className="ml-10">
+                <li>
+                  <NavLink
+                    to="/admin/invoices"
+                    className={({ isActive }) =>
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
+                      }`
+                    }
+                  >
+                    List
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/invoice/1"
+                    className={({ isActive }) =>
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
+                      }`
+                    }
+                  >
+                    Details
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/admin/invoice/create"
+                    className={({ isActive }) =>
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
+                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                        : ""
+                      }`
+                    }
+                  >
+                    Create
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li className="py-2">
             <NavLink

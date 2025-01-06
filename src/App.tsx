@@ -27,6 +27,7 @@ import InvoiceCreate from "./Components/Invoice/InvoiceCreate.tsx";
 import InvoiceList from "./Components/Invoice/InvoiceList.tsx";
 import InvoiceEdit from "./Components/Invoice/InvoiceEdit.tsx";
 import FeaturesInvoiceCreate from "./Components/Invoice/FurnishingInvoiceCreate.tsx";
+import FurnishingInvoiceList from "./Components/Invoice/FurnishingInvoiceList.tsx";
 
 const App = () => {
   const router = createBrowserRouter([

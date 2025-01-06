@@ -26,7 +26,7 @@ import InvoiceDetails from "./Components/Invoice/InvoiceDetails.tsx";
 import InvoiceCreate from "./Components/Invoice/InvoiceCreate.tsx";
 import InvoiceList from "./Components/Invoice/InvoiceList.tsx";
 import InvoiceEdit from "./Components/Invoice/InvoiceEdit.tsx";
-import FeaturesInvoiceCreate from "./Components/Invoice/FeaturesInvoiceCreate.tsx";
+import FeaturesInvoiceCreate from "./Components/Invoice/FurnishingInvoiceCreate.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -135,7 +135,7 @@ const App = () => {
           ),
         },
         {
-          path: "invoice/feature/create",
+          path: "invoice/furnishing/create",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <FeaturesInvoiceCreate />

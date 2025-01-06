@@ -1,7 +1,5 @@
 export interface BankDetails {
-  _id: {
-    $oid: string;
-  };
+  _id: string;
   accountHolderName: string;
   accountNumber: string;
   bankName: string;

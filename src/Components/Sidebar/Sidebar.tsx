@@ -26,19 +26,16 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
       "/admin/setting/terms-and-conditions",
       "/admin/setting/about-us",
     ];
-    const invoicePaths = [
-      "/admin/invoices",
-      "/admin/invoice/create",
-    ];
+    const invoicePaths = ["/admin/invoices", "/admin/invoice/create"];
 
-    const isInvoiceDetailsPath = location.pathname.startsWith("/admin/invoice/");
+    const isInvoiceDetailsPath =
+      location.pathname.startsWith("/admin/invoice/");
 
     setIsSettingOpen(settingsPaths.includes(location.pathname));
     setIsInvoicesOpen(
       invoicePaths.includes(location.pathname) || isInvoiceDetailsPath
     );
   }, [location.pathname]);
-
 
   return (
     <div>
@@ -48,9 +45,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             <NavLink
               to="/admin/dashboard"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
-                  : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
+                  isActive
+                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r "
+                    : ""
                 }`
               }
             >
@@ -62,9 +60,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             <NavLink
               to="/admin/users"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                  : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
+                  isActive
+                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                    : ""
                 }`
               }
             >
@@ -76,9 +75,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             <NavLink
               to="/admin/sellers"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                  : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
+                  isActive
+                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                    : ""
                 }`
               }
             >
@@ -90,9 +90,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             <NavLink
               to="/admin/properties"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                  : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
+                  isActive
+                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                    : ""
                 }`
               }
             >
@@ -108,8 +109,9 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
               <img src={settingIcon} className="min-w-6 w-6" alt="Settings" />
               <span className={`${isActiveMenu && "hidden"}`}>Settings</span>
               <span
-                className={`ml-auto duration-300 ${isSettingOpen && "transform rotate-180"
-                  }`}
+                className={`ml-auto duration-300 ${
+                  isSettingOpen && "transform rotate-180"
+                }`}
               >
                 <KeyboardArrowDownOutlined />
               </span>
@@ -120,9 +122,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                   <NavLink
                     to="/admin/setting/account-setting"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -133,9 +136,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                   <NavLink
                     to="/admin/setting/about-us"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -146,9 +150,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                   <NavLink
                     to="/admin/setting/privacy-policy"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -159,9 +164,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                   <NavLink
                     to="/admin/setting/terms-and-conditions"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -179,8 +185,9 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
               <img src={settingIcon} className="min-w-6 w-6" alt="Invoices" />
               <span className={`${isActiveMenu && "hidden"}`}>Invoice</span>
               <span
-                className={`ml-auto duration-300 ${isInvoicesOpen && "transform rotate-180"
-                  }`}
+                className={`ml-auto duration-300 ${
+                  isInvoicesOpen && "transform rotate-180"
+                }`}
               >
                 <KeyboardArrowDownOutlined />
               </span>
@@ -191,9 +198,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                   <NavLink
                     to="/admin/invoices"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -202,24 +210,12 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                 </li>
                 <li>
                   <NavLink
-                    to="/admin/invoice/1"
-                    className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
-                      }`
-                    }
-                  >
-                    Details
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
                     to="/admin/invoice/create"
                     className={({ isActive }) =>
-                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${isActive
-                        ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
-                        : ""
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
                       }`
                     }
                   >
@@ -233,9 +229,10 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             <NavLink
               to="/admin/change-password"
               className={({ isActive }) =>
-                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${isActive
-                  ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
-                  : ""
+                `flex gap-3 items-center text-[#8B8B8B] px-8 text-nowrap py-2 ${
+                  isActive
+                    ? "imgColor before:absolute before:left-0 before:top-0 before:w-1.5 before:h-full before:bg-white before:rounded-r"
+                    : ""
                 }`
               }
             >

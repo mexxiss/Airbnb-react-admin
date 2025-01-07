@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 interface SelectOption {
@@ -33,6 +33,12 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = ({
     string | number | (string | number)[]
   >(value || (isMulti ? [] : ""));
 
+  useEffect(() => {
+    if (value) {
+      setInternalValue(value);
+    }
+  }, [value]);
+
   const handleChange = (selectedOption: any) => {
     const newValue = isMulti
       ? selectedOption
@@ -45,7 +51,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = ({
     setInternalValue(newValue);
 
     if (onChange) {
-      onChange(newValue); // Notify parent component of the change
+      onChange(newValue);
     }
   };
 
@@ -65,7 +71,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = ({
         options={options}
         isMulti={isMulti}
         placeholder={placeholder}
-        value={getSelectedValue()}
+        value={getSelectedValue() || ""}
         onChange={handleChange}
         classNamePrefix="react-select"
       />

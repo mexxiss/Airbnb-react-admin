@@ -173,12 +173,6 @@ const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
         </View>
       ))}
 
-      {/* Footer */}
-      {/* <View style={styles.footer}>
-        <Text>Total Income: ${invoice.summary.totalIncome}</Text>
-        <Text>Management Fee: ${invoice.summary.managementFee.amount}</Text>
-        <Text>Net Amount Due: ${invoice.summary.netAmountDue}</Text>
-      </View> */}
       <View style={styles.footer}>
         <Text>Kind regards,</Text>
         <Text>Mexxstates</Text>

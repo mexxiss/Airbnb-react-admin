@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { User } from "../../types/usersTypes";
 import { useSelection } from "../../hooks/custom-hook/useSelection";
 import CustomSelectInput from "../SelectInput/CustomSelectInput";
@@ -9,6 +9,12 @@ interface SelectionGroupProps {
   onPropertyChange?: (value: string | number | (string | number)[]) => void;
   onMonthChange?: (value: string) => void;
   onSelectedUserChange?: (user: User | null) => void;
+  initialValues?: {
+    selectedValue: string | number | (string | number)[];
+    selectedProperty: string | number | (string | number)[];
+    selectedMonth: string;
+    selectedUser: User | null;
+  };
   className?: string;
 }
 
@@ -17,6 +23,7 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
   onPropertyChange,
   onMonthChange,
   onSelectedUserChange,
+  initialValues,
   className = "",
 }) => {
   const {
@@ -31,7 +38,21 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
     handleMonthChange,
   } = useSelection();
 
-  // Notify parent component when selectedUser changes
+  useEffect(() => {
+    if (initialValues) {
+      handleChange(initialValues.selectedValue);
+      handleChangeProperty(initialValues.selectedProperty);
+      handleMonthChange(initialValues.selectedMonth);
+      onSelectedUserChange?.(initialValues.selectedUser);
+    }
+  }, [
+    initialValues,
+    handleChange,
+    handleChangeProperty,
+    handleMonthChange,
+    onSelectedUserChange,
+  ]);
+
   React.useEffect(() => {
     onSelectedUserChange?.(selectedUser);
   }, [selectedUser, onSelectedUserChange]);
@@ -60,7 +81,7 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
       <CustomSelectInput
         label="Select User"
         options={userData}
-        value={selectedValue}
+        value={selectedValue || ""}
         onChange={handleUserSelection}
         placeholder="Select an option"
         className="mb-4"
@@ -70,7 +91,7 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
       <CustomSelectInput
         label="Select Property"
         options={propertyDataModified}
-        value={selectedProperty}
+        value={selectedProperty || ""}
         onChange={handlePropertySelection}
         placeholder="Select an option"
         className="mb-4"
@@ -79,7 +100,7 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
 
       <MonthPicker
         label="Select a Month"
-        value={selectedMonth}
+        value={selectedMonth || ""}
         onChange={handleMonthSelection}
       />
     </div>

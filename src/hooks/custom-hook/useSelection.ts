@@ -5,22 +5,37 @@ import { usePropertiesByUser } from "../react-query/properties-query";
 
 interface UseSelectionProps {
   limit?: number;
+  initialValues?: {
+    selectedValue?: string | number;
+    selectedProperty?: string | number;
+    selectedMonth?: string;
+    selectedUser?: User;
+  };
 }
 
-export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
+export const useSelection = ({
+  limit = 500,
+  initialValues = {},
+}: UseSelectionProps = {}) => {
   const [selectedValue, setSelectedValue] = useState<
     string | number | (string | number)[]
-  >("");
+  >(initialValues.selectedValue || "");
   const [selectedProperty, setSelectedProperty] = useState<
     string | number | (string | number)[]
-  >("");
-  const [selectedMonth, setSelectedMonth] = useState<string>("");
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  >(initialValues.selectedProperty || "");
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    initialValues.selectedMonth || ""
+  );
+  const [selectedUser, setSelectedUser] = useState<User | null>(
+    initialValues.selectedUser || null
+  );
+
   const [dates, setDates] = useState<Date[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
 
+  // Fetch users
   const { data, isLoading, isError, error } = userFetchQuery({
     dates,
     searchTerm,
@@ -29,6 +44,7 @@ export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
     page,
   });
 
+  // Fetch properties by user
   const {
     data: propertyData,
     isLoading: proIsLoading,
@@ -36,6 +52,7 @@ export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
     error: proError,
   } = usePropertiesByUser(selectedValue || "");
 
+  // Memoize user data for select options
   const userData = useMemo(
     () =>
       data?.data?.map((item: any) => ({
@@ -45,6 +62,7 @@ export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
     [data]
   );
 
+  // Memoize property data for select options
   const propertyDataModified = useMemo(
     () =>
       propertyData?.properties.map((item: any) => ({
@@ -54,6 +72,7 @@ export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
     [propertyData]
   );
 
+  // Update selected user whenever selectedValue changes
   useEffect(() => {
     if (selectedValue) {
       setSelectedUser(
@@ -62,6 +81,7 @@ export const useSelection = ({ limit = 500 }: UseSelectionProps = {}) => {
     }
   }, [selectedValue, data]);
 
+  // Handle value changes for select inputs
   const handleChange = (value: string | number | (string | number)[]) => {
     setSelectedValue(value);
   };

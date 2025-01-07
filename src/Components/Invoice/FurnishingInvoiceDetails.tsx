@@ -22,8 +22,6 @@ const FurnishingInvoiceDetails = () => {
     id: id || "",
   });
 
-  console.log({ id }, { data });
-
   if (isLoading || isError) {
     return (
       <DataHandler

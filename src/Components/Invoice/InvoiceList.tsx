@@ -6,7 +6,6 @@ import searchIcon from "../../assets/icons/searchIcon.png";
 import FurnishingInvoiceList from "./FurnishingInvoiceList";
 import RevenueInvoiceList from "./RevenueInvoiceList";
 
-
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
 }
@@ -49,23 +48,24 @@ const InvoiceList: React.FC = () => {
       </div>
 
       <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
-
         <div className="mb-6">
           <ul className="flex gap-2">
             <li
-              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === "Revenue"
-                ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
-                : "border-border1 text-text2"
-                }`}
+              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
+                isActive === "Revenue"
+                  ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                  : "border-border1 text-text2"
+              }`}
               onClick={() => setIsActive("Revenue")}
             >
               Revenue
             </li>
             <li
-              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === "Furninshing"
-                ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
-                : "border-border1 text-text2"
-                }`}
+              className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
+                isActive === "Furninshing"
+                  ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                  : "border-border1 text-text2"
+              }`}
               onClick={() => setIsActive("Furninshing")}
             >
               Furnishing
@@ -74,14 +74,15 @@ const InvoiceList: React.FC = () => {
         </div>
         <div>
           <div className="relative overflow-x-auto">
-            {isActive === "Furninshing" ?
+            {isActive === "Furninshing" ? (
               <FurnishingInvoiceList />
-              : <RevenueInvoiceList />
-            }
+            ) : (
+              <RevenueInvoiceList />
+            )}
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

@@ -22,13 +22,12 @@ import AdminPrivacyPolicy from "./Components/AccountSettings/AdminPrivacyPolicy.
 import AdminTermsAndConditions from "./Components/AccountSettings/AdminTermsAndConditions.tsx";
 import AdminAboutSettings from "./Components/AccountSettings/AdminAboutSettings.tsx";
 import "flatpickr/dist/themes/material_green.css";
-import InvoiceDetails from "./Components/Invoice/InvoiceDetails.tsx";
-import InvoiceCreate from "./Components/Invoice/InvoiceCreate.tsx";
 import InvoiceList from "./Components/Invoice/InvoiceList.tsx";
-import InvoiceEdit from "./Components/Invoice/InvoiceEdit.tsx";
-import FeaturesInvoiceCreate from "./Components/Invoice/FurnishingInvoiceCreate.tsx";
-import FurnishingInvoiceList from "./Components/Invoice/FurnishingInvoiceList.tsx";
 import FurnishingInvoiceDetails from "./Components/Invoice/FurnishingInvoiceDetails.tsx";
+import Invoice from "./Components/Invoice/Invoice.tsx";
+import FurnishingInvoiceEdit from "./Components/Invoice/FurnishingInvoiceEdit.tsx";
+import FurnishingPdfViewr from "./Components/Invoice/FurnishingPdfViewr.tsx";
+import MontlyRevenuePdfViewr from "./Components/Invoice/MontlyRevenuePdfViewr.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -132,15 +131,7 @@ const App = () => {
           path: "invoice/create",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
-              <InvoiceCreate />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "invoice/furnishing/create",
-          element: (
-            <ProtectedRoute roles={["Admin", "Owner"]}>
-              <FeaturesInvoiceCreate />
+              <Invoice />
             </ProtectedRoute>
           ),
         },
@@ -153,21 +144,14 @@ const App = () => {
           ),
         },
         {
-          path: "invoice/:id",
+          path: "invoice/furnishing-details/:id/edit",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
-              <InvoiceDetails />
+              <FurnishingInvoiceEdit />
             </ProtectedRoute>
           ),
         },
-        {
-          path: "invoice/:id/edit",
-          element: (
-            <ProtectedRoute roles={["Admin", "Owner"]}>
-              <InvoiceEdit />
-            </ProtectedRoute>
-          ),
-        },
+
         {
           path: "invoices",
           element: (
@@ -209,6 +193,22 @@ const App = () => {
           ),
         },
       ],
+    },
+    {
+      path: "invoice/furnishing-pdf-view/:id",
+      element: (
+        <ProtectedRoute roles={["Admin", "Owner"]}>
+          <FurnishingPdfViewr />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "invoice/monthly-revenue-pdf-view/:id",
+      element: (
+        <ProtectedRoute roles={["Admin", "Owner"]}>
+          <MontlyRevenuePdfViewr />
+        </ProtectedRoute>
+      ),
     },
   ]);
   return <RouterProvider router={router} />;

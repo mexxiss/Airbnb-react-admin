@@ -23,6 +23,7 @@ export interface FurnishingFormData {
 interface PropertyFieldData {
   _id: string;
   title: string;
+  user?: string;
 }
 export interface FurnishingResponseInvoice {
   companyDetails: {

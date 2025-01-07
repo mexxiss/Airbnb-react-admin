@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ActionButtonGroup from "../ActionButtonGroup/ActionButtonGroup";
 import DeleteIcon from "../../assets/dynamic-icons/DeleteIcon";
 import { useNavigate } from "react-router-dom";
+import FurnishingInvoiceGenerator from "./FurnishingInvoiceGenerator";
 
 // Status classes mapping
 const statusClasses = {
@@ -22,7 +23,7 @@ const getColumnsHandler = (navigate: (path: string) => void) => [
   {
     key: "invoiceNumber",
     label: "Invoice No.",
-    minWidth: "270px",
+    minWidth: "20px",
   },
   {
     key: "statementPeriod",
@@ -42,7 +43,7 @@ const getColumnsHandler = (navigate: (path: string) => void) => [
   {
     key: "amountOwedToFP",
     label: "Balance",
-    minWidth: "150px",
+    minWidth: "100px",
   },
   {
     key: "status",
@@ -66,17 +67,31 @@ const getColumnsHandler = (navigate: (path: string) => void) => [
       };
 
       const handleEdit = () => {
-        navigate(`/admin/invoice/furnishing-details/edit/${rowData._id}`);
+        navigate(`/admin/invoice/furnishing-details/${rowData._id}/edit`);
       };
 
       return (
-        <ActionButtonGroup
-          icons={[
-            { icon: <VisibilityIcon />, onClick: handleView, xs: 14, sm: 18 },
-            { icon: <EditIcon />, onClick: handleEdit, xs: 14, sm: 18 },
-          ]}
-          gap={8}
-        />
+        <>
+          <ActionButtonGroup
+            icons={[
+              { icon: <VisibilityIcon />, onClick: handleView, xs: 14, sm: 18 },
+              { icon: <EditIcon />, onClick: handleEdit, xs: 14, sm: 18 },
+            ]}
+            gap={8}
+          />
+        </>
+      );
+    },
+  },
+  {
+    key: "download",
+    label: "Download",
+    minWidth: "100px",
+    render: (rowData: any) => {
+      return (
+        <>
+          <FurnishingInvoiceGenerator invoiceData={rowData} />
+        </>
       );
     },
   },

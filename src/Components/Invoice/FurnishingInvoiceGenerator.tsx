@@ -1,23 +1,23 @@
 import React, { useState } from "react";
+import { BlobProvider } from "@react-pdf/renderer";
+import FurnishingInvoicePdf from "./FurnishingInvoicePdf";
+import { createInvoice, uploadFile } from "../../services/apiServices";
+import { IconButton, Tooltip } from "@mui/material";
+import { FurnishingResponseInvoice } from "../../types/furnishingTypes";
+import CustomButton from "../CustomButton/CustomButton";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import { BlobProvider } from "@react-pdf/renderer";
-import { createInvoice, uploadFile } from "../../services/apiServices";
-import MonthlyInvoicePDFWithTable from "./MonthlyInvoicePDFWithTable";
-import { IMonthlyInvoice } from "../../types/invoiceTypes";
-import CustomButton from "../CustomButton/CustomButton";
-import { IconButton, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-interface IMonthlyInvoiceGenerator {
+interface IFurnishingInvoiceGenerator {
   isUseIcons?: boolean;
-  invoiceData?: IMonthlyInvoice;
+  invoiceData?: FurnishingResponseInvoice;
 }
-const MonthlyInvoiceGenerator = ({
+const FurnishingInvoiceGenerator = ({
   invoiceData,
-  isUseIcons = false,
-}: IMonthlyInvoiceGenerator) => {
+  isUseIcons = true,
+}: IFurnishingInvoiceGenerator) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [blob, setBlob] = useState<Blob | null>(null);
 
@@ -29,24 +29,23 @@ const MonthlyInvoiceGenerator = ({
 
     setIsGenerating(true);
     try {
-      const file = new File(
-        [blob],
-        `${invoiceData?.invoiceDetails?.invoiceNumber}.pdf`,
-        {
-          type: "application/pdf",
-        }
-      );
+      const file = new File([blob], `${invoiceData?.invoiceNumber}.pdf`, {
+        type: "application/pdf",
+      });
 
-      const uploadResponse = await uploadFile("invoice", file);
+      const uploadResponse = await uploadFile("furnishing", file);
 
       const invoicePayload = {
         url: uploadResponse.imageUrl,
-        statement_type: "revenue",
-        net_amount_to_pay: invoiceData?.summary?.totalIncome ?? 0,
-        property: invoiceData?.property_id ?? "",
-        received_amount: invoiceData?.summary?.netAmountDue ?? 0,
-        title: `Invoice #${invoiceData?.invoiceDetails?.invoiceNumber}`,
-        total_amount: invoiceData?.summary?.totalIncome ?? 0,
+        statement_type: "furnishing",
+        net_amount_to_pay: invoiceData?.receivedAmount ?? 0,
+        property:
+          typeof invoiceData?.property_id === "string"
+            ? invoiceData.property_id
+            : "",
+        received_amount: invoiceData?.receivedAmount ?? 0,
+        title: `Invoice #${invoiceData?.invoiceNumber}`,
+        total_amount: invoiceData?.totalFurnishingCost ?? 0,
       };
 
       await createInvoice(invoicePayload);
@@ -66,7 +65,7 @@ const MonthlyInvoiceGenerator = ({
 
     const anchor = document.createElement("a");
     anchor.href = downloadUrl;
-    anchor.download = `invoice-${invoiceData?.invoiceDetails?.invoiceNumber}.pdf`;
+    anchor.download = `invoice-${invoiceData?.invoiceNumber}.pdf`;
     document.body.appendChild(anchor);
     anchor.click();
 
@@ -76,9 +75,7 @@ const MonthlyInvoiceGenerator = ({
 
   return (
     <div className="">
-      <BlobProvider
-        document={<MonthlyInvoicePDFWithTable invoice={invoiceData!} />}
-      >
+      <BlobProvider document={<FurnishingInvoicePdf invoice={invoiceData!} />}>
         {({ blob, loading, error }) => {
           if (error) {
             console.error("Error generating PDF blob:", error);
@@ -93,11 +90,11 @@ const MonthlyInvoiceGenerator = ({
         }}
       </BlobProvider>
 
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         {isUseIcons ? (
           <Tooltip title={"View Invoice PDF"}>
             <Link
-              to={`/invoice/monthly-revenue-pdf-view/${invoiceData?._id}`}
+              to={`/invoice/furnishing-pdf-view/${invoiceData?._id}`}
               target="_blank"
             >
               <VisibilityIcon
@@ -109,7 +106,7 @@ const MonthlyInvoiceGenerator = ({
           </Tooltip>
         ) : (
           <Link
-            to={`/invoice/monthly-revenue-pdf-view/${invoiceData?._id}`}
+            to={`/invoice/furnishing-pdf-view/${invoiceData?._id}`}
             target="_blank"
           >
             View PDF
@@ -163,7 +160,7 @@ const MonthlyInvoiceGenerator = ({
         ) : (
           <a
             href={blob ? URL.createObjectURL(blob) : "#"}
-            download={`invoice-${invoiceData?.invoiceDetails?.invoiceNumber}.pdf`}
+            download={`invoice-${invoiceData?.invoiceNumber}.pdf`}
             className={` bg-gray-600 text-white rounded-lg hover:bg-gray-700 ${
               !blob ? "disabled:opacity-50 pointer-events-none" : ""
             }`}
@@ -176,4 +173,4 @@ const MonthlyInvoiceGenerator = ({
   );
 };
 
-export default MonthlyInvoiceGenerator;
+export default FurnishingInvoiceGenerator;

@@ -28,6 +28,7 @@ import Invoice from "./Components/Invoice/Invoice.tsx";
 import FurnishingInvoiceEdit from "./Components/Invoice/FurnishingInvoiceEdit.tsx";
 import FurnishingPdfViewr from "./Components/Invoice/FurnishingPdfViewr.tsx";
 import MontlyRevenuePdfViewr from "./Components/Invoice/MontlyRevenuePdfViewr.tsx";
+import MaintenanceInvoiceDetails from "./Components/Invoice/MaintenanceForm/MaintenanceInvoiceDetails.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -151,7 +152,14 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
-
+        {
+          path: "invoice/maintenance-details/:id",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <MaintenanceInvoiceDetails />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "invoices",
           element: (

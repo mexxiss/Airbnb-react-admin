@@ -535,3 +535,47 @@ export const createMaintenanceInvoice = async (
     );
   }
 };
+
+export const fetchMaintenanceInvoiceList = async (): Promise<any> => {
+  const response = await axiosInstance.get<any>(
+    `/admin/maintenance-invoice-list`
+  );
+  return response.data;
+};
+
+export const fetchMaintenanceInvoiceDetailsById = async (
+  id: string
+): Promise<MaintenanceFormValues> => {
+  if (!id) {
+    throw new Error("Furnishing ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<
+      ApiResponseFurnishingDetails<MaintenanceFormValues>
+    > = await axiosInstance.get(`/admin/maintenance-invoice/${id}`);
+
+    return response.data.data; // Extract the furnishing details
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch furnishing details."
+    );
+  }
+};
+
+export const updateMaintenanceInvoice = async (
+  id: string,
+  payload: MaintenanceFormValues
+): Promise<MonthlyPostResponse<any>> => {
+  try {
+    const response = await axiosInstance.put<MonthlyPostResponse<any>>(
+      `/admin/maintenance-invoice/${id}`,
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
+    );
+  }
+};

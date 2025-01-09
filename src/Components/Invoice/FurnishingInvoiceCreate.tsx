@@ -125,152 +125,153 @@ const FurnishingInvoiceCreate = () => {
     }
   }, [formik.values.receivedAmount && formik.values.totalFurnishingCost]);
 
-  <DataHandler
-    loadingStates={[isLoading]}
-    errorStates={[{ isError, error }]}
-  />;
-
   return (
-    <div>
-      <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button
-            className="lg:hidden hover:text-primary active:text-primary"
-            onClick={() => setIsActiveMobileMenu(true)}
-          >
-            <MenuOutlined className="!text-3xl" />
-          </button>
-          <h5 className="text-22 text-primary font-bold">
-            Create Furnishing Invoice
-          </h5>
-        </div>
-        <div className="flex items-center gap-6">
-          <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
-            <img src={userImg} className="w-full h-full object-cover" alt="" />
-          </button>
-        </div>
-      </div>
-      <FormikProvider value={formik}>
-        <Form onSubmit={formik.handleSubmit}>
-          <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
-            <SelectionGroup
-              onUserChange={handleUserChange}
-              onPropertyChange={handlePropertyChange}
-              onMonthChange={handleMonthChange}
-              onSelectedUserChange={handleSelectedUserChange}
-            />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="">
-                <SelectInput
-                  label="Status Select"
-                  name="status"
-                  options={optionsStatuse}
-                  placeholder="Choose an option"
-                  className="mb-4"
-                />
-              </div>
-              <div className="">
-                <label
-                  htmlFor="invoiceNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Furnishing Invoice Number
-                </label>
-                <RegenerateInput
-                  value={formik.values.invoiceNumber}
-                  onChange={handleInvoiceChange(formik.setFieldValue)}
-                  generateValue={generateRandomString}
-                  className="mt-1"
-                />
-                {formik?.touched?.invoiceNumber &&
-                  formik?.errors?.invoiceNumber && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {formik?.errors?.invoiceNumber}
-                    </p>
-                  )}
-              </div>
-              <div className="">
-                <Input
-                  name="receivedAmount"
-                  type="number"
-                  label="Received Amount"
-                  placeholder="Received Amount"
-                  value={formik.values.receivedAmount}
-                  onChangeValue={(value) =>
-                    formik.setFieldValue("receivedAmount", value)
-                  }
-                />
-                {formik.errors.receivedAmount ? (
-                  <div className="text-red-600">
-                    {formik.errors.receivedAmount}
-                  </div>
-                ) : null}
-              </div>
-              <div className="">
-                <Input
-                  name="totalFurnishingCost"
-                  type="number"
-                  label="Total Furnishing Cost"
-                  placeholder="Total Furnishing Cost"
-                  value={formik.values.totalFurnishingCost}
-                  onChangeValue={(value) => {
-                    formik.setFieldValue("totalFurnishingCost", value);
-                  }}
-                />
-                {formik.errors.totalFurnishingCost ? (
-                  <div className="text-red-600">
-                    {formik.errors.totalFurnishingCost}
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="">
-                <Input
-                  name="amountOwedToFP"
-                  type="number"
-                  label="Amount Owed To FP"
-                  placeholder="Amount Owed To FP"
-                  value={formik.values.amountOwedToFP}
-                />
-                {formik.errors.amountOwedToFP ? (
-                  <div className="text-red-600">
-                    {formik.errors.amountOwedToFP}
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="sm:col-span-2">
-                <div className="">
-                  <ReactQuillInput
-                    name="furnishingDetails"
-                    label="Furnishing Details"
-                    placeholder="Write your furnishing details..."
-                  />
-                </div>
-              </div>
-              {/* Notes */}
-              <div className="sm:col-span-2">
-                <div className="">
-                  <ReactQuillInput
-                    name="notes"
-                    label="Notes"
-                    placeholder="Write your notes details..."
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end mt-5">
-              <button
-                type="submit"
-                className="bg-primary p-2 text-white rounded "
-              >
-                {isPending ? "Submitting..." : "Submit Furnishing Invoice"}
-              </button>
-            </div>
+    <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
+      <div>
+        <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              className="lg:hidden hover:text-primary active:text-primary"
+              onClick={() => setIsActiveMobileMenu(true)}
+            >
+              <MenuOutlined className="!text-3xl" />
+            </button>
+            <h5 className="text-22 text-primary font-bold">
+              Create Furnishing Invoice
+            </h5>
           </div>
-        </Form>
-      </FormikProvider>
-    </div>
+          <div className="flex items-center gap-6">
+            <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
+              <img
+                src={userImg}
+                className="w-full h-full object-cover"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
+        <FormikProvider value={formik}>
+          <Form onSubmit={formik.handleSubmit}>
+            <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+              <SelectionGroup
+                onUserChange={handleUserChange}
+                onPropertyChange={handlePropertyChange}
+                onMonthChange={handleMonthChange}
+                onSelectedUserChange={handleSelectedUserChange}
+              />
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="">
+                  <SelectInput
+                    label="Status Select"
+                    name="status"
+                    options={optionsStatuse}
+                    placeholder="Choose an option"
+                    className="mb-4"
+                  />
+                </div>
+                <div className="">
+                  <label
+                    htmlFor="invoiceNumber"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Furnishing Invoice Number
+                  </label>
+                  <RegenerateInput
+                    value={formik.values.invoiceNumber}
+                    onChange={handleInvoiceChange(formik.setFieldValue)}
+                    generateValue={generateRandomString}
+                    className="mt-1"
+                  />
+                  {formik?.touched?.invoiceNumber &&
+                    formik?.errors?.invoiceNumber && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {formik?.errors?.invoiceNumber}
+                      </p>
+                    )}
+                </div>
+                <div className="">
+                  <Input
+                    name="receivedAmount"
+                    type="number"
+                    label="Received Amount"
+                    placeholder="Received Amount"
+                    value={formik.values.receivedAmount}
+                    onChangeValue={(value) =>
+                      formik.setFieldValue("receivedAmount", value)
+                    }
+                  />
+                  {formik.errors.receivedAmount ? (
+                    <div className="text-red-600">
+                      {formik.errors.receivedAmount}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="">
+                  <Input
+                    name="totalFurnishingCost"
+                    type="number"
+                    label="Total Furnishing Cost"
+                    placeholder="Total Furnishing Cost"
+                    value={formik.values.totalFurnishingCost}
+                    onChangeValue={(value) => {
+                      formik.setFieldValue("totalFurnishingCost", value);
+                    }}
+                  />
+                  {formik.errors.totalFurnishingCost ? (
+                    <div className="text-red-600">
+                      {formik.errors.totalFurnishingCost}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="">
+                  <Input
+                    name="amountOwedToFP"
+                    type="number"
+                    label="Amount Owed To FP"
+                    placeholder="Amount Owed To FP"
+                    value={formik.values.amountOwedToFP}
+                  />
+                  {formik.errors.amountOwedToFP ? (
+                    <div className="text-red-600">
+                      {formik.errors.amountOwedToFP}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="sm:col-span-2">
+                  <div className="">
+                    <ReactQuillInput
+                      name="furnishingDetails"
+                      label="Furnishing Details"
+                      placeholder="Write your furnishing details..."
+                    />
+                  </div>
+                </div>
+                {/* Notes */}
+                <div className="sm:col-span-2">
+                  <div className="">
+                    <ReactQuillInput
+                      name="notes"
+                      label="Notes"
+                      placeholder="Write your notes details..."
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end mt-5">
+                <button
+                  type="submit"
+                  className="bg-primary p-2 text-white rounded "
+                >
+                  {isPending ? "Submitting..." : "Submit Furnishing Invoice"}
+                </button>
+              </div>
+            </div>
+          </Form>
+        </FormikProvider>
+      </div>
+    </DataHandler>
   );
 };
 

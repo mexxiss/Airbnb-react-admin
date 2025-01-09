@@ -6,6 +6,7 @@ import searchIcon from "../../assets/icons/searchIcon.png";
 import FurnishingInvoiceList from "./FurnishingInvoiceList";
 import RevenueInvoiceList from "./RevenueInvoiceList";
 import ReusableTab from "../ReusableTab/ReusableTab";
+import MaintenanceList from "./MaintenanceForm/MaintenanceList";
 
 interface DashboardContextType {
   setIsActiveMobileMenu: (isActive: boolean) => void;
@@ -15,7 +16,6 @@ const InvoiceList: React.FC = () => {
   const { setIsActiveMobileMenu } = useContext(
     DashboardContext
   ) as DashboardContextType;
-  const [isActive, setIsActive] = useState("Revenue");
 
   const tabs = [
     {
@@ -27,6 +27,11 @@ const InvoiceList: React.FC = () => {
       key: "furnishing-list",
       label: "Furnishing Invoice List",
       Component: FurnishingInvoiceList,
+    },
+    {
+      key: "maintenance-list",
+      label: "Maintenance Invoice List",
+      Component: MaintenanceList,
     },
   ];
 

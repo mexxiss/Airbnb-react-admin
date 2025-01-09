@@ -24,6 +24,7 @@ import {
   FurnishingFormData,
   FurnishingResponseInvoice,
 } from "../types/furnishingTypes";
+import { MaintenanceFormValues } from "../types/maintenanceTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -494,6 +495,43 @@ export const fetchFurnishingDetailsById = async (
   } catch (error: any) {
     throw new Error(
       error.response?.data?.message || "Failed to fetch furnishing details."
+    );
+  }
+};
+
+export interface UtilityData {
+  _id?: string;
+  vat_tax_rate: number;
+  tourism_tax_rate: number;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+interface iResponseUtils {
+  data: UtilityData;
+}
+
+export const fetchUtilityData = async (): Promise<iResponseUtils> => {
+  const response = await axiosInstance.get<iResponseUtils>("/admin/utility"); // Adjust endpoint as per your actual route
+  return response.data;
+};
+
+// useCreateMaintenance
+
+export const createMaintenanceInvoice = async (
+  payload: MaintenanceFormValues
+) => {
+  try {
+    const response = await axiosInstance.post(
+      "/admin/maintenance-invoice",
+      payload
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create invoice"
     );
   }
 };

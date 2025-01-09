@@ -58,29 +58,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ name, formik }) => {
               </span>
             </div>
           </div>
-
-          // <div key={index} className="image-preview">
-          //   <div className="relative">
-          //     <img
-          //       className="rounded w-36 h-36"
-          //       src={image.isNew ? image.preview : image} // Use preview for new files, URL for existing
-          //       alt={`preview-${index}`}
-          //       // style={{ width: "100px", height: "100px" }}
-          //     />
-          //     <button
-          //       className="absolute top-[-6px] left-[5.5rem] transform translate-y-1/4 w-3.5 h-3.5 rounded-full"
-          //       type="button"
-          //       onClick={() => handleRemoveImage(index)}
-          //       style={{ display: "block", margin: "10px auto" }}
-          //     >
-          //       <DeleteIcon
-          //         size={20}
-          //         color="red"
-          //         className="hover:opacity-75"
-          //       />
-          //     </button>
-          //   </div>
-          // </div>
         ))}
       </div>
       {formik.touched[name] && formik.errors[name] && (

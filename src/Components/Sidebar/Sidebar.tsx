@@ -8,6 +8,7 @@ import settingIcon from "../../assets/icons/settingIcon.png";
 import changepassword from "../../assets/icons/changepassword.png";
 import LogoutButton from "../Logout/LogoutButton";
 import { KeyboardArrowDownOutlined } from "@mui/icons-material";
+import { useQueryParams } from "../../hooks/custom-hook/useQueryParams";
 
 interface SidebarProps {
   isActiveMenu: boolean;
@@ -15,6 +16,7 @@ interface SidebarProps {
 
 const Sidebar = ({ isActiveMenu }: SidebarProps) => {
   const location = useLocation();
+  const { updateQueryParams } = useQueryParams("tab");
 
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isInvoicesOpen, setIsInvoicesOpen] = useState(false);
@@ -196,6 +198,7 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
               <ul className="ml-10">
                 <li>
                   <NavLink
+                    onClick={() => updateQueryParams("revenue-list")}
                     to="/admin/invoices"
                     className={({ isActive }) =>
                       `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
@@ -210,6 +213,7 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                 </li>
                 <li>
                   <NavLink
+                    onClick={() => updateQueryParams("revenue")}
                     to="/admin/invoice/create"
                     className={({ isActive }) =>
                       `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${

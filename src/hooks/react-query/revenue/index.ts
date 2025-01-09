@@ -4,3 +4,4 @@ export * from "./useFetchFurnishingInvoice";
 export * from "./useFetchRevenue";
 export * from "./useFetchRevenueList";
 export * from "./useUpdateFurnishingInvoice";
+export * from "./useFetchTexData";

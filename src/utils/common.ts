@@ -162,3 +162,18 @@ export const stripHtml = (html: string): string => {
 export function formatWithCommas(num: number): string {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export const calculateSubtotalAndVAT = (
+  works: Array<{ priceSummary: number }>,
+  vatPercentage: number
+): { subtotal: number; vatTax: number; total: number } => {
+  const subtotal = works.reduce(
+    (subtotal, work) => subtotal + work.priceSummary,
+    0
+  );
+
+  const vatTax = (subtotal * (vatPercentage || 0)) / 100;
+  const total = subtotal + vatTax;
+
+  return { subtotal, vatTax, total };
+};

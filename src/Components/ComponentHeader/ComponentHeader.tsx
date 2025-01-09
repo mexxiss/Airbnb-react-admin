@@ -29,9 +29,9 @@ const ComponentHeader: React.FC<ComponentHeaderProps> = ({
         <h5 className="text-22 text-primary font-bold">{title}</h5>
       </div>
       <div className="flex items-center gap-6">
-        <Link to={linkTo} className="text-22 text-primary">
+        {/* <Link to={linkTo} className="text-22 text-primary">
           {linkText}
-        </Link>
+        </Link> */}
         <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
           <img
             src={userImage}

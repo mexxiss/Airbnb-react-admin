@@ -41,8 +41,8 @@ const MaintenanceInvoiceGenerator = ({
         statement_type: "maintenance",
         net_amount_to_pay: invoiceData?.receivedAmount ?? 0,
         property:
-          typeof invoiceData?.property_id === "string"
-            ? invoiceData.property_id
+          typeof invoiceData?.property_id._id === "string"
+            ? invoiceData.property_id._id
             : "",
         received_amount: invoiceData?.receivedAmount ?? 0,
         title: `${invoiceData?.taxInvoiceNumber}`,

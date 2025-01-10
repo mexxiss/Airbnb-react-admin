@@ -24,6 +24,8 @@ import DataHandler from "../../ErrorHandleMessage/DataHandler";
 import ReactQuillInput from "../../ReactQuillInput/ReactQuillInput";
 import { useFetchMaintenanceById } from "../../../hooks/react-query/revenue/useFetchMaintenanceById";
 import { useUpdateMaintenance } from "../../../hooks/react-query/revenue";
+import { User } from "../../../types/usersTypes";
+import EssentialWorksField from "../../EssentialWorksField/EssentialWorksField";
 
 const uploadFileHandler = async (folder = "maintenance", file: File) => {
   const { imageUrl } = await uploadFile(folder, file);
@@ -37,16 +39,46 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
   };
 
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedProperty, setSelectedProperty] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
 
   const { data, isLoading, isError, error } = useFetchMaintenanceById({
     id: id || "",
   });
   const { mutate: updateMaintenance, isPending } = useUpdateMaintenance();
 
+  const [selectedProperty, setSelectedProperty] = useState<
+    string | number | (string | number)[]
+  >(data?.property_id._id || "");
+
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    data?.statementPeriod || ""
+  );
+
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      setSelectedValue(data?.property_id?.user || "");
+      setSelectedProperty(data.property_id._id || "");
+      setSelectedMonth(data.statementPeriod);
+    }
+  }, [data]);
+
+  const handleSelectedUserChange = (user: User | null) => setCurrentUser(user);
+  const handleUserChange = (value: string | number | (string | number)[]) =>
+    setSelectedValue(value as any);
+  const handlePropertyChange = (value: string | number | (string | number)[]) =>
+    setSelectedProperty(value);
+  const handleMonthChange = (value: string) => setSelectedMonth(value);
+
+  const initialValuesData = {
+    selectedValue: selectedValue || "",
+    selectedProperty: selectedProperty || "",
+    selectedMonth: selectedMonth || "",
+    selectedUser: currentUser,
+  };
+
   const initialValues: MaintenanceFormValues = {
-    property_id: data?.property_id || "",
+    property_id: data?.property_id._id || "",
     essentialWorksImages: data?.essentialWorksImages || [
       { url: "", work_name: "" },
     ],
@@ -68,7 +100,7 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
     totalMaintenceCost: data?.totalMaintenceCost || 0,
     receivedAmount: data?.receivedAmount || 0,
     amountOwedToFP: data?.amountOwedToFP || 0,
-    bank_details: data?.bank_details || "",
+    bank_details: data?.bank_details._id || "",
     notes: data?.notes || "",
     statementPeriod: data?.statementPeriod || "",
   };
@@ -121,9 +153,11 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
         />
         <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
           <SelectionGroup
-            onUserChange={setSelectedValue}
-            onPropertyChange={setSelectedProperty}
-            onMonthChange={setSelectedMonth}
+            onUserChange={handleUserChange}
+            onPropertyChange={handlePropertyChange}
+            onMonthChange={handleMonthChange}
+            onSelectedUserChange={handleSelectedUserChange}
+            initialValues={initialValuesData}
           />
           <FormikProvider value={formik}>
             <Form onSubmit={formik.handleSubmit}>
@@ -146,11 +180,34 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
                     disabled
                   />
                 </div>
+                <EssentialWorksField
+                  values={formik.values.essentialWorks}
+                  onChange={formik.handleChange}
+                  setFieldValue={formik.setFieldValue}
+                />
 
                 <FieldArray
                   name="essentialWorksImages"
                   render={(arrayHelpers) => (
-                    <div>
+                    <div className="p-4 space-y-4 bg-white rounded-lg shadow-sm">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          Essential Works Images
+                        </h3>
+                        <button
+                          className="bg-primary p-2 rounded flex items-center gap-2 text-white hover:bg-[#967e56] transition-colors"
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push({
+                              url: "",
+                              work_name: "",
+                            })
+                          }
+                        >
+                          <AddPhotoAlternateIcon /> Add Image
+                        </button>
+                      </div>
+
                       {formik.values.essentialWorksImages.map(
                         (image, index) => (
                           <ImageUploadField
@@ -162,29 +219,34 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
                             }
                             onRemove={() => arrayHelpers.remove(index)}
                             uploadFile={uploadFileHandler}
+                            onRemoveEmpty={() => {
+                              const index =
+                                formik.values.essentialWorksImages.findIndex(
+                                  (image) => !image.url && !image.work_name
+                                );
+                              if (index !== -1) {
+                                arrayHelpers.remove(index);
+                              }
+                            }}
                           />
                         )
                       )}
-                      <button
-                        type="button"
-                        onClick={() =>
-                          arrayHelpers.push({ url: "", work_name: "" })
-                        }
-                      >
-                        Add Image
-                      </button>
                     </div>
                   )}
                 />
               </div>
+              <div className="p-4 space-y-4 bg-white rounded-lg shadow-sm mt-5">
+                <ReactQuillInput
+                  name="notes"
+                  label="Notes"
+                  placeholder="Write your notes details..."
+                />
+              </div>
 
-              <ReactQuillInput
-                name="notes"
-                label="Notes"
-                placeholder="Write your notes details..."
-              />
-
-              <button type="submit">
+              <button
+                type="submit"
+                className="mt-6 bg-primary p-2 rounded flex items-center gap-2 text-white hover:bg-[#967e56] transition-colors w-full text-center"
+              >
                 {isPending ? "Updating..." : "Update"}
               </button>
             </Form>

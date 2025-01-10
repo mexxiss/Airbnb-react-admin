@@ -3,7 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import EllipsisTooltip from "../../Components/EllipsisTooltip/EllipsisTooltip";
 import ActionButtonGroup from "../../Components/ActionButtonGroup/ActionButtonGroup";
-import FurnishingInvoiceGenerator from "../../Components/Invoice/FurnishingInvoiceGenerator";
+import MaintenanceInvoiceGenerator from "../../Components/Invoice/MaintenanceForm/MaintenanceInvoiceGenerator";
 
 export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
   {
@@ -28,21 +28,33 @@ export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
     key: "totalMaintenceCost",
     label: "Total Maintenance Cost",
     minWidth: "150px",
+    render: (rowData: any) => {
+      return <p>{rowData?.toFixed(2)}</p>;
+    },
   },
   {
     key: "amountOwedToFP",
     label: "Balance",
     minWidth: "100px",
+    render: (rowData: any) => {
+      return <p>{rowData?.toFixed(2)}</p>;
+    },
   },
   {
     key: "subtotal",
     label: "Sub Total",
     minWidth: "50px",
+    render: (rowData: any) => {
+      return <p>{rowData?.toFixed(2)}</p>;
+    },
   },
   {
     key: "tax",
     label: "Tax",
     minWidth: "50px",
+    render: (rowData: any) => {
+      return <p>{rowData?.toFixed(2)}</p>;
+    },
   },
   {
     key: "actions",
@@ -50,13 +62,11 @@ export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
     minWidth: "100px",
     render: (rowData: any) => {
       const handleView = () => {
-        alert("view");
-        // navigate(`/admin/invoice/furnishing-details/${rowData._id}`);
+        navigate(`/admin/invoice/maintenance-details/${rowData._id}`);
       };
 
       const handleEdit = () => {
-        alert("edit");
-        // navigate(`/admin/invoice/furnishing-details/${rowData._id}/edit`);
+        navigate(`/admin/invoice/maintenance-details/${rowData._id}/edit`);
       };
 
       return (
@@ -75,7 +85,7 @@ export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
     label: "Download",
     minWidth: "100px",
     render: (rowData: any) => {
-      return <FurnishingInvoiceGenerator invoiceData={rowData} />;
+      return <MaintenanceInvoiceGenerator invoiceData={rowData} />;
     },
   },
 ];

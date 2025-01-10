@@ -29,6 +29,8 @@ import FurnishingInvoiceEdit from "./Components/Invoice/FurnishingInvoiceEdit.ts
 import FurnishingPdfViewr from "./Components/Invoice/FurnishingPdfViewr.tsx";
 import MontlyRevenuePdfViewr from "./Components/Invoice/MontlyRevenuePdfViewr.tsx";
 import MaintenanceInvoiceDetails from "./Components/Invoice/MaintenanceForm/MaintenanceInvoiceDetails.tsx";
+import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/MaintenancePdfViewer.tsx";
+import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -152,11 +154,20 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+
         {
           path: "invoice/maintenance-details/:id",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <MaintenanceInvoiceDetails />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "invoice/maintenance-details/:id/edit",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <MaintenanceFormEdit />
             </ProtectedRoute>
           ),
         },
@@ -207,6 +218,14 @@ const App = () => {
       element: (
         <ProtectedRoute roles={["Admin", "Owner"]}>
           <FurnishingPdfViewr />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "invoice/maintenance-pdf-view/:id",
+      element: (
+        <ProtectedRoute roles={["Admin", "Owner"]}>
+          <MaintenancePdfViewer />
         </ProtectedRoute>
       ),
     },

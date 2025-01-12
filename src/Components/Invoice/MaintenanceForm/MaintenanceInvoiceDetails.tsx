@@ -149,7 +149,7 @@ const MaintenanceInvoiceDetails = () => {
                                     </table>
                                 </div>
                             </div>
-                            <div className="mt-8">
+                            <div className="mt-10">
                                 <div>
                                     <h6 className='font-semibold'>BANK DETAILS</h6>
                                     <div className='mt-2'>
@@ -178,7 +178,7 @@ const MaintenanceInvoiceDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-12">
+                            <div className="mt-10">
                                 <h4 className='font-semibold'>Essential Works Photos (1/2)</h4>
                                 <div className="grid grid-cols-3 gap-2 mt-2">
                                     <div className='border border-primary p-2 rounded bg-primary bg-opacity-10'>

@@ -57,7 +57,7 @@ jobs:
             
             # Step 4: Run a new container with environment variables
             docker run -d \
-              -p 5173:80 \
+              -p 5174:80 \
               --name airbnb-management-admin-frontend-container \
               --restart unless-stopped \
               ${{ secrets.DOCKER_USERNAME }}/airbnb-management-admin-frontend:${{ github.sha }}

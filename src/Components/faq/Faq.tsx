@@ -1,7 +1,7 @@
 import { useState } from "react";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import { Accordion, Modal } from "flowbite-react";
-import { CloseOutlined } from "@mui/icons-material";
+import { CloseOutlined, EditOutlined } from "@mui/icons-material";
 import { pageArrs } from "./utils/mock/static";
 import CustomSelectInput from "../SelectInput/CustomSelectInput";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ const Faq = () => {
     value: page,
     label: page.charAt(0).toUpperCase() + page.slice(1),
   }));
+  const [isActive, setIsActive] = useState(pageArrs[0]);
 
   const formik = useFormik({
     initialValues: {
@@ -62,16 +63,35 @@ const Faq = () => {
             </button>
           </div>
         </div>
+        <div className="mb-6">
+          <ul className="flex flex-wrap gap-2 overflow-x-auto pb-3">
+            {pageArrs.map((e) => (
+              <li
+                className={`capitalize text-sm text-nowrap py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === e
+                  ? " bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                  : "border-border1 text-text2"
+                  }`}
+                onClick={() => setIsActive(e)}
+              >
+                {e}
+              </li>
+
+            ))}
+          </ul>
+        </div>
         <div>
-          <Accordion collapseAll>
+          <Accordion collapseAll className="!border-none">
             {Array(3)
               .fill(0)
               .map((_, index) => (
-                <Accordion.Panel key={index}>
-                  <Accordion.Title className="bg-white hover:bg-white py-4 px-3">
-                    What is Flowbite?
-                  </Accordion.Title>
-                  <Accordion.Content>
+                <Accordion.Panel key={index} className="!border-none">
+                  <div className="flex items-center justify-between gap-3">
+                    <Accordion.Title className="bg-white hover:bg-white py-4 px-3 !border-none">
+                      What is Flowbite?
+                    </Accordion.Title>
+                    <button className="" onClick={() => setOpenModal(true)}><EditOutlined className="!text-xl" /></button>
+                  </div>
+                  <Accordion.Content className="!border-none">
                     <p className="mb-2 text-gray-500 dark:text-gray-400">
                       Flowbite is an open-source library of interactive
                       components built on top of Tailwind CSS including buttons,
@@ -109,9 +129,8 @@ const Faq = () => {
             <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <h2 className="text-xl font-bold mb-4">Select Pages</h2>
                   <CustomSelectInput
-                    label="Pages"
+                    label="Select Page"
                     options={options}
                     isMulti={true}
                     value={formik.values.page}
@@ -121,10 +140,10 @@ const Faq = () => {
                         Array.isArray(value) ? value : [value]
                       )
                     }
-                    placeholder="Select pages"
+                    placeholder="Select page"
                     error={
                       formik.touched.page &&
-                      typeof formik.errors.page === "string"
+                        typeof formik.errors.page === "string"
                         ? formik.errors.page
                         : undefined
                     }

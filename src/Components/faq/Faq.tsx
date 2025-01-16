@@ -89,7 +89,7 @@ const Faq = () => {
                     <Accordion.Title className="bg-white hover:bg-white py-4 px-3 !border-none">
                       What is Flowbite?
                     </Accordion.Title>
-                    <button className=""><EditOutlined className="!text-xl" /></button>
+                    <button className="" onClick={() => setOpenModal(true)}><EditOutlined className="!text-xl" /></button>
                   </div>
                   <Accordion.Content className="!border-none">
                     <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -129,9 +129,8 @@ const Faq = () => {
             <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <h2 className="text-xl font-bold mb-4">Select Pages</h2>
                   <CustomSelectInput
-                    label="Pages"
+                    label="Select Page"
                     options={options}
                     isMulti={true}
                     value={formik.values.page}
@@ -141,7 +140,7 @@ const Faq = () => {
                         Array.isArray(value) ? value : [value]
                       )
                     }
-                    placeholder="Select pages"
+                    placeholder="Select page"
                     error={
                       formik.touched.page &&
                         typeof formik.errors.page === "string"

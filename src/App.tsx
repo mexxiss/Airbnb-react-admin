@@ -211,6 +211,14 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+        {
+          path: "setting/faq",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <AdminAboutSettings />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
     {

@@ -176,6 +176,20 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                     Terms & Conditions
                   </NavLink>
                 </li>
+                <li className="">
+                  <NavLink
+                    to="/admin/setting/faq"
+                    className={({ isActive }) =>
+                      `flex gap-3 items-center text-[#8B8B8B] px-5 text-nowrap py-2 ${
+                        isActive
+                          ? "imgColor before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-white before:rounded-full"
+                          : ""
+                      }`
+                    }
+                  >
+                    FAQ
+                  </NavLink>
+                </li>
               </ul>
             )}
           </li>

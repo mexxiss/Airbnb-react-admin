@@ -24,7 +24,10 @@ import {
   FurnishingFormData,
   FurnishingResponseInvoice,
 } from "../types/furnishingTypes";
-import { MaintenanceFormValues } from "../types/maintenanceTypes";
+import {
+  MaintenanceFormValues,
+  MaintenanceResponseValues,
+} from "../types/maintenanceTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -545,14 +548,14 @@ export const fetchMaintenanceInvoiceList = async (): Promise<any> => {
 
 export const fetchMaintenanceInvoiceDetailsById = async (
   id: string
-): Promise<MaintenanceFormValues> => {
+): Promise<MaintenanceResponseValues> => {
   if (!id) {
     throw new Error("Furnishing ID is required.");
   }
 
   try {
     const response: AxiosResponse<
-      ApiResponseFurnishingDetails<MaintenanceFormValues>
+      ApiResponseFurnishingDetails<MaintenanceResponseValues>
     > = await axiosInstance.get(`/admin/maintenance-invoice/${id}`);
 
     return response.data.data; // Extract the furnishing details

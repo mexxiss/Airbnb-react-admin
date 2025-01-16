@@ -375,11 +375,10 @@ const Users: React.FC = () => {
                         (_, index) => (
                           <li key={index}>
                             <button
-                              className={`${
-                                page === index + 1
+                              className={`${page === index + 1
                                   ? "text-white bg-[#040404]"
                                   : "text-text2"
-                              } w-10 h-10 rounded-full flex items-center justify-center`}
+                                } w-10 h-10 rounded-full flex items-center justify-center`}
                               onClick={() => setPage(index + 1)}
                             >
                               {index + 1}

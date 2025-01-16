@@ -31,6 +31,7 @@ import MontlyRevenuePdfViewr from "./Components/Invoice/MontlyRevenuePdfViewr.ts
 import MaintenanceInvoiceDetails from "./Components/Invoice/MaintenanceForm/MaintenanceInvoiceDetails.tsx";
 import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/MaintenancePdfViewer.tsx";
 import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
+import Faq from "./Components/faq/Faq.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -215,7 +216,7 @@ const App = () => {
           path: "setting/faq",
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
-              <AdminAboutSettings />
+              <Faq />
             </ProtectedRoute>
           ),
         },

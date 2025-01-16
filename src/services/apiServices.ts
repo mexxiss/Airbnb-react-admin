@@ -28,6 +28,7 @@ import {
   MaintenanceFormValues,
   MaintenanceResponseValues,
 } from "../types/maintenanceTypes";
+import { Faq } from "../types/faqTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -581,4 +582,9 @@ export const updateMaintenanceInvoice = async (
       error.response?.data?.message || "Failed to create invoice"
     );
   }
+};
+
+export const createFaq = async (faq: Faq): Promise<Faq> => {
+  const response = await axiosInstance.post("/admin/faqs", faq);
+  return response.data;
 };

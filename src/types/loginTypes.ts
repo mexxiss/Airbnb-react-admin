@@ -21,6 +21,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   accessToken: string;
+  profile_img?: string;
 }
 
 export interface ChangePasswordProps {

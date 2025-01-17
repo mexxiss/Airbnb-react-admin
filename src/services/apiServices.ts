@@ -60,6 +60,12 @@ export const updateUserDetails = async (
   const response = await axiosInstance.put(`/admin/users/${id}`, data);
   return response.data;
 };
+export const updateAminDetails = async (
+  data: Record<string, any>
+): Promise<any> => {
+  const response = await axiosInstance.put(`/admin/update-profile`, data);
+  return response.data;
+};
 
 // Example: Logout Method
 export const logout = async (): Promise<any> => {

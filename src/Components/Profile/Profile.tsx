@@ -2,21 +2,73 @@ import userImg2 from "../../assets/images/userImg2.png";
 import { EditOutlined } from "@mui/icons-material";
 import { Form, FormikProvider, useFormik } from "formik";
 import Input from "../Input/Input";
+import { useUpdateDetails } from "../../hooks/react-query/users-queries/useUpdateDetails";
+import { useState } from "react";
+import { uploadFile } from "../../services/apiServices";
+import useAuthStore from "../../store/authStore";
+import { useUploadFile } from "../../hooks/react-query/upload-files/useUploadFile";
 
 const Profile = () => {
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      dateOfBirth: '',
-      about: ''
-    },
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      console.log(values);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const { setUser, user } = useAuthStore();
 
+  const { mutate: updateUser, isPending } = useUpdateDetails();
+  const { mutate: uploadFile, isPending: isPendingUpload } = useUploadFile();
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     email: "",
+  //     dateOfBirth: "",
+  //     about: "",
+  //   },
+  //   enableReinitialize: true,
+  //   onSubmit: async (values) => {
+  //     console.log(values);
+  //   },
+  // });
+
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setSelectedFile(file);
+
+    const fileUrl = URL.createObjectURL(file);
+    setPreviewUrl(fileUrl);
+  };
+
+  const handleSubmitData = async () => {
+    try {
+      if (selectedFile) {
+        uploadFile(
+          {
+            folder: "update-profile",
+            file: selectedFile,
+          },
+          {
+            onSuccess: (data) => {
+              const dataUrl = { data: { profile_img: data?.imageUrl } };
+              updateUser(dataUrl, {
+                onSuccess: (data) => {
+                  setUser({ ...user, ...data?.data });
+                  setPreviewUrl(null);
+                  setSelectedFile(null);
+                  setPreviewUrl(null);
+                },
+              });
+            },
+          }
+        );
+      }
+    } catch (error) {
+      console.log({ error });
     }
-  })
+  };
+
   return (
     <div>
       <div className=" px-6 pt-6 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
@@ -25,47 +77,53 @@ const Profile = () => {
           <div className="lg:mt-6 flex items-center justify-between">
             <p className="text-lg font-medium">Edit Profile</p>
             <div className="flex items-center gap-4">
-              <button type="button" className="border border-red-600 text-red-600 h-9 sm:h-10 px-4 sm:px-10 rounded-lg hover:bg-red-600 hover:text-white duration-300">
-                Discard
-              </button>
-              <button type="submit" className="border border-primary bg-primary text-white h-9 sm:h-10 px-4 sm:px-10 rounded-lg hover:bg-[#00858ed1] duration-300">
-                Save
+              <button
+                onClick={handleSubmitData}
+                className="border border-primary bg-primary text-white h-9 sm:h-10 px-4 sm:px-10 rounded-lg hover:bg-[#00858ed1] duration-300"
+              >
+                {isPendingUpload || isPending ? "Saving..." : "Save"}
               </button>
             </div>
-          </div><div className="mt-6 grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
+          </div>
+          <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
             <div>
               <div className="bg-[#F7F7F7] rounded-2xl py-4 px-4 shadow">
                 <div className="flex flex-col xs:flex-row item-center gap-3 xs:gap-6">
                   <div>
                     <div className="w-max mx-auto flex items-center justify-center xs:block relative cursor-pointer">
                       <img
-                        src={userImg2}
+                        src={user?.profile_img || previewUrl || userImg2}
                         className="min-w-20 w-20 h-20 rounded-full object-cover"
                         alt=""
                       />
                       <input
                         type="file"
-                        // id="addPhotos"
+                        id="addPhotos"
                         className="hidden"
+                        onChange={handleFileUpload}
                       />
-                      <span className="absolute bottom-0 -right-2"><EditOutlined /></span>
+                      <label
+                        htmlFor="addPhotos"
+                        className="absolute bottom-0 -right-2 cursor-pointer"
+                      >
+                        <EditOutlined />
+                      </label>
                     </div>
                   </div>
                   <div className="xs:self-center text-center xs:text-start">
                     <p className="text-xl font-medium text-[#1D1A22] mb-1">
-                      Inder
+                      {user?.first_name} {user?.last_name}
                     </p>
-                    <p className="text-[#77767A]">inder@gmail.com</p>
+                    <p className="text-[#77767A]">{user?.email[0]}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="">
+            {/* <div className="">
               <div className="bg-[#F7F7F7] rounded-2xl py-4 px-4 shadow">
                 <p className="text-lg font-medium">Personal Information</p>
-                <div className="mt-3.5">
-                </div >
-                {/* <form> */}
+                <div className="mt-3.5"></div>
+
                 <FormikProvider value={formik}>
                   <Form onSubmit={formik.handleSubmit}>
                     <div className="mb-5">
@@ -95,20 +153,17 @@ const Profile = () => {
                         type="date"
                         label="Date of Birth"
                         labelClass="text-[#77767A] "
-
                       />
                     </div>
                   </Form>
                 </FormikProvider>
               </div>
-              {/* </form> */}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default Profile
+export default Profile;

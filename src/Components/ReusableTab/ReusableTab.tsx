@@ -45,11 +45,10 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
   const renderButton = (tab: TabConfig) => (
     <button
       key={tab.key}
-      className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-        searchParams.get("tab") === tab.key
-          ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
-          : "border-border1 text-text2"
-      }`}
+      className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${searchParams.get("tab") === tab.key
+        ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+        : "border-border1 text-text2"
+        }`}
       onClick={() => updateQueryParams(tab.key)}
     >
       {tab.label}
@@ -60,7 +59,7 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
 
   return (
     <div>
-      <div className="m-8 flex gap-2">
+      <div className="mb-8 flex gap-2">
         {tabs.map((tab) => renderButton(tab))}
       </div>
       <div>{activeTab && <activeTab.Component />}</div>

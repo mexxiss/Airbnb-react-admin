@@ -71,7 +71,7 @@ const AdminChangePassword = () => {
           <img src={userImg} className="w-full h-full object-cover" alt="" />
         </button>
       </div>
-      <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
         <div className="flex items-center justify-center">
           <form
             className="mt-5 w-full max-w-[420px]"

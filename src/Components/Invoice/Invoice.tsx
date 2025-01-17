@@ -23,7 +23,7 @@ const Invoice = () => {
   ];
 
   return (
-    <div>
+    <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
       <ReusableTab tabs={tabs} includesPathname="invoice" />
     </div>
   );

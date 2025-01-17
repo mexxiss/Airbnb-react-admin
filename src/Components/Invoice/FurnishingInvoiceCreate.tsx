@@ -1,13 +1,9 @@
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import userImg from "../../assets/images/userImg.png";
-import { DashboardContext } from "../../ContextApi";
-import { MenuOutlined } from "@mui/icons-material";
 import { User } from "../../types/usersTypes";
 import { SelectionGroup } from "../SelectionGroup/SelectionGroup";
 import useAuthStore from "../../store/authStore";
@@ -24,13 +20,7 @@ import { useFetchBankDetailById } from "../../hooks/react-query/bank-details-que
 import DataHandler from "../ErrorHandleMessage/DataHandler";
 import { useCreateFurnishingInvoice } from "../../hooks/react-query/revenue/useCreateFurnishingInvoice";
 
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
 const FurnishingInvoiceCreate = () => {
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
 
   const { user } = useAuthStore();
   const {
@@ -128,31 +118,12 @@ const FurnishingInvoiceCreate = () => {
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
       <div>
-        <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              className="lg:hidden hover:text-primary active:text-primary"
-              onClick={() => setIsActiveMobileMenu(true)}
-            >
-              <MenuOutlined className="!text-3xl" />
-            </button>
-            <h5 className="text-22 text-primary font-bold">
-              Create Furnishing Invoice
-            </h5>
-          </div>
-          <div className="flex items-center gap-6">
-            <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
-              <img
-                src={userImg}
-                className="w-full h-full object-cover"
-                alt=""
-              />
-            </button>
-          </div>
-        </div>
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
-            <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+            <div>
+              <div className="mb-5">
+                <h5 className="text-22 text-primary font-bold">Create Furnishing Invoice</h5>
+              </div>
               <SelectionGroup
                 onUserChange={handleUserChange}
                 onPropertyChange={handlePropertyChange}

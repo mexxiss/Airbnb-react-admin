@@ -1,9 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import users from "../../assets/icons/users.png";
 import properties from "../../assets/icons/properties.png";
-import userImg from "../../assets/images/userImg.png";
-import { MenuOutlined } from "@mui/icons-material";
-import { DashboardContext, DashboardContextType } from "../../ContextApi";
 import CityDistributionChart from "../charts/pie-charts/CityDistributionChart";
 import { colors } from "../../theme/colors";
 import InfoCard from "../InfoCard/InfoCard";
@@ -31,10 +28,6 @@ type DateOption = {
 };
 
 const Dashboard: React.FC = () => {
-  // Context for mobile menu
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
 
   type SelectedKeySelect = "weekly" | "monthly" | "yearly";
 
@@ -124,28 +117,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button
-            className="lg:hidden hover:text-primary active:text-primary"
-            onClick={() => setIsActiveMobileMenu(true)}
-          >
-            <MenuOutlined className="!text-3xl" />
-          </button>
-          <h5 className="text-22 text-primary font-bold">Dashboard</h5>
-        </div>
-        <div>
-          <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
-            <img
-              src={userImg}
-              className="w-full h-full object-cover"
-              alt="User"
-            />
-          </button>
-        </div>
-      </div>
-
-      <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
+        <h5 className="text-22 text-primary font-bold mb-5">Dashboard</h5>
         <div className="2xl:flex gap-5">
           <div className="2xl:w-[75%]">
             <div className="flex flex-wrap sm:grid grid-cols-2 lg:flex gap-5">
@@ -227,9 +200,8 @@ const Dashboard: React.FC = () => {
                   <HorizontalCard
                     icon={users}
                     count={data?.totalUsers || 0}
-                    label={`Total ${
-                      data?.totalUsers === 1 ? "User" : "Users"
-                    } `}
+                    label={`Total ${data?.totalUsers === 1 ? "User" : "Users"
+                      } `}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"
@@ -238,9 +210,8 @@ const Dashboard: React.FC = () => {
                   <HorizontalCard
                     icon={properties}
                     count={data?.totalBookings || 0}
-                    label={`Total Book${
-                      data?.totalBookings === 1 ? "ing" : "ings"
-                    }`}
+                    label={`Total Book${data?.totalBookings === 1 ? "ing" : "ings"
+                      }`}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"

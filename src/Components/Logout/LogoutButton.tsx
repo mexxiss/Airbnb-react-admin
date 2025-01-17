@@ -40,7 +40,7 @@ const LogoutButton: React.FC<LogoutProps> = ({ isActiveMenu }) => {
     <div className="px-6 mt-6">
       <div className="pt-10 border-t border-[#DDDEED] px-2">
         <button
-          className="flex items-center gap-3 text-[#8B8B8B]"
+          className="flex items-center gap-3 text-white"
           onClick={handleConfirmation}
         >
           <img src={logoutImg} className=" w-6" alt="" />

@@ -34,7 +34,7 @@ const MaintenanceInvoiceDetails = () => {
           onMenuClick={() => setIsActiveMobileMenu(true)}
         />
 
-        <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+        <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
           <div className="">
             <div className="">
               <Link

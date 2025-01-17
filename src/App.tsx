@@ -108,14 +108,6 @@ const App = () => {
           ),
         },
         {
-          path: "sellers",
-          element: (
-            <ProtectedRoute roles={["Admin"]}>
-              <Sellers />
-            </ProtectedRoute>
-          ),
-        },
-        {
           path: "properties",
           element: (
             <ProtectedRoute roles={["Admin"]}>

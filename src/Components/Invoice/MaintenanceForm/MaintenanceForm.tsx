@@ -28,9 +28,6 @@ import { calculateSubtotalAndVAT } from "../../../utils/common";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
 import ReactQuillInput from "../../ReactQuillInput/ReactQuillInput";
 import { useCreateMaintenance } from "../../../hooks/react-query/revenue/useCreateMaintenance";
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
 
 const uploadFileHandler = async (
   folder: string = "maintenance",
@@ -40,9 +37,6 @@ const uploadFileHandler = async (
   return { imageUrl };
 };
 const MaintenanceForm: React.FC = () => {
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
 
   const { user } = useAuthStore();
   const {
@@ -167,14 +161,10 @@ const MaintenanceForm: React.FC = () => {
       ]}
     >
       <div>
-        <ComponentHeader
-          title="Maintenance Page"
-          linkText=""
-          linkTo="/admin/invoices"
-          userImage={userImg}
-          onMenuClick={() => setIsActiveMobileMenu(true)}
-        />
-        <div className="px-6 lg:px-10 h-[calc(100vh_-_110px)] overflow-y-auto pb-10">
+        <div className="">
+          <div className="mb-5">
+            <h5 className="text-22 text-primary font-bold">Create Maintenance Invoice</h5>
+          </div>
           <SelectionGroup
             onUserChange={handleUserChange}
             onPropertyChange={handlePropertyChange}

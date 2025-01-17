@@ -289,11 +289,11 @@ const MaintenanceInvoicePdf = ({
           }}
         >
           <Text>Bank Details</Text>
-          <Text>Account Holder: {invoice.bank_details.accountHolderName}</Text>
-          <Text>Account Number: {invoice.bank_details.accountNumber}</Text>
-          <Text>Bank: {invoice.bank_details.bankName}</Text>
-          <Text>IBAN: {invoice.bank_details.iban}</Text>
-          <Text>SWIFT Code: {invoice.bank_details.swiftCode}</Text>
+          <Text>Account Holder: {invoice.bank_details?.accountHolderName}</Text>
+          <Text>Account Number: {invoice.bank_details?.accountNumber}</Text>
+          <Text>Bank: {invoice.bank_details?.bankName}</Text>
+          <Text>IBAN: {invoice.bank_details?.iban}</Text>
+          <Text>SWIFT Code: {invoice.bank_details?.swiftCode}</Text>
         </View>
 
         {/* Essential Works Photos */}

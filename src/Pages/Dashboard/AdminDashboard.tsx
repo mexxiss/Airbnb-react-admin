@@ -1,62 +1,63 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./AdminDashboard.css";
+import userImg2 from "../../assets/images/userImg2.png"
+import whiteLogo from "../../assets/images/whiteLogo.png"
 import {
-  KeyboardArrowLeftOutlined,
-  KeyboardArrowRightOutlined,
+  MenuOutlined,
 } from "@mui/icons-material";
 import MobileMenu from "../../Components/Sidebar/MobileMenu";
-import { DashboardContext } from "../../ContextApi";
+
 
 const AdminDashboard: React.FC = () => {
   const [isActiveMenu, setIsActiveMenu] = useState<boolean>(false);
-  const [isActiveMobileMenu, setIsActiveMobileMenu] = useState<boolean>(false);
 
   const handleToggle = (): void => {
     setIsActiveMenu(!isActiveMenu);
   };
 
   return (
+
     <div>
-      <div className="max-w-[1440px] mx-auto">
-        <div className="flex">
+      <div className="max-w-[1640px] mx-auto">
+        <div className="relative w-full">
           <div
-            className={`hidden lg:block ${
-              isActiveMenu ? "min-w-[86px] w-[86px]" : "min-w-[250px] w-[250px]"
-            } duration-100 h-screen rounded-r-[30px] bg-white relative`}
+            className={`absolute top-0 left-0  hidden lg:block border-[#c0a679] overflow-x-hidden ${isActiveMenu ? "w-0" : "w-[220px] border-r"
+              } duration-100 h-screen bg-[#8e7344]`}
           >
-            {/* <button
-              className="w-10 h-10 rounded-full border-[#4E307A1A] bg-white border-2 flex items-center justify-center absolute -right-5 top-1/2 -translate-y-1/2 text-primary"
-              onClick={handleToggle}
-            >
-              {isActiveMenu ? (
-                <KeyboardArrowRightOutlined />
-              ) : (
-                <KeyboardArrowLeftOutlined />
-              )}
-            </button> */}
             <Sidebar isActiveMenu={isActiveMenu} />
           </div>
-          <MobileMenu
-            isActiveMobileMenu={isActiveMobileMenu}
-            setIsActiveMobileMenu={setIsActiveMobileMenu}
-          />
+          <MobileMenu />
           <div
-            className={`${
-              isActiveMenu
-                ? "w-full lg:w-[calc(100%_-_86px)]"
-                : "w-full lg:w-[calc(100%_-_250px)]"
-            } `}
+            className={`duration-200 ${isActiveMenu
+              ? "w-full lg:pl-0"
+              : "w-full lg:pl-[220px]"
+              }`}
           >
-            <DashboardContext.Provider
-              value={{
-                isActiveMobileMenu,
-                setIsActiveMobileMenu,
-              }}
-            >
-              <Outlet />
-            </DashboardContext.Provider>
+            <div className="px-6 py-[20px] flex items-center justify-between border-b border-gray-300 bg-[#8e7344]">
+              <div className="flex items-center gap-3">
+                <button
+                  className="text-white"
+                  onClick={handleToggle}
+                >
+                  <MenuOutlined />
+                </button>
+                <button
+                  className="lg:hidden text-white duration-300 hover:text-primary active:text-primary"
+                // onClick={() => setIsActiveMobileMenu(true)}
+                >
+                  <MenuOutlined className="!text-3xl" />
+                </button>
+                <img src={whiteLogo} className="lg:hidden w-32 mx-auto" />
+              </div>
+              <div className="flex items-center gap-6">
+                <Link to="/dashboard/profile" className="border-2 border-[#E8E1F6] rounded-full w-10 h-10 overflow-hidden">
+                  <img src={userImg2} className="w-full h-full object-cover rounded-full" alt="" />
+                </Link>
+              </div>
+            </div>
+            <Outlet />
           </div>
         </div>
       </div>

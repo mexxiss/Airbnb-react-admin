@@ -28,7 +28,7 @@ import {
   MaintenanceFormValues,
   MaintenanceResponseValues,
 } from "../types/maintenanceTypes";
-import { Faq } from "../types/faqTypes";
+import { Faq, FaqResponse } from "../types/faqTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -521,8 +521,6 @@ export const fetchUtilityData = async (): Promise<iResponseUtils> => {
   return response.data;
 };
 
-// useCreateMaintenance
-
 export const createMaintenanceInvoice = async (
   payload: MaintenanceFormValues
 ) => {
@@ -587,4 +585,26 @@ export const updateMaintenanceInvoice = async (
 export const createFaq = async (faq: Faq): Promise<Faq> => {
   const response = await axiosInstance.post("/admin/faqs", faq);
   return response.data;
+};
+
+export const fetchUserFaqs = async (page: string): Promise<FaqResponse> => {
+  try {
+    const response = await axiosInstance.get<FaqResponse>(`/faqs?page=${page}`);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching FAQs:", error.response || error.message);
+    throw error;
+  }
+};
+
+export const updateFaq = async (
+  id: string,
+  faq: Partial<Faq>
+): Promise<Faq> => {
+  const response = await axiosInstance.put(`/admin/faqs/${id}`, faq);
+  return response.data;
+};
+
+export const deleteFaq = async (id: string): Promise<void> => {
+  await axiosInstance.delete(`/admin/faqs/${id}`);
 };

@@ -1,11 +1,4 @@
-import userImg from "../../assets/images/userImg.png";
-import { MenuOutlined } from "@mui/icons-material";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { DashboardContext } from "../../ContextApi";
-import { userFetchQuery } from "../../hooks/react-query/users-queries";
-import CustomSelectInput from "../SelectInput/CustomSelectInput";
-import { usePropertiesByUser } from "../../hooks/react-query/properties-query";
-import MonthPicker from "../DateInput/MonthPicker";
+import { useState } from "react";
 import DataHandler from "../ErrorHandleMessage/DataHandler";
 import RevenueStatement from "./RevenueStatement";
 import { IMonthlyInvoice } from "../../types/invoiceTypes";

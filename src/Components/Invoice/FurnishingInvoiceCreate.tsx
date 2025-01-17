@@ -1,13 +1,9 @@
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import userImg from "../../assets/images/userImg.png";
-import { DashboardContext } from "../../ContextApi";
-import { MenuOutlined } from "@mui/icons-material";
 import { User } from "../../types/usersTypes";
 import { SelectionGroup } from "../SelectionGroup/SelectionGroup";
 import useAuthStore from "../../store/authStore";

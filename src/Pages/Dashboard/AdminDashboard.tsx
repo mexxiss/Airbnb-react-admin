@@ -52,7 +52,7 @@ const AdminDashboard: React.FC = () => {
                 <img src={whiteLogo} className="lg:hidden w-32 mx-auto" />
               </div>
               <div className="flex items-center gap-6">
-                <Link to="/dashboard/profile" className="border-2 border-[#E8E1F6] rounded-full w-10 h-10 overflow-hidden">
+                <Link to="/admin/profile" className="border-2 border-[#E8E1F6] rounded-full w-10 h-10 overflow-hidden">
                   <img src={userImg2} className="w-full h-full object-cover rounded-full" alt="" />
                 </Link>
               </div>

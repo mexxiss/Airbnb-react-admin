@@ -32,6 +32,7 @@ import MaintenanceInvoiceDetails from "./Components/Invoice/MaintenanceForm/Main
 import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/MaintenancePdfViewer.tsx";
 import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
 import Faq from "./Components/faq/Faq.tsx";
+import Profile from "./Components/Profile/Profile.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -169,6 +170,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <InvoiceList />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <Profile />
             </ProtectedRoute>
           ),
         },

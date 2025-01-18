@@ -174,7 +174,7 @@ const Users: React.FC = () => {
                 />
               </div>
               <div className="bg-white px-3 flex items-center justify-between text-gray-600 rounded-md border border-gray-300">
-                Status:
+                <span className="font-medium">Status:</span>
                 <select
                   value={status || ""}
                   className="border-none bg-transparent rounded-lg py-1 px-2 focus:ring-0 w-full"
@@ -314,7 +314,7 @@ const Users: React.FC = () => {
                               </span>
                             </td>
 
-                            <td className="py-3 px-3 text-center rounded-r-xl flex gap-1 items-center justify-center">
+                            <td className="py-3 px-3 text-center rounded-r-xl flex gap-1">
                               <td className=" py-3 px-3">
                                 <div className="">
                                   <ToggleSwitch

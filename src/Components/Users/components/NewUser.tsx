@@ -46,7 +46,7 @@ const NewUser = () => {
   });
   return (
     <div>
-      <h6 className="text-lg text-primary font-semibold">Create User</h6>
+      <h6 className="text-lg text-text1 font-semibold">Create User</h6>
       <div className="mt-3">
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>

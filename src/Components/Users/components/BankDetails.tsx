@@ -56,7 +56,7 @@ const BankDetails = () => {
     <div className="mt-10">
       {" "}
       <div className="flex items-center justify-between">
-        <h6 className="text-lg text-primary font-semibold">Bank Details</h6>
+        <h6 className="text-lg text-text1 font-semibold">Bank Details</h6>
         <div>
           {!isOpen ? (
             <button

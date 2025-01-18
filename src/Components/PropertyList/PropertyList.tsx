@@ -187,7 +187,7 @@ const PropertyList = () => {
               />
             </div>
             <div className="bg-white px-3 flex items-center justify-between text-gray-600 rounded-md border border-gray-300">
-              Status:
+              <span className="font-medium">Status:</span>
               <select
                 onChange={(e) => {
                   setStatus(e.target.value);
@@ -229,7 +229,7 @@ const PropertyList = () => {
                           style={{ minWidth: "270px" }}
                           onClick={() => handleSort("title")}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex items-center gap-2.5 text-nowrap">
                             Name <img src={UpDown} className="w-2" />
                           </div>
                         </th>
@@ -238,7 +238,7 @@ const PropertyList = () => {
                           className="py-2 px-3"
                           style={{ minWidth: "220px" }}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex items-center gap-2.5 text-nowrap">
                             Address <img src={UpDown} className="w-2" />
                           </div>
                         </th>
@@ -247,7 +247,7 @@ const PropertyList = () => {
                           className="py-2 px-3"
                           style={{ minWidth: "150px" }}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex items-center gap-2.5 text-nowrap">
                             Listed by <img src={UpDown} className="w-2" />
                           </div>
                         </th>
@@ -256,7 +256,7 @@ const PropertyList = () => {
                           className="py-2 px-3"
                           style={{ minWidth: "130px" }}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex items-center gap-2.5 text-nowrap">
                             Price Per Night <img src={UpDown} className="w-2" />
                           </div>
                         </th>
@@ -265,7 +265,7 @@ const PropertyList = () => {
                           className="py-2 px-3"
                           style={{ minWidth: "140px" }}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex items-center gap-2.5 text-nowrap">
                             Status <img src={UpDown} className="w-2" />
                           </div>
                         </th>
@@ -274,7 +274,7 @@ const PropertyList = () => {
                           className="py-2 px-3"
                           style={{ minWidth: "100px" }}
                         >
-                          <div className="flex items-center gap-2.5">Actions</div>
+                          <div className="flex items-center gap-2.5 text-nowrap">Actions</div>
                         </th>
                       </tr>
                     </thead>

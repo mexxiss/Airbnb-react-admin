@@ -139,11 +139,10 @@ const Faq = () => {
             <ul className="flex flex-wrap gap-2 overflow-x-auto pb-3">
               {pageArrs.map((e) => (
                 <li
-                  className={`capitalize text-sm text-nowrap py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
-                    isActive === e
-                      ? " bg-[#1E1E1E] border-[#1E1E1E] text-white"
-                      : "border-border1 text-text2"
-                  }`}
+                  className={`capitalize text-sm text-nowrap py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === e
+                    ? " bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                    : "border-border1 text-text2"
+                    }`}
                   onClick={() => setIsActive(e)}
                 >
                   {e}
@@ -156,11 +155,18 @@ const Faq = () => {
               {faqRespData?.data?.length ? (
                 faqRespData.data.map((data) => (
                   <Accordion.Panel key={data._id} className="!border-none">
-                    <div className="flex items-center justify-between gap-3">
-                      <Accordion.Title className="bg-white hover:bg-white py-4 px-3 !border-none">
-                        {data.question}
-                      </Accordion.Title>
-                      <div className="flex items-center gap-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="w-full">
+                        <Accordion.Title className="bg-white hover:bg-white py-4 px-3 !border-none">
+                          {data.question}
+                        </Accordion.Title>
+                        <Accordion.Content className="!border-none">
+                          <p className="mb-2 text-gray-500 dark:text-gray-400">
+                            {data.answer}
+                          </p>
+                        </Accordion.Content>
+                      </div>
+                      <div className="flex items-center gap-3 pt-4">
                         <button
                           className="hover:text-green-600 duration-300"
                           onClick={() => handleFaqEditClick(data._id)}
@@ -175,11 +181,6 @@ const Faq = () => {
                         </button>
                       </div>
                     </div>
-                    <Accordion.Content className="!border-none">
-                      <p className="mb-2 text-gray-500 dark:text-gray-400">
-                        {data.answer}
-                      </p>
-                    </Accordion.Content>
                   </Accordion.Panel>
                 ))
               ) : (
@@ -197,9 +198,8 @@ const Faq = () => {
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Body>
             <div className="flex items-center justify-between">
-              <h6 className="text-xl text-primary font-bold">{`${
-                editable ? "Edit" : "ADD"
-              } FAQ`}</h6>
+              <h6 className="text-xl text-primary font-bold">{`${editable ? "Edit" : "ADD"
+                } FAQ`}</h6>
               <button
                 className="flex items-center justify-center"
                 onClick={() => setOpenModal(false)}
@@ -225,7 +225,7 @@ const Faq = () => {
                       placeholder="Select page"
                       error={
                         formik.touched.page &&
-                        typeof formik.errors.page === "string"
+                          typeof formik.errors.page === "string"
                           ? formik.errors.page
                           : undefined
                       }

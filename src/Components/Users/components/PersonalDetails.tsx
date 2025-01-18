@@ -104,7 +104,7 @@ const PersonalDetails = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h6 className="text-lg text-primary font-semibold">Personal Details</h6>
+        <h6 className="text-lg text-text1 font-semibold">Personal Details</h6>
         <div>
           {!isOpen ? (
             <button

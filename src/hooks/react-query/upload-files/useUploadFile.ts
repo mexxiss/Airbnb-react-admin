@@ -6,6 +6,10 @@ export const useUploadFile = () => {
   return useMutation({
     mutationFn: ({ folder, file }: { folder?: string; file: File }) =>
       uploadFile(folder || "properties", file),
+    // onSuccess: (data) => {
+    //   showToast("success", "File uploaded successfully.");
+    // },
+    // Handle errors gracefully
     onError: (error: any) => {
       console.error({ error });
       showToast(

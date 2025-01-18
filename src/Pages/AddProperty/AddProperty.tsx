@@ -9,9 +9,6 @@ import Amenities from "../../Components/AddProperty/Amenities/Amenities";
 import AddPhotos from "../../Components/AddProperty/AddPhotos/AddPhotos";
 import AddAddress from "../../Components/AddProperty/AddAddress/AddAddress";
 
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
 const AddProperty = () => {
   const { id } = useParams();
   const [currentStep, setCurrentStep] = useState(1);
@@ -31,30 +28,11 @@ const AddProperty = () => {
         return <PropertyDetails setCurrentStep={setCurrentStep} />;
     }
   };
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
 
   return (
     <div className="addProperty">
-      <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button
-            className="lg:hidden hover:text-primary active:text-primary"
-            onClick={() => setIsActiveMobileMenu(true)}
-          >
-            <MenuOutlined className="!text-3xl" />
-          </button>
-          <h5 className="text-22 text-primary font-bold">Add Property</h5>
-        </div>
-        <div className="flex items-center gap-6">
-          <button className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 overflow-hidden">
-            <img src={userImg} className="w-full h-full object-cover" alt="" />
-          </button>
-        </div>
-      </div>
-
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
+        <h5 className="text-22 text-primary font-bold mb-5">Add Property</h5>
         {/* Property Details */}
         <div>
           <div className="flex items-center justify-between">

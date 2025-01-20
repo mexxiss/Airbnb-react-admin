@@ -84,7 +84,7 @@ const AddPhotos = ({
       } catch (error) {
         console.error("Upload error:", error);
         setSelectedOption(null); // Reset the selection if error occurs
-        alert("Failed to upload images. Please try again.");
+        alert(`Failed to upload images. Please try again. ${error}`);
       } finally {
         setIsUploading(false); // Reset uploading state after process completes
       }

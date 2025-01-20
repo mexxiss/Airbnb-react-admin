@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchBankDetailById } from "../../../hooks/react-query/bank-details-queries";
 import { Form, FormikProvider, useFormik } from "formik";
 import Input from "../../Input/Input";
-import Loader from "../../Loader/Loader";
-import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
 import { useToggle } from "../../../hooks/custom-hook/useToggle";
 import { useUpsertBankDetails } from "../../../hooks/react-query/bank-details-queries/useUpsertBankDetails";
 import { showToast } from "../../../utils/toaster/toastWrapper";
@@ -15,7 +13,7 @@ import { CloseOutlined } from "@mui/icons-material";
 const BankDetails = () => {
   const { id } = useParams();
   const [isOpen, toggleOpen] = useToggle();
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
 
   // Fetch user details
   const { data, isLoading, isError, error, refetch } = useFetchBankDetailById({
@@ -74,30 +72,46 @@ const BankDetails = () => {
         </div>
         <div className="mt-3 bg-white px-4 py-6 rounded-md shadow">
           <div>
-            <ul className="max-w-[500px] flex gap-2 sm:gap-1 flex-col">
+            <ul className="grid xl:grid-cols-2 gap-x-8 gap-y-2 flex-col">
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">Account Name</span>
-                <span className="font-medium">{data?.data?.accountHolderName === "" ? "-" : data?.data?.accountHolderName}</span>
+                <span className="font-medium">
+                  {data?.data?.accountHolderName === ""
+                    ? "-"
+                    : data?.data?.accountHolderName}
+                </span>
               </li>
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">Bank Name</span>
-                <span className="font-medium">{data?.data?.bankName === "" ? "-" : data?.data?.bankName}</span>
+                <span className="font-medium">
+                  {data?.data?.bankName === "" ? "-" : data?.data?.bankName}
+                </span>
               </li>
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">Currency</span>
-                <span className="font-medium">{data?.data?.currency === "" ? "-" : data?.data?.currency}</span>
+                <span className="font-medium">
+                  {data?.data?.currency === "" ? "-" : data?.data?.currency}
+                </span>
               </li>
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">IBAN</span>
-                <span className="font-medium">{data?.data?.iban === "" ? "-" : data?.data?.iban}</span>
+                <span className="font-medium">
+                  {data?.data?.iban === "" ? "-" : data?.data?.iban}
+                </span>
               </li>
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">Account Number</span>
-                <span className="font-medium">{data?.data?.accountNumber === "" ? "-" : data?.data?.accountNumber}</span>
+                <span className="font-medium">
+                  {data?.data?.accountNumber === ""
+                    ? "-"
+                    : data?.data?.accountNumber}
+                </span>
               </li>
               <li className="flex flex-col sm:flex-row items-start justify-between">
                 <span className="text-text3 w-[150px]">Bank Address</span>
-                <span className="font-medium max-w-[250px] sm:text-end">{data?.data?.address === "" ? "-" : data?.data?.address}</span>
+                <span className="font-medium max-w-[250px] sm:text-end">
+                  {data?.data?.address === "" ? "-" : data?.data?.address}
+                </span>
               </li>
             </ul>
           </div>
@@ -105,8 +119,12 @@ const BankDetails = () => {
         <Modal show={openModal} onClose={() => setOpenModal(false)} size="3xl">
           <Modal.Body>
             <div className="flex items-center justify-between mb-4">
-              <h6 className="text-xl font-medium text-primary">Bank Detail Edit</h6>
-              <button onClick={() => setOpenModal(false)}><CloseOutlined /></button>
+              <h6 className="text-xl font-medium text-primary">
+                Bank Detail Edit
+              </h6>
+              <button onClick={() => setOpenModal(false)}>
+                <CloseOutlined />
+              </button>
             </div>
             <div>
               <FormikProvider value={formik}>

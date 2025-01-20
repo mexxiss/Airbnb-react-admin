@@ -331,7 +331,7 @@ const PropertyList = () => {
                           </td>
                           <td className=" py-3 px-3 text-center rounded-r-xl">
                             <Link
-                              to="/admin/property-details/1"
+                              to={`/admin/property-details/${property._id}`}
                               className="mx-auto"
                             >
                               <Visibility className="text-primary" />

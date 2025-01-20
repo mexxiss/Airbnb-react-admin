@@ -53,6 +53,7 @@ interface Costs {
 
 export interface PropertyResponse {
   property_details: PropertyDetails;
+  location: Location;
   address: Address;
   discounts_percentage: DiscountsPercentage;
   property_check_details: PropertyCheckDetails;
@@ -65,9 +66,9 @@ export interface PropertyResponse {
   costs: Costs;
   staying_rules: string; // Array of staying rules
   cancellation_policy: string;
-  amenities: string[]; // Array of amenity IDs
-  createdAt?: string; // ISO 8601 date format
-  updatedAt: string; // ISO 8601 date format
+  amenities: Amenity[] | string[];
+  createdAt?: string;
+  updatedAt: string;
   __v?: number;
   user: string; // User ID who owns the property
 }
@@ -83,10 +84,24 @@ export interface PropertiesResponse {
   properties: PropertyResponse[];
   totalCount: number;
 }
+interface Location {
+  longitude?: string;
+  latitude?: string;
+}
 
+interface Amenity {
+  _id?: string;
+  title?: string;
+  icon?: string;
+}
 export interface PropertiesPostResponse<T> {
   statusCode: number;
   data: T;
   message: string;
   success: boolean;
+}
+
+export interface SinglePropertyResponse {
+  data: PropertyResponse;
+  message: string;
 }

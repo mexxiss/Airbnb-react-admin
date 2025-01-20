@@ -6,6 +6,7 @@ import {
   PropertiesPostResponse,
   PropertiesResponse,
   PropertyResponse,
+  SinglePropertyResponse,
 } from "../types/propertiesTypes";
 import { BankDetails } from "../types/bankDetailsTypes";
 import { SignUpRequest, SignUpResponse } from "../types/signupUserTypes";
@@ -614,3 +615,45 @@ export const updateFaq = async (
 export const deleteFaq = async (id: string): Promise<void> => {
   await axiosInstance.delete(`/admin/faqs/${id}`);
 };
+
+export const fetchPropertyById = async (
+  id: string
+): Promise<SinglePropertyResponse> => {
+  if (!id) {
+    throw new Error("Property ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<SinglePropertyResponse> =
+      await axiosInstance.get(`/admin/property/${id}`);
+
+    return response.data; // Extract the property details
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch property details."
+    );
+  }
+};
+
+export interface PropertyCheckDetails {
+  check_in: string; // 24-hour format time, e.g., "15:00"
+  check_out: string; // 24-hour format time, e.g., "11:00"
+}
+
+function convertTo12HourFormat(time: string): string {
+  const [hours, minutes] = time?.split(":").map(Number);
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const hour12 = hours % 12 || 12; // Convert hour to 12-hour format, treating 0 as 12
+  const formattedTime = `${hour12}:${String(minutes)?.padStart(
+    2,
+    "0"
+  )} ${suffix}`;
+  return formattedTime;
+}
+
+export function formatCheckDetails(checkDetails: PropertyCheckDetails) {
+  return {
+    check_in: convertTo12HourFormat(checkDetails?.check_in),
+    check_out: convertTo12HourFormat(checkDetails?.check_out),
+  };
+}

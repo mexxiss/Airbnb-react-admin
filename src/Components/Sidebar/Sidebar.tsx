@@ -106,7 +106,7 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
               </div>
               {isSettingOpen && (
                 <ul className="ml-10">
-                  <li className="">
+                  {/* <li className="">
                     <NavLink
                       to="/admin/setting/account-setting"
                       className={({ isActive }) =>
@@ -118,7 +118,7 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                     >
                       Account Setting
                     </NavLink>
-                  </li>
+                  </li> */}
                   <li className="">
                     <NavLink
                       to="/admin/setting/about-us"

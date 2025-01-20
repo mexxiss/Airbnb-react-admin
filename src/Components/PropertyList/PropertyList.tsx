@@ -9,6 +9,7 @@ import {
   KeyboardArrowLeftOutlined,
   KeyboardArrowRightOutlined,
   MenuOutlined,
+  Visibility,
 } from "@mui/icons-material";
 import { ToggleSwitch } from "flowbite-react";
 import { Link } from "react-router-dom";
@@ -333,13 +334,9 @@ const PropertyList = () => {
                               </div>
                             </td>
                             <td className=" py-3 px-3 text-center rounded-r-xl">
-                              <button className="mx-auto">
-                                <img
-                                  src={trashIcon}
-                                  alt=""
-                                  className="w-5 grayImg"
-                                />
-                              </button>
+                              <Link to="/admin/property-details/1" className="mx-auto">
+                                <Visibility className="text-primary" />
+                              </Link>
                             </td>
                           </tr>
                         );

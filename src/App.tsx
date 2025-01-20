@@ -13,6 +13,7 @@ import Users from "./Components/Users/Users";
 import UserDetails from "./Components/Users/UserDetails.tsx";
 import Sellers from "./Components/Sellers/Sellers";
 import PropertyList from "./Components/PropertyList/PropertyList";
+import PropertyDetails from "./Components/PropertyDetails/PropertyDetails.tsx";
 import AdminChangePassword from "./Components/ChangePassword/ChangePassword";
 import AdminAccountSetting from "./Components/AccountSetting/AccountSetting";
 import AddProperty from "./Pages/AddProperty/AddProperty";
@@ -113,6 +114,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin"]}>
               <PropertyList />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "property-details/:id",
+          element: (
+            <ProtectedRoute roles={["Admin"]}>
+              <PropertyDetails />
             </ProtectedRoute>
           ),
         },

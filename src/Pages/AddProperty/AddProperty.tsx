@@ -40,12 +40,15 @@ const AddProperty = () => {
               <button
                 onClick={() =>
                   currentStep === 1
-                    ? navigate(`/admin/user/${id}/add-property`)
+                    ? navigate(
+                      // `/admin/user/${id}/add-property`
+                      -1
+                    )
                     : setCurrentStep(
-                        currentStep === 2 ? 1 : currentStep === 4 ? 3 : 2
-                      )
+                      currentStep === 2 ? 1 : currentStep === 4 ? 3 : 2
+                    )
                 }
-                className="btn1 flex items-center justify-center !rounded !px-4 !h-8"
+                className=""
               >
                 <ArrowBack className="!text-xl" />
               </button>
@@ -53,10 +56,10 @@ const AddProperty = () => {
                 {currentStep === 1
                   ? "Property Details"
                   : currentStep === 2
-                  ? "Amenities"
-                  : currentStep === 3
-                  ? "Add Photos"
-                  : "Address"}
+                    ? "Amenities"
+                    : currentStep === 3
+                      ? "Add Photos"
+                      : "Address"}
               </h6>
             </div>
             <div>
@@ -64,10 +67,10 @@ const AddProperty = () => {
                 {currentStep === 1
                   ? "Step 1 of 4"
                   : currentStep === 2
-                  ? "Step 2 of 4"
-                  : currentStep === 3
-                  ? "Step 3 of 4"
-                  : "Step 4 of 4"}
+                    ? "Step 2 of 4"
+                    : currentStep === 3
+                      ? "Step 3 of 4"
+                      : "Step 4 of 4"}
               </span>
             </div>
           </div>

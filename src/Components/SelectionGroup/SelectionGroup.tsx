@@ -79,23 +79,23 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
   return (
     <div className={`grid grid-cols-3 gap-4 ${className}`}>
       <CustomSelectInput
-        label="Select User"
+        label="Select User*"
         options={userData}
         value={selectedValue || ""}
         onChange={handleUserSelection}
         placeholder="Select an option"
         className="mb-4"
-        error={!selectedValue ? "This field is required" : ""}
+        // error={!selectedValue ? "This field is required" : ""}
       />
 
       <CustomSelectInput
-        label="Select Property"
+        label="Select Property*"
         options={propertyDataModified}
         value={selectedProperty || ""}
         onChange={handlePropertySelection}
         placeholder="Select an option"
         className="mb-4"
-        error={!selectedProperty ? "This field is required" : ""}
+        // error={!selectedProperty ? "This field is required" : ""}
       />
 
       <MonthPicker

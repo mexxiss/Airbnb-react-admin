@@ -18,6 +18,7 @@ import {
   useUpdateFaq,
 } from "../../hooks/react-query/faqs";
 import { FaqProps } from "../../types/faqTypes";
+import { showConfirmationDialog } from "../../utils/alerts/alertService";
 
 const Faq = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -92,17 +93,34 @@ const Faq = () => {
     setOpenModal(true);
   };
 
-  const handleDeleteFaq = (id: string) => {
-    deleteFaq(id, {
-      onSuccess: () => {
-        refetch();
-      },
-      onError: (error) => {
-        console.error("Error deleting FAQ:", error);
-      },
-    });
-  };
+  const handleDeleteFaq = async (id: string) => {
+    const isConfirmed = await showConfirmationDialog(
+      "Are you sure?",
+      "Do you really want to delete this FAQ? This action cannot be undone.",
+      "Delete",
+      "Cancel",
+      {
+        popup: "bg-white shadow-xl p-8",
+        title: "text-red-600 font-semibold text-xl",
+        confirmButton: "bg-primary text-white py-2 px-4 rounded",
+        cancelButton: "bg-gray-400 text-white py-2 px-4 rounded",
+      }
+    );
 
+    if (isConfirmed) {
+      deleteFaq(id, {
+        onSuccess: () => {
+          console.log("FAQ deleted successfully.");
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Error deleting FAQ:", error);
+        },
+      });
+    } else {
+      console.log("Delete action cancelled.");
+    }
+  };
   return (
     <DataHandler
       loadingStates={[isFetching]}
@@ -139,10 +157,11 @@ const Faq = () => {
             <ul className="flex flex-wrap gap-2 overflow-x-auto pb-3">
               {pageArrs.map((e) => (
                 <li
-                  className={`capitalize text-sm text-nowrap py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${isActive === e
-                    ? " bg-[#1E1E1E] border-[#1E1E1E] text-white"
-                    : "border-border1 text-text2"
-                    }`}
+                  className={`capitalize text-sm text-nowrap py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
+                    isActive === e
+                      ? " bg-[#1E1E1E] border-[#1E1E1E] text-white"
+                      : "border-border1 text-text2"
+                  }`}
                   onClick={() => setIsActive(e)}
                 >
                   {e}
@@ -198,8 +217,9 @@ const Faq = () => {
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Body>
             <div className="flex items-center justify-between">
-              <h6 className="text-xl text-primary font-bold">{`${editable ? "Edit" : "ADD"
-                } FAQ`}</h6>
+              <h6 className="text-xl text-primary font-bold">{`${
+                editable ? "Edit" : "ADD"
+              } FAQ`}</h6>
               <button
                 className="flex items-center justify-center"
                 onClick={() => setOpenModal(false)}
@@ -225,7 +245,7 @@ const Faq = () => {
                       placeholder="Select page"
                       error={
                         formik.touched.page &&
-                          typeof formik.errors.page === "string"
+                        typeof formik.errors.page === "string"
                           ? formik.errors.page
                           : undefined
                       }

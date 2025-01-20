@@ -6,15 +6,15 @@ import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
 interface InputProps {
   name: string;
   label?: string;
-  type?: "text" | "password" | "email" | "textarea" | string; // Allow custom input types.
+  type?: "text" | "password" | "email" | "textarea" | "number" | string;
   value?: string | number;
   placeholder?: string;
-  inputClass?: string; // For tailwind classes directly on input.
-  labelClass?: string; // For tailwind classes directly on label.
-  containerClass?: string; // For wrapping container.
+  inputClass?: string;
+  labelClass?: string;
+  containerClass?: string;
   disabled?: boolean;
-  rows?: number; // For textarea rows.
-  onChangeValue?: (name: string, value: string) => void; // Pass value to parent component.
+  rows?: number;
+  onChangeValue?: (name: string, value: string | number) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -27,7 +27,7 @@ const Input: React.FC<InputProps> = ({
   labelClass,
   containerClass,
   disabled = false,
-  rows = 6, // Default rows for textarea.
+  rows = 6,
   onChangeValue,
 }) => {
   const formikContext = useFormikContext<{ [key: string]: any }>();
@@ -42,7 +42,12 @@ const Input: React.FC<InputProps> = ({
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    if (type === "number" && Number(value) < 0) {
+      value = "0"; // Prevent negative numbers
+    }
+
     if (onChangeValue) {
       onChangeValue(name, value);
     }
@@ -90,11 +95,14 @@ const Input: React.FC<InputProps> = ({
             onBlur={handleBlur}
             placeholder={placeholder}
             value={inputValue}
+            min={type === "number" ? 0 : undefined} // Prevent negative numbers
             className={classNames(
               "py-3 leading-4 text-gray-600 placeholder-gray-400 border border-gray-300 rounded w-full bg-gray-100",
               {
                 "pr-10 pl-4": type === "password",
                 "px-4": type !== "password",
+                "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none":
+                  type === "number",
               },
               inputClass
             )}

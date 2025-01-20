@@ -28,7 +28,7 @@ export const signupValidationSchema = Yup.object({
     .email("Invalid email format")
     .matches(EMAIL_REGEX, "Invalid email: example@mail.abc"),
   password: Yup.string()
-    .required("No password provided.")
+    .required("Password is rquireded.")
     .min(8, "Password is too short - should be 8 chars minimum.")
     .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
 });

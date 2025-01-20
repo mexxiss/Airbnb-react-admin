@@ -466,7 +466,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 name="property_details.permit.permit_expiry_date"
                 placeholder="Select permit expiry date"
                 minDate="2023-12-01"
-                maxDate="2024-12-31"
+                maxDate="2030-12-31"
                 className="mb-4"
               />
             </div>

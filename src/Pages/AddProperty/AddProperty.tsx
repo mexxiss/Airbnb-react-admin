@@ -52,7 +52,7 @@ const AddProperty = () => {
               >
                 <ArrowBack className="!text-xl" />
               </button>
-              <h6 className="text-lg text-primary font-semibold">
+              <h6 className="text-lg text-text1 font-semibold">
                 {currentStep === 1
                   ? "Property Details"
                   : currentStep === 2

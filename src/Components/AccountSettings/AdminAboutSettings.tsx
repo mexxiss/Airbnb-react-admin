@@ -17,7 +17,6 @@ interface FormValues {
   images: string[];
 }
 const AdminAboutSettings = () => {
-
   const { data, error, isError, isLoading } = useFetchAboutData();
   const { mutate: createUpdateAbout, isPending } = useUpateAndCreateAbout();
 
@@ -99,7 +98,9 @@ const AdminAboutSettings = () => {
                 />
               </div>
               <div className="mt-5">
-                <label className="font-medium text-lg mb-2 inline-block">Images</label>
+                <label className="font-medium text-lg mb-2 inline-block">
+                  Images
+                </label>
                 <ImageUpload name="images" formik={formik} />
               </div>
               <div className="flex justify-end mt-6 gap-3">
@@ -108,9 +109,6 @@ const AdminAboutSettings = () => {
                   type="submit"
                 >
                   {isPending ? "Saving.." : "Save"}
-                </button>
-                <button className="btn1 !bg-transparent border border-primary !text-primary hover:bg-primary hover:text-white flex items-center justify-center">
-                  Preview
                 </button>
               </div>
             </Form>

@@ -13,14 +13,16 @@ export const useMutateUpdateLegals = () => {
     mutationFn: (payload: useMutateUpdateLegalsPayload) =>
       createLegalsApi(payload),
     onSuccess: (data) => {
-      console.log({ data });
-
-      showToast("success", data.message || "Bank details updated successfully");
+      showToast(
+        "success",
+        data.message || "Legal document section saved successfully"
+      );
     },
     onError: (error: any) => {
       showToast(
         "error",
-        error?.response?.data?.message || "Bank details update failed"
+        error?.response?.data?.message ||
+          "Legal document section saved successfully"
       );
     },
   });

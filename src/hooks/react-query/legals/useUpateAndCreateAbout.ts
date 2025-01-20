@@ -12,10 +12,8 @@ export const useUpateAndCreateAbout = () => {
   return useMutation({
     mutationFn: (payload: useMutateUpdateAboutPayload) =>
       createAboutsApi(payload),
-    onSuccess: (data) => {
-      console.log({ data });
-
-      showToast("success", data || "about us created/updated successfully");
+    onSuccess: () => {
+      showToast("success", "About Us section saved successfully.");
     },
     onError: (error: any) => {
       showToast(

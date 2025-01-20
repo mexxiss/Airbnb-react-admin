@@ -28,7 +28,7 @@ const PersonalDetails = () => {
   const { id } = useParams();
 
   // Fetch user details
-  const { data, isLoading, isError, error } = useFetchDetailById({
+  const { data, isLoading, isError, error, refetch } = useFetchDetailById({
     userId: id || "",
   });
 
@@ -115,8 +115,11 @@ const PersonalDetails = () => {
             </button>
           ) : (
             <button
-              onClick={() => {
-                formik.submitForm();
+              disabled={!formik.dirty}
+              onClick={async () => {
+                await formik.submitForm();
+                formik.resetForm({ values: { ...formik.values } });
+                refetch();
                 toggleOpen(!isOpen);
               }}
               className="btn1 !rounded-none h-10 !px-8 tracking-wider"

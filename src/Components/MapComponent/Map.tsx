@@ -1,55 +1,64 @@
-import React, { useRef } from "react";
-import GoogleMapReact from "google-map-react";
-import MapMarker from "./MapMarker";
+import React from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 interface MapProps {
-  center: {
-    lat: number;
-    lng: number;
+  location: {
+    latitude: string;
+    longitude: string;
   };
   zoom?: number;
-  markers?: Array<{
-    lat: number;
-    lng: number;
-    text?: string;
-  }>;
-  height?: string;
   width?: string;
-  apiKey?: string;
+  height?: string;
 }
 
 const Map: React.FC<MapProps> = ({
-  center,
-  zoom = 14,
-  markers = [],
+  location,
+  zoom = 10,
+  width = "400px",
   height = "400px",
-  width = "100%",
-  apiKey = "",
 }) => {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const containerStyle = {
+    width,
+    height,
+  };
 
-  return (
-    <div ref={mapRef} style={{ height, width }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLE_API_KEY || "" }}
-        defaultCenter={center}
-        defaultZoom={zoom}
-        options={{
-          fullscreenControl: false,
-          zoomControl: true,
-        }}
-        yesIWantToUseGoogleMapApiInternals
-      >
-        {markers.map((marker, index) => (
-          <MapMarker
-            key={index}
-            lat={marker.lat}
-            lng={marker.lng}
-            text={marker.text}
-          />
-        ))}
-      </GoogleMapReact>
-    </div>
+  const center = {
+    lat: Number.parseFloat(location.latitude),
+    lng: Number.parseFloat(location.longitude),
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY || "",
+  });
+
+  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+
+  const onLoad = React.useCallback(
+    function callback(map: google.maps.Map) {
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
+      setMap(map);
+    },
+    [center]
+  );
+
+  const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={zoom}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      <Marker position={center} />
+    </GoogleMap>
+  ) : (
+    <></>
   );
 };
 

@@ -34,6 +34,7 @@ import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/Maintenan
 import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
 import Faq from "./Components/faq/Faq.tsx";
 import Profile from "./Components/Profile/Profile.tsx";
+import { DashboardProvider } from "./ContextApi/index.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -61,7 +62,9 @@ const App = () => {
       path: "/admin",
       element: (
         <ProtectedRoute>
-          <AdminDashboard />
+          <DashboardProvider>
+            <AdminDashboard />
+          </DashboardProvider>
         </ProtectedRoute>
       ),
       children: [

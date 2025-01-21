@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, useParams } from "react-router-dom";
 import { useFetchDetailById } from "../../../hooks/react-query/users-queries";
 import Input from "../../Input/Input";
@@ -40,6 +40,7 @@ const PersonalDetails = () => {
   const { mutate: updateUser } = useUpdateUserDetails();
 
   const finalData = useMemo(() => data?.data, [data]);
+  const [countryName, setCountryName] = useState("");
 
   const formik = useFormik({
     validationSchema: editDetailValidationSchema,
@@ -58,13 +59,13 @@ const PersonalDetails = () => {
       SecEmail: finalData?.email[1] || "",
       SecNumber: finalData?.phone[1] || "",
     },
-    enableReinitialize: true, // Ensure form values update when data changes
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const updates = {
           ...values,
-          email: [values.email, values.SecEmail].filter(Boolean), // Remove empty secondary email
-          phone: [`+${values.phone}`, values.SecNumber].filter(Boolean), // Remove empty secondary phone
+          email: [values.email, values.SecEmail].filter(Boolean),
+          phone: [`+${values.phone}`, values.SecNumber].filter(Boolean),
           address: {
             street: values.street,
             building_no: values.building_no,
@@ -75,8 +76,6 @@ const PersonalDetails = () => {
             pincode: values.pincode,
           },
         };
-
-        console.log({ updates });
 
         if (!id) {
           console.error();
@@ -140,7 +139,7 @@ const PersonalDetails = () => {
                     finalData?.address.landmark,
                     finalData?.address.country,
                     finalData?.address.pincode &&
-                      `(${finalData?.address.pincode})`,
+                    `(${finalData?.address.pincode})`,
                   ]
                     .filter(Boolean)
                     .join(", ")}
@@ -184,7 +183,7 @@ const PersonalDetails = () => {
                         placeholder="Enter First Name"
                       />
                       {formik.touched?.first_name &&
-                      formik.errors?.first_name ? (
+                        formik.errors?.first_name ? (
                         <div className="text-red-600">
                           {formik?.errors.first_name}
                         </div>
@@ -210,6 +209,13 @@ const PersonalDetails = () => {
                       type="email"
                       placeholder="Enter Email"
                       disabled
+                    />
+                    <CustomPhoneInput
+                      name="phone"
+                      label="Phone Number"
+                      placeholder="Enter phone number"
+                      country="ae"
+                      formik={formik}
                     />
                     <Input
                       name="building_no"
@@ -284,12 +290,6 @@ const PersonalDetails = () => {
                       placeholder="Enter Phone Number"
                     /> */}
 
-                    <CustomPhoneInput
-                      name="phone"
-                      label="Phone Number"
-                      placeholder="Enter phone number"
-                      country="ae"
-                    />
                     <Input
                       name="SecEmail"
                       label="Secondary Email"

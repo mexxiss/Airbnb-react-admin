@@ -53,7 +53,7 @@ interface Costs {
 
 export interface PropertyResponse {
   property_details: PropertyDetails;
-  location: Location;
+  location?: Location;
   address: Address;
   discounts_percentage: DiscountsPercentage;
   property_check_details: PropertyCheckDetails;
@@ -66,7 +66,7 @@ export interface PropertyResponse {
   costs: Costs;
   staying_rules: string; // Array of staying rules
   cancellation_policy: string;
-  amenities: Amenity[] | string[];
+  amenities?: Amenity[] | string[];
   createdAt?: string;
   updatedAt: string;
   __v?: number;

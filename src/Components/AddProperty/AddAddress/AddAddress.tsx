@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useCreatePropertyStoreNew from "../../../store/useCreatePropertyStoreNew";
 import { Form, FormikProvider, useFormik } from "formik";
 import { validationAddressSchema } from "../../../utils/validations/reArrengeSchemaValidation";
@@ -95,7 +95,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.building_no", value)
                 }
               />
-              {formik.errors?.address?.building_no ? (
+              {formik.touched?.address?.building_no &&
+              formik.errors?.address?.building_no ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.building_no}
                 </div>
@@ -112,7 +113,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.area", value)
                 }
               />
-              {formik.errors?.address?.area ? (
+              {formik.touched?.address?.area && formik.errors?.address?.area ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.area}
                 </div>
@@ -129,7 +130,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.landmark", value)
                 }
               />
-              {formik.errors?.address?.landmark ? (
+              {formik.touched?.address?.landmark &&
+              formik.errors?.address?.landmark ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.landmark}
                 </div>
@@ -146,7 +148,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.street", value)
                 }
               />
-              {formik.errors?.address?.street ? (
+              {formik.touched?.address?.street &&
+              formik.errors?.address?.street ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.street}
                 </div>
@@ -163,7 +166,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.city", value)
                 }
               />
-              {formik.errors?.address?.city ? (
+              {formik.touched?.address?.city && formik.errors?.address?.city ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.city}
                 </div>
@@ -180,7 +183,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.pincode", value)
                 }
               />
-              {formik.errors?.address?.pincode ? (
+              {formik.touched?.address?.pincode &&
+              formik.errors?.address?.pincode ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.pincode}
                 </div>
@@ -197,7 +201,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("address.country", value)
                 }
               />
-              {formik.errors?.address?.country ? (
+              {formik.touched?.address?.country &&
+              formik.errors?.address?.country ? (
                 <div className="text-red-600">
                   {formik?.errors.address?.country}
                 </div>

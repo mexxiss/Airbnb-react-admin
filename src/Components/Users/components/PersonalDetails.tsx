@@ -11,6 +11,8 @@ import { Modal } from "flowbite-react";
 import { CloseOutlined } from "@mui/icons-material";
 import userImg2 from "../../../assets/images/userImg2.png";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
+import { editDetailValidationSchema } from "../../../utils/validations/editDetailValidationSchema";
+import CustomPhoneInput from "../../PhoneInput/CustomPhoneInput";
 
 export interface UserDetails {
   _id: string;
@@ -39,15 +41,8 @@ const PersonalDetails = () => {
 
   const finalData = useMemo(() => data?.data, [data]);
 
-  //   "building_no": "C90",
-  //   "city": "Dubai",
-  //   "street": "Arabian Ranches Road",
-  //   "area": "Arabian Ranches",
-  //   "landmark": "Close to Ranches Souk",
-  //   "country": "Emirates",
-  //   "pincode": "998877"
-
   const formik = useFormik({
+    validationSchema: editDetailValidationSchema,
     initialValues: {
       first_name: finalData?.first_name || "",
       last_name: finalData?.last_name || "",
@@ -59,7 +54,7 @@ const PersonalDetails = () => {
       landmark: finalData?.address?.landmark || "",
       country: finalData?.address?.country || "",
       pincode: finalData?.address?.pincode || "",
-      number: finalData?.phone[0] || "",
+      phone: finalData?.phone[0] || "",
       SecEmail: finalData?.email[1] || "",
       SecNumber: finalData?.phone[1] || "",
     },
@@ -69,7 +64,7 @@ const PersonalDetails = () => {
         const updates = {
           ...values,
           email: [values.email, values.SecEmail].filter(Boolean), // Remove empty secondary email
-          phone: [values.number, values.SecNumber].filter(Boolean), // Remove empty secondary phone
+          phone: [`+${values.phone}`, values.SecNumber].filter(Boolean), // Remove empty secondary phone
           address: {
             street: values.street,
             building_no: values.building_no,
@@ -80,6 +75,8 @@ const PersonalDetails = () => {
             pincode: values.pincode,
           },
         };
+
+        console.log({ updates });
 
         if (!id) {
           console.error();
@@ -179,23 +176,40 @@ const PersonalDetails = () => {
                 <Form onSubmit={formik.handleSubmit}>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {/* Input Fields */}
-                    <Input
-                      name="first_name"
-                      label="First Name"
-                      type="text"
-                      placeholder="Enter First Name"
-                    />
-                    <Input
-                      name="last_name"
-                      label="Last Name"
-                      type="text"
-                      placeholder="Enter Last Name"
-                    />
+                    <div>
+                      <Input
+                        name="first_name"
+                        label="First Name"
+                        type="text"
+                        placeholder="Enter First Name"
+                      />
+                      {formik.touched?.first_name &&
+                      formik.errors?.first_name ? (
+                        <div className="text-red-600">
+                          {formik?.errors.first_name}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div>
+                      <Input
+                        name="last_name"
+                        label="Last Name"
+                        type="text"
+                        placeholder="Enter Last Name"
+                      />
+                      {formik.touched?.last_name && formik.errors?.last_name ? (
+                        <div className="text-red-600">
+                          {formik?.errors.last_name}
+                        </div>
+                      ) : null}
+                    </div>
+
                     <Input
                       name="email"
                       label="Email"
                       type="email"
                       placeholder="Enter Email"
+                      disabled
                     />
                     <Input
                       name="building_no"
@@ -209,12 +223,20 @@ const PersonalDetails = () => {
                       type="text"
                       placeholder="Enter Street"
                     />
-                    <Input
-                      name="city"
-                      label="City"
-                      type="text"
-                      placeholder="Enter City"
-                    />
+                    <div>
+                      <Input
+                        name="city"
+                        label="City"
+                        type="text"
+                        placeholder="Enter City"
+                      />
+                      {formik.touched?.city && formik.errors?.city ? (
+                        <div className="text-red-600">
+                          {formik?.errors?.city}
+                        </div>
+                      ) : null}
+                    </div>
+
                     <Input
                       name="area"
                       label="Area"
@@ -227,23 +249,46 @@ const PersonalDetails = () => {
                       type="text"
                       placeholder="Enter Landmark"
                     />
-                    <Input
-                      name="country"
-                      label="Country"
-                      type="text"
-                      placeholder="Enter Country"
-                    />
-                    <Input
-                      name="pincode"
-                      label="Pincode"
-                      type="text"
-                      placeholder="Enter Pincode"
-                    />
-                    <Input
+                    <div>
+                      <Input
+                        name="country"
+                        label="Country"
+                        type="text"
+                        placeholder="Enter Country"
+                      />
+                      {formik.touched?.country && formik.errors?.country ? (
+                        <div className="text-red-600">
+                          {formik?.errors?.country}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div>
+                      <Input
+                        name="pincode"
+                        label="Pincode"
+                        type="text"
+                        placeholder="Enter Pincode"
+                      />
+
+                      {formik.touched?.pincode && formik.errors?.pincode ? (
+                        <div className="text-red-600">
+                          {formik?.errors?.pincode}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {/* <Input
                       name="number"
                       label="Phone Number"
                       type="text"
                       placeholder="Enter Phone Number"
+                    /> */}
+
+                    <CustomPhoneInput
+                      name="phone"
+                      label="Phone Number"
+                      placeholder="Enter phone number"
+                      country="ae"
                     />
                     <Input
                       name="SecEmail"

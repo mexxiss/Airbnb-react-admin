@@ -6,6 +6,7 @@ import "react-phone-input-2/lib/style.css";
 
 interface PhoneInputProps {
   name: string;
+  formik?: any;
   label?: string;
   country?: string;
   placeholder?: string;
@@ -24,6 +25,7 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
   className = "",
   inputClassName = "",
   isMultiple = false,
+  formik,
 }) => {
   const [field, meta, helpers] = useField(name);
 
@@ -98,9 +100,13 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
           <PhoneInput
             country={country}
             value={field.value || ""}
-            onChange={(value) => helpers.setValue(value)}
+            onChange={(value, c: any) => {
+              helpers.setValue(value);
+              formik.setFieldValue("country", c?.name || "");
+            }}
             placeholder={placeholder}
             disabled={disabled}
+            enableSearch
             inputProps={{
               name: name,
               id: name,

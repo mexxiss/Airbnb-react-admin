@@ -289,7 +289,7 @@ const Users: React.FC = () => {
                                 <div>
                                   <div className="flex items-center gap-3">
                                     <img
-                                      src={userImg}
+                                      src={user?.profile_img || userImg}
                                       className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
                                       alt=""
                                     />

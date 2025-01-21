@@ -18,6 +18,7 @@ export interface User {
   isDeleted: boolean;
   isLoggedIn: boolean;
   role: string;
+  profile_img?: string;
   createdAt: string;
   updatedAt: string;
 }

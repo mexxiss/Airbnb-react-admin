@@ -139,7 +139,7 @@ const PersonalDetails = () => {
                     finalData?.address.landmark,
                     finalData?.address.country,
                     finalData?.address.pincode &&
-                      `(${finalData?.address.pincode})`,
+                    `(${finalData?.address.pincode})`,
                   ]
                     .filter(Boolean)
                     .join(", ")}
@@ -183,7 +183,7 @@ const PersonalDetails = () => {
                         placeholder="Enter First Name"
                       />
                       {formik.touched?.first_name &&
-                      formik.errors?.first_name ? (
+                        formik.errors?.first_name ? (
                         <div className="text-red-600">
                           {formik?.errors.first_name}
                         </div>
@@ -209,6 +209,13 @@ const PersonalDetails = () => {
                       type="email"
                       placeholder="Enter Email"
                       disabled
+                    />
+                    <CustomPhoneInput
+                      name="phone"
+                      label="Phone Number"
+                      placeholder="Enter phone number"
+                      country="ae"
+                      formik={formik}
                     />
                     <Input
                       name="building_no"
@@ -283,13 +290,6 @@ const PersonalDetails = () => {
                       placeholder="Enter Phone Number"
                     /> */}
 
-                    <CustomPhoneInput
-                      name="phone"
-                      label="Phone Number"
-                      placeholder="Enter phone number"
-                      country="ae"
-                      formik={formik}
-                    />
                     <Input
                       name="SecEmail"
                       label="Secondary Email"

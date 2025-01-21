@@ -11,11 +11,9 @@ import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import DashboardHome from "./Components/Dashboard/Dashboard";
 import Users from "./Components/Users/Users";
 import UserDetails from "./Components/Users/UserDetails.tsx";
-import Sellers from "./Components/Sellers/Sellers";
 import PropertyList from "./Components/PropertyList/PropertyList";
 import PropertyDetails from "./Components/PropertyDetails/PropertyDetails.tsx";
 import AdminChangePassword from "./Components/ChangePassword/ChangePassword";
-import AdminAccountSetting from "./Components/AccountSetting/AccountSetting";
 import AddProperty from "./Pages/AddProperty/AddProperty";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import CreateUser from "./Components/Users/CreateUser.tsx";
@@ -187,14 +185,6 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <Profile />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "setting/account-setting",
-          element: (
-            <ProtectedRoute roles={["Admin", "Owner"]}>
-              <AdminAccountSetting />
             </ProtectedRoute>
           ),
         },

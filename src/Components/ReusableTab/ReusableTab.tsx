@@ -1,5 +1,5 @@
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useEffect, useCallback } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 
 interface TabConfig {
   key: string;
@@ -19,50 +19,59 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Update query parameters with memoization to prevent re-creation on every render
   const updateQueryParams = useCallback(
     (key: string) => {
-      const params = new URLSearchParams();
-      console.log({ key });
-
+      const params = new URLSearchParams(searchParams.toString());
       params.set("tab", key);
       setSearchParams(params, { preventScrollReset: true });
       localStorage.setItem("paramQuery", key);
     },
-    [setSearchParams]
+    [searchParams, setSearchParams]
   );
 
+  // Initialize query parameters when the component mounts
   useEffect(() => {
     const storedQuery = localStorage.getItem("paramQuery");
     if (location.pathname.includes(includesPathname)) {
-      if (storedQuery) {
+      if (storedQuery && tabs.some((tab) => tab.key === storedQuery)) {
         updateQueryParams(storedQuery);
       } else if (tabs.length > 0) {
         updateQueryParams(tabs[0].key);
       }
     }
-  }, [location.pathname, tabs, updateQueryParams]);
+    // Only run this effect when pathname, tabs, or updateQueryParams change
+  }, [location.pathname, includesPathname, tabs, updateQueryParams]);
 
-  const renderButton = (tab: TabConfig) => (
-    <button
-      key={tab.key}
-      className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${searchParams.get("tab") === tab.key
-        ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
-        : "border-border1 text-text2"
-        }`}
-      onClick={() => updateQueryParams(tab.key)}
-    >
-      {tab.label}
-    </button>
+  // Memoize rendered buttons to avoid recalculation on every render
+  const tabButtons = useMemo(
+    () =>
+      tabs.map((tab) => (
+        <button
+          key={tab.key}
+          className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
+            searchParams.get("tab") === tab.key
+              ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+              : "border-border1 text-text2"
+          }`}
+          onClick={() => updateQueryParams(tab.key)}
+        >
+          {tab.label}
+        </button>
+      )),
+    [tabs, searchParams, updateQueryParams]
   );
 
-  const activeTab = tabs.find((tab) => tab.key === searchParams.get("tab"));
+  // Determine the active tab's component
+  const activeTabComponent = useMemo(() => {
+    const activeTab = tabs.find((tab) => tab.key === searchParams.get("tab"));
+    return activeTab ? <activeTab.Component /> : null;
+  }, [tabs, searchParams]);
 
   return (
     <div>
-      <div className="mb-8 flex gap-2">
-        {tabs.map((tab) => renderButton(tab))}
-      </div>
-      <div>{activeTab && <activeTab.Component />}</div>
+      <div className="mb-8 flex gap-2">{tabButtons}</div>
+      <div>{activeTabComponent}</div>
     </div>
   );
 };

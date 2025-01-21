@@ -7,10 +7,11 @@ import whiteLogo from "../../assets/images/whiteLogo.png";
 import { MenuOutlined } from "@mui/icons-material";
 import MobileMenu from "../../Components/Sidebar/MobileMenu";
 import useAuthStore from "../../store/authStore";
-
 const AdminDashboard: React.FC = () => {
   const [isActiveMenu, setIsActiveMenu] = useState<boolean>(false);
   const { user } = useAuthStore();
+
+  const [isActiveMobileMenu, setIsActiveMobileMenu] = useState(false)
 
   const handleToggle = (): void => {
     setIsActiveMenu(!isActiveMenu);
@@ -21,26 +22,24 @@ const AdminDashboard: React.FC = () => {
       <div className="max-w-[1640px] mx-auto">
         <div className="relative w-full">
           <div
-            className={`absolute top-0 left-0  hidden lg:block border-[#c0a679] overflow-x-hidden ${
-              isActiveMenu ? "w-0" : "w-[220px] border-r"
-            } duration-100 h-screen bg-[#8e7344]`}
+            className={`absolute top-0 left-0  hidden lg:block border-[#c0a679] overflow-x-hidden ${isActiveMenu ? "w-0" : "w-[220px] border-r"
+              } duration-100 h-screen bg-[#8e7344]`}
           >
             <Sidebar isActiveMenu={isActiveMenu} />
           </div>
-          <MobileMenu />
+          <MobileMenu isActiveMobileMenu={isActiveMobileMenu} setIsActiveMobileMenu={setIsActiveMobileMenu} />
           <div
-            className={`duration-200 ${
-              isActiveMenu ? "w-full lg:pl-0" : "w-full lg:pl-[220px]"
-            }`}
+            className={`duration-200 ${isActiveMenu ? "w-full lg:pl-0" : "w-full lg:pl-[220px]"
+              }`}
           >
             <div className="px-6 py-[20px] flex items-center justify-between border-b border-gray-300 bg-[#8e7344]">
               <div className="flex items-center gap-3">
-                <button className="text-white" onClick={handleToggle}>
+                <button className="text-white hidden lg:inline-block" onClick={handleToggle}>
                   <MenuOutlined />
                 </button>
                 <button
                   className="lg:hidden text-white duration-300 hover:text-primary active:text-primary"
-                  // onClick={() => setIsActiveMobileMenu(true)}
+                  onClick={() => setIsActiveMobileMenu(true)}
                 >
                   <MenuOutlined className="!text-3xl" />
                 </button>

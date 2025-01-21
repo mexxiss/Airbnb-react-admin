@@ -11,11 +11,9 @@ import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import DashboardHome from "./Components/Dashboard/Dashboard";
 import Users from "./Components/Users/Users";
 import UserDetails from "./Components/Users/UserDetails.tsx";
-import Sellers from "./Components/Sellers/Sellers";
 import PropertyList from "./Components/PropertyList/PropertyList";
 import PropertyDetails from "./Components/PropertyDetails/PropertyDetails.tsx";
 import AdminChangePassword from "./Components/ChangePassword/ChangePassword";
-import AdminAccountSetting from "./Components/AccountSetting/AccountSetting";
 import AddProperty from "./Pages/AddProperty/AddProperty";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import CreateUser from "./Components/Users/CreateUser.tsx";
@@ -34,7 +32,6 @@ import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/Maintenan
 import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
 import Faq from "./Components/faq/Faq.tsx";
 import Profile from "./Components/Profile/Profile.tsx";
-import { DashboardProvider } from "./ContextApi/index.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -62,9 +59,7 @@ const App = () => {
       path: "/admin",
       element: (
         <ProtectedRoute>
-          <DashboardProvider>
-            <AdminDashboard />
-          </DashboardProvider>
+          <AdminDashboard />
         </ProtectedRoute>
       ),
       children: [
@@ -190,14 +185,6 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <Profile />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "setting/account-setting",
-          element: (
-            <ProtectedRoute roles={["Admin", "Owner"]}>
-              <AdminAccountSetting />
             </ProtectedRoute>
           ),
         },

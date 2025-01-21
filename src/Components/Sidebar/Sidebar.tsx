@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import users from "../../assets/icons/users.png";
-import sellers from "../../assets/icons/sellers.png";
 import properties from "../../assets/icons/properties.png";
 import dashboard from "../../assets/icons/dashboard.png";
 import settingIcon from "../../assets/icons/settingIcon.png";

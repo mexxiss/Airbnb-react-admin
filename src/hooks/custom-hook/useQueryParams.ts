@@ -1,23 +1,22 @@
 import { useSearchParams } from "react-router-dom";
-import { useCallback } from "react";
+import { useMemo } from "react";
 
 export const useQueryParams = (paramName: string = "tab") => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const updateQueryParams = useCallback(
-    (key: string) => {
-      const params = new URLSearchParams();
-      console.log({ key });
-
+  // Update query parameters
+  const updateQueryParams = useMemo(() => {
+    return (key: string) => {
+      const params = new URLSearchParams(searchParams.toString()); // Preserve existing params
       params.set(paramName, key);
       setSearchParams(params, { preventScrollReset: true });
       localStorage.setItem("paramQuery", key);
-    },
-    [setSearchParams, paramName]
-  );
+    };
+  }, [setSearchParams, searchParams, paramName]);
 
-  const getStoredQueryParam = useCallback((): string | null => {
-    return localStorage.getItem("paramQuery");
+  // Get stored query parameter from localStorage
+  const getStoredQueryParam = useMemo(() => {
+    return () => localStorage.getItem("paramQuery");
   }, []);
 
   return { updateQueryParams, getStoredQueryParam, searchParams };

@@ -7,13 +7,11 @@ import whiteLogo from "../../assets/images/whiteLogo.png";
 import { MenuOutlined } from "@mui/icons-material";
 import MobileMenu from "../../Components/Sidebar/MobileMenu";
 import useAuthStore from "../../store/authStore";
-import { DashboardContext, DashboardContextType } from "../../ContextApi";
-
 const AdminDashboard: React.FC = () => {
   const [isActiveMenu, setIsActiveMenu] = useState<boolean>(false);
   const { user } = useAuthStore();
 
-  const { isActiveMobileMenu, setIsActiveMobileMenu } = useContext(DashboardContext) as DashboardContextType
+  const [isActiveMobileMenu, setIsActiveMobileMenu] = useState(false)
 
   const handleToggle = (): void => {
     setIsActiveMenu(!isActiveMenu);

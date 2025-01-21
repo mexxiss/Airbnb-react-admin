@@ -34,14 +34,9 @@ const Map: React.FC<MapProps> = ({
 
   const [map, setMap] = React.useState<google.maps.Map | null>(null);
 
-  const onLoad = React.useCallback(
-    function callback(map: google.maps.Map) {
-      const bounds = new window.google.maps.LatLngBounds(center);
-      map.fitBounds(bounds);
-      setMap(map);
-    },
-    [center]
-  );
+  const onLoad = React.useCallback(function callback(map: google.maps.Map) {
+    setMap(map);
+  }, []);
 
   const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
     setMap(null);

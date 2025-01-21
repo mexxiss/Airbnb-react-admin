@@ -19,7 +19,8 @@ import {
 } from "../../services/apiServices";
 import AmenitiesList from "./components/AmenitiesList";
 import { Amenity } from "../../types/amenitiesTypes";
-import MapComponent from "../MapComponent/MapComponent";
+import MapComponent, { Location } from "../MapComponent/MapComponent";
+import Map from "../MapComponent/Map";
 
 const PropertyDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +39,26 @@ const PropertyDetails = () => {
     setIsModalOpen(false);
     document.body.classList.remove("lg:overflow-hidden");
   };
+
+  const location = {
+    latitude: "25.117077",
+    longitude: "55.196213",
+  };
+
+  // Convert string coordinates to numbers
+  const center = {
+    lat: parseFloat(location.latitude),
+    lng: parseFloat(location.longitude),
+  };
+
+  const markers = [
+    {
+      lat: center.lat,
+      lng: center.lng,
+      text: "Dubai Location",
+    },
+  ];
+
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
@@ -183,7 +204,13 @@ const PropertyDetails = () => {
               )}
               <div className="mt-10">
                 <div className="h-[400px] rounded-3xl overflow-hidden">
-                  <MapComponent location={data?.data.location} zoom={14} />
+                  <Map
+                    center={center}
+                    markers={markers}
+                    zoom={12}
+                    height="500px"
+                    apiKey="YOUR_GOOGLE_MAPS_API_KEY" // Replace with your actual API key
+                  />
                   {/* <img src={mapBg} className="h-full w-full object-cover" /> */}
                 </div>
               </div>

@@ -24,13 +24,14 @@ const SelectInput: React.FC<SelectInputProps> = ({
   className = "",
   placeholder = "Select an option",
 }) => {
-  const { values, setFieldValue, errors } = useFormikContext<any>();
+  const { values, setFieldValue, errors, touched } = useFormikContext<any>();
 
   // Formik value for the field
   const fieldValue = getIn(values, name);
 
   // Formik error and touched status
   const errorMessage = getIn(errors, name);
+  const errorTouchedMessage = getIn(touched, name);
 
   const handleChange = (selectedOption: any) => {
     if (isMulti) {
@@ -63,7 +64,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         onChange={handleChange}
         classNamePrefix="react-select"
       />
-      {errorMessage && (
+      {errorTouchedMessage && errorMessage && (
         <div className="text-red-600 text-xs mt-1">{errorMessage}</div>
       )}
     </div>

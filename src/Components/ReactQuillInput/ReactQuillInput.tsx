@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactQuill from "react-quill";
-import { useFormikContext } from "formik";
+import { getIn, useFormikContext } from "formik";
 import classNames from "classnames";
+import "react-quill/dist/quill.snow.css";
 
 interface ReactQuillInputProps {
   label?: string;
@@ -18,7 +19,6 @@ const ReactQuillInput: React.FC<ReactQuillInputProps> = ({
   className = "",
   minHeight = "100px",
 }) => {
-  // Define the toolbar with similar options
   const toolbarOptions = [
     [{ font: [] }],
     [{ size: [] }],
@@ -59,40 +59,48 @@ const ReactQuillInput: React.FC<ReactQuillInputProps> = ({
     "image",
     "video",
   ];
-  const { values, errors, setFieldValue } = useFormikContext<any>();
 
-  const [editorValue, setEditorValue] = useState<string>(values[name] || "");
+  const { values, errors, setFieldValue, touched, setFieldTouched } =
+    useFormikContext<any>();
+  const [editorValue, setEditorValue] = useState<string>(
+    getIn(values, name) || ""
+  );
 
   useEffect(() => {
-    setEditorValue(values[name] || "");
-  }, [values[name]]);
+    setEditorValue(getIn(values, name) || "");
+  }, [values, name]);
 
   const handleChange = useCallback(
     (value: string) => {
       setEditorValue(value);
       setFieldValue(name, value);
+      setFieldTouched(name, true, false);
     },
-    [name, setFieldValue]
+    [name, setFieldValue, setFieldTouched]
   );
 
-  const errorMessage = errors[name];
+  const errorMessage = getIn(errors, name);
+  const isTouched = getIn(touched, name);
 
   return (
     <div className={className}>
-      <label htmlFor={name} className="text-[15px]">
-        {label}
-      </label>
-      <div className="relative mt-2">
+      {label && (
+        <label htmlFor={name} className="block text-[15px] mb-2">
+          {label}
+        </label>
+      )}
+      <div className="relative">
         <ReactQuill
           value={editorValue}
           onChange={handleChange}
+          onBlur={() => setFieldTouched(name, true)}
           placeholder={placeholder}
           className={classNames(
-            "mt-1 py-3 px-4 text-[#040404] placeholder:text-[#8B8B8B] border-[#E2E2EC] w-full rounded bg-white resize-none"
+            "mt-1 bg-white",
+            isTouched && errorMessage ? "quill-error" : "border-[#E2E2EC]"
           )}
           style={{
             minHeight: minHeight,
-            lineHeight: "1.5",
           }}
           modules={{
             toolbar: toolbarOptions,
@@ -101,11 +109,16 @@ const ReactQuillInput: React.FC<ReactQuillInputProps> = ({
           theme="snow"
         />
         <style>{`
-       .ql-editor {
-          min-height: ${minHeight};
-        }
-      `}</style>
-        {errorMessage && typeof errorMessage === "string" && (
+          .ql-editor {
+            min-height: ${minHeight};
+            line-height: 1.5;
+          }
+          .quill-error .ql-toolbar.ql-snow,
+          .quill-error .ql-container.ql-snow {
+            border-color: #ef4444;
+          }
+        `}</style>
+        {isTouched && errorMessage && (
           <div className="text-red-600 text-xs mt-1">{errorMessage}</div>
         )}
       </div>

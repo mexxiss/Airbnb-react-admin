@@ -109,7 +109,11 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                     target: { name: "property_types", value },
                   })
                 }
-                error={formik.errors.property_types}
+                error={
+                  formik.touched.property_types && formik.errors.property_types
+                    ? formik.errors.property_types
+                    : undefined
+                }
               />
             </div>
             <div className="sm:col-span-2">
@@ -122,6 +126,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("property_details.bhk", value)
                 }
                 error={
+                  formik.touched.property_details?.bhk &&
                   formik.errors.property_details?.bhk
                     ? formik.errors.property_details.bhk
                     : ""
@@ -142,7 +147,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("property_details.rooms_count", value)
                 }
               />
-              {formik.errors.property_details?.rooms_count ? (
+              {formik.touched.property_details?.rooms_count &&
+              formik.errors.property_details?.rooms_count ? (
                 <div className="text-red-600">
                   {formik.errors.property_details?.rooms_count}
                 </div>
@@ -159,7 +165,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   formik.setFieldValue("property_details.beds_count", value)
                 }
               />
-              {formik.errors.property_details?.beds_count ? (
+              {formik.touched.property_details?.beds_count &&
+              formik.errors.property_details?.beds_count ? (
                 <div className="text-red-600">
                   {formik.errors.property_details?.beds_count}
                 </div>
@@ -179,7 +186,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   )
                 }
               />
-              {formik.errors.property_details?.bathrooms_count ? (
+              {formik.touched.property_details?.bathrooms_count &&
+              formik.errors.property_details?.bathrooms_count ? (
                 <div className="text-red-600">
                   {formik.errors.property_details?.bathrooms_count}
                 </div>
@@ -200,7 +208,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   )
                 }
               />
-              {formik.errors.property_details?.max_guest_count ? (
+              {formik.touched.property_details?.max_guest_count &&
+              formik.errors.property_details?.max_guest_count ? (
                 <div className="text-red-600">
                   {formik.errors.property_details?.max_guest_count}
                 </div>
@@ -221,7 +230,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("discounts_percentage.weekly", value)
                     }
                   />
-                  {formik.errors.discounts_percentage?.weekly ? (
+                  {formik.touched.discounts_percentage?.weekly &&
+                  formik.errors.discounts_percentage?.weekly ? (
                     <div className="text-red-600">
                       {formik.errors.discounts_percentage?.weekly}
                     </div>
@@ -241,7 +251,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       )
                     }
                   />
-                  {formik.errors.discounts_percentage?.monthly ? (
+                  {formik.touched.discounts_percentage?.monthly &&
+                  formik.errors.discounts_percentage?.monthly ? (
                     <div className="text-red-600">
                       {formik.errors.discounts_percentage?.monthly}
                     </div>
@@ -259,7 +270,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("costs.price.price_per_night", value)
                     }
                   />
-                  {formik.errors.costs?.prices?.price_per_night ? (
+                  {formik.touched.costs?.prices?.price_per_night &&
+                  formik.errors.costs?.prices?.price_per_night ? (
                     <div className="text-red-600">
                       {formik.errors.costs?.prices?.price_per_night}
                     </div>
@@ -277,7 +289,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("costs.price.security_amount", value)
                     }
                   />
-                  {formik.errors.costs?.prices?.security_amount ? (
+                  {formik.touched.costs?.prices?.security_amount &&
+                  formik.errors.costs?.prices?.security_amount ? (
                     <div className="text-red-600">
                       {formik.errors.costs?.prices?.security_amount}
                     </div>
@@ -295,7 +308,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("costs.price.cleaning_fee", value)
                     }
                   />
-                  {formik.errors.costs?.prices?.cleaning_fee ? (
+                  {formik.touched.costs?.prices?.cleaning_fee &&
+                  formik.errors.costs?.prices?.cleaning_fee ? (
                     <div className="text-red-600">
                       {formik.errors.costs?.prices?.cleaning_fee}
                     </div>
@@ -313,7 +327,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("property_details.parking_no", value)
                     }
                   />
-                  {formik.errors?.property_details?.parking_no ? (
+                  {formik.touched?.property_details?.parking_no &&
+                  formik.errors?.property_details?.parking_no ? (
                     <div className="text-red-600">
                       {formik.errors?.property_details?.parking_no}
                     </div>
@@ -351,7 +366,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                       formik.setFieldValue("costs.security_details", value)
                     }
                   />
-                  {formik.errors.costs?.security_details ? (
+                  {formik.touched?.costs?.security_details &&
+                  formik.errors.costs?.security_details ? (
                     <div className="text-red-600">
                       {formik.errors.costs?.security_details}
                     </div>
@@ -370,7 +386,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 min="09:00"
                 max="18:00"
               />
-              {formik.errors?.property_check_details?.check_in ? (
+              {formik.touched?.property_check_details?.check_in &&
+              formik.errors?.property_check_details?.check_in ? (
                 <div className="text-red-600">
                   {formik.errors?.property_check_details?.check_in}
                 </div>
@@ -391,7 +408,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                 min="09:00"
                 max="18:00"
               />
-              {formik.errors?.property_check_details?.check_out ? (
+              {formik.touched?.property_check_details?.check_out &&
+              formik.errors?.property_check_details?.check_out ? (
                 <div className="text-red-600">
                   {formik.errors?.property_check_details?.check_out}
                 </div>
@@ -412,7 +430,11 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                     target: { name: "property_details.furnishing", value },
                   })
                 }
-                error={formik.errors?.property_details?.furnishing}
+                error={
+                  formik.touched?.property_details?.furnishing
+                    ? formik.errors?.property_details?.furnishing
+                    : undefined
+                }
               />
             </div>
 
@@ -454,7 +476,8 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
                   )
                 }
               />
-              {formik.errors?.property_details?.permit?.permit_code ? (
+              {formik.touched?.property_details?.permit?.permit_code &&
+              formik.errors?.property_details?.permit?.permit_code ? (
                 <div className="text-red-600">
                   {formik.errors?.property_details?.permit?.permit_code}
                 </div>

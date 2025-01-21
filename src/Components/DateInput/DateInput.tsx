@@ -18,7 +18,7 @@ const DateInput: React.FC<DateInputProps> = ({
   minDate,
   maxDate,
 }) => {
-  const { values, setFieldValue, errors } = useFormikContext<any>();
+  const { values, setFieldValue, errors, touched } = useFormikContext<any>();
   const [dateValue, setDateValue] = useState<string>("");
 
   useEffect(() => {
@@ -41,6 +41,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   // Use Formik's `getIn` to extract nested error messages and touched state
   const errorMessage = getIn(errors, name);
+  const errorTouchedMessage = getIn(touched, name);
 
   return (
     <div className={className}>
@@ -58,7 +59,7 @@ const DateInput: React.FC<DateInputProps> = ({
         min={minDate}
         max={maxDate}
       />
-      {errorMessage && (
+      {errorTouchedMessage && errorMessage && (
         <div className="text-red-600 text-xs mt-1">{errorMessage}</div>
       )}
     </div>

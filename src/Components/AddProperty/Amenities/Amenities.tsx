@@ -54,7 +54,7 @@ const Amenities = ({ setCurrentStep }: any) => {
                   />
                 ))}
               </ul>
-              {formik.errors?.amenities && (
+              {formik.touched?.amenities && formik.errors?.amenities && (
                 <div className="text-red-500">{formik.errors.amenities}</div>
               )}
             </div>

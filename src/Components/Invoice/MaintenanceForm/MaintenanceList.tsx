@@ -7,9 +7,9 @@ interface Iprops {
   searchTerm?: string;
 }
 const MaintenanceList = ({ searchTerm }: Iprops) => {
-  console.log({ searchTerm });
   const navigate = useNavigate();
-  const { data, isLoading, error, isError } = useFetchMaintenanceInvoice();
+  const { data, isLoading, error, isError } =
+    useFetchMaintenanceInvoice(searchTerm);
   const columns = columnsHandlerMaintenance(navigate);
 
   return (
@@ -18,6 +18,7 @@ const MaintenanceList = ({ searchTerm }: Iprops) => {
       data={data?.data || []}
       loadingStates={[isLoading]}
       errorStates={[{ isError, error }]}
+      noDataText="Maintenance Invoice Data"
     />
   );
 };

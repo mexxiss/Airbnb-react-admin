@@ -443,8 +443,12 @@ export const fetchMonthlyInvoiceRevenue = async (
   return response.data;
 };
 
-export const fetchMonthlyInvoiceRevenueList = async (): Promise<any> => {
-  const response = await axiosInstance.get<any>(`/admin/monthly-invoice-list`);
+export const fetchMonthlyInvoiceRevenueList = async (
+  searchTerm: string = ""
+): Promise<any> => {
+  const response = await axiosInstance.get<any>(`/admin/monthly-invoice-list`, {
+    params: searchTerm ? { search: searchTerm } : {},
+  });
   return response.data;
 };
 
@@ -481,8 +485,12 @@ export const updateFurnishingInvoice = async (
   }
 };
 
-export const fetchFurnishingInvoiceList = async (): Promise<any> => {
-  const response = await axiosInstance.get<any>(`/admin/furnishings-list`);
+export const fetchFurnishingInvoiceList = async (
+  searchTerm: string = ""
+): Promise<any> => {
+  const response = await axiosInstance.get<any>(`/admin/furnishings-list`, {
+    params: searchTerm ? { search: searchTerm } : {},
+  });
   return response.data;
 };
 
@@ -545,9 +553,14 @@ export const createMaintenanceInvoice = async (
   }
 };
 
-export const fetchMaintenanceInvoiceList = async (): Promise<any> => {
+export const fetchMaintenanceInvoiceList = async (
+  searchTerm: string = ""
+): Promise<any> => {
   const response = await axiosInstance.get<any>(
-    `/admin/maintenance-invoice-list`
+    `/admin/maintenance-invoice-list`,
+    {
+      params: searchTerm ? { search: searchTerm } : {},
+    }
   );
   return response.data;
 };

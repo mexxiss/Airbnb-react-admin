@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import Flatpickr from "react-flatpickr";
 import { useToggle } from "../../hooks/custom-hook/useToggle";
 import DataHandler from "../ErrorHandleMessage/DataHandler";
+import DataNotFound from "../DataNotFound/DataNotFound";
 
 const Users: React.FC = () => {
   const refComp = useRef<Flatpickr | null>(null);
@@ -202,11 +203,7 @@ const Users: React.FC = () => {
               </div>
               <div className="mt-4 sm:mt-0">
                 {!filteredUsers?.length ? (
-                  <div className="w-full relative z-10 flex items-center justify-center pt-10">
-                    <p className="text-2xl sm:text-3xl text-gray-500 font-medium">
-                      No User Found
-                    </p>
-                  </div>
+                  <DataNotFound message="Users" />
                 ) : (
                   <>
                     <div className="relative overflow-x-auto">

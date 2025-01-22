@@ -234,7 +234,12 @@ const PropertyList = () => {
                         style={{ minWidth: "220px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
-                          Address <img src={UpDown} className="w-2" />
+                          Address{" "}
+                          {/* <img
+                            src={UpDown}
+                            className="w-2"
+                            onClick={() => handleSort("address")}
+                          /> */}
                         </div>
                       </th>
                       <th
@@ -243,7 +248,8 @@ const PropertyList = () => {
                         style={{ minWidth: "150px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
-                          Listed by <img src={UpDown} className="w-2" />
+                          Listed by
+                          {/* <img src={UpDown} className="w-2" /> */}
                         </div>
                       </th>
                       <th
@@ -252,7 +258,8 @@ const PropertyList = () => {
                         style={{ minWidth: "130px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
-                          Price Per Night <img src={UpDown} className="w-2" />
+                          Price Per Night
+                          {/* <img src={UpDown} className="w-2" /> */}
                         </div>
                       </th>
                       <th
@@ -261,7 +268,8 @@ const PropertyList = () => {
                         style={{ minWidth: "140px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
-                          Status <img src={UpDown} className="w-2" />
+                          Status
+                          {/* <img src={UpDown} className="w-2" /> */}
                         </div>
                       </th>
                       <th

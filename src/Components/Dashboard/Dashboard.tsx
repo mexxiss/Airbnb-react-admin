@@ -189,7 +189,7 @@ const Dashboard: React.FC = () => {
           {/* Right Sidebar */}
           <div className="2xl:w-[25%] mt-8 2xl:mt-0">
             <div className="grid lg:grid-cols-2 2xl:grid-cols-1 gap-x-5 gap-y-8">
-              <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-1">
+              <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-3 flex items-center justify-center">
                 <PieChart
                   data={updatedLeadingCities}
                   title="Leading Cities"

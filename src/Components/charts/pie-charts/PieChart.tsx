@@ -17,7 +17,7 @@ interface PieChartProps {
 
 export const PieChart: React.FC<PieChartProps> = ({
   data,
-  width = 380,
+  width = "100%",
   title,
   showLegend = true,
 }) => {
@@ -34,13 +34,13 @@ export const PieChart: React.FC<PieChartProps> = ({
     colors: colors,
     title: title
       ? {
-          text: title,
-          align: "center",
-          style: {
-            fontSize: "16px",
-            fontWeight: 600,
-          },
-        }
+        text: title,
+        align: "center",
+        style: {
+          fontSize: "16px",
+          fontWeight: 600,
+        },
+      }
       : undefined,
     responsive: [
       {

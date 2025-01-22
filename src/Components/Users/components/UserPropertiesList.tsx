@@ -32,7 +32,7 @@ const UserPropertiesList = () => {
       <div className="mt-3 bg-white px-4 py-6 rounded-md shadow">
         {!data?.properties?.length ? (
           <p className="text-lg text-center text-text3 font-medium">
-            Property Not Listed
+            No Properties Listed Yet!
           </p>
         ) : (
           <div className="grid xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 mt-5 gap-4">

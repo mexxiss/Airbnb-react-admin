@@ -68,13 +68,13 @@ const NewPassword = () => {
                   </div>
                   <div className=" mb-8">
                     <label className="text-[15px] text-[#8B8B8B]">
-                      Repeat password
+                      Confirm password
                     </label>
                     <div className="border-[#8B8B8B] border rounded-xl relative py-3 mt-2">
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         className="py-0 pl-4 pr-12 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-none w-full "
-                        placeholder="Repeat a new password"
+                        placeholder="Confirm a new password"
                       />
                       <button
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8B8B8B]"

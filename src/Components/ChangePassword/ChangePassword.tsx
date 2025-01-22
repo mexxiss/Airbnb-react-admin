@@ -120,13 +120,13 @@ const AdminChangePassword = () => {
 
             <div className="mb-8">
               <label className="text-[15px] text-[#8B8B8B]">
-                Repeat password
+                Confirm password
               </label>
               <div className="border-[#8B8B8B] border rounded-xl relative py-2 mt-1 bg-white">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   className="py-0 pl-4 pr-12 leading-4 text-[#040404] placeholder:text-[#8B8B8B] border-none w-full"
-                  placeholder="Repeat a new password"
+                  placeholder="Confirm a new password"
                   {...formik.getFieldProps("confirmPassword")}
                 />
                 <button

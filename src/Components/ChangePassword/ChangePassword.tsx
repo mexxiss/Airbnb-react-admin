@@ -1,12 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import userImg from "../../assets/images/userImg.png";
-import {
-  MenuOutlined,
-  VisibilityOffOutlined,
-  VisibilityOutlined,
-} from "@mui/icons-material";
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import { changePasswordSchema } from "../../utils/validations/loginValidator";
 import { usePostChangePassword } from "../../hooks/react-query/auth/usePostChangePassword";
 

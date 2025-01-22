@@ -32,6 +32,7 @@ const PropertyList = () => {
   const limit = 10;
   const { data, isLoading, isError, error } = useFetchProperties({
     dates,
+    searchTerm,
     limit,
     page,
     status,
@@ -235,11 +236,11 @@ const PropertyList = () => {
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
                           Address{" "}
-                          {/* <img
+                          <img
                             src={UpDown}
                             className="w-2"
                             onClick={() => handleSort("address")}
-                          /> */}
+                          />
                         </div>
                       </th>
                       <th

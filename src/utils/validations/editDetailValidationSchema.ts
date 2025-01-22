@@ -24,6 +24,8 @@ const phoneValidation = (isMultiple: boolean) => {
   } else {
     return Yup.string()
       .test("is-valid-phone", "Please enter a valid phone number", (value) => {
+        console.log({ value });
+
         const finVal = `+${value}`;
         if (!finVal) return false;
 
@@ -35,15 +37,33 @@ const phoneValidation = (isMultiple: boolean) => {
   }
 };
 
-export const editDetailValidationSchema = Yup.object({
-  first_name: Yup.string().required("First name is required"),
-  last_name: Yup.string().required("Last name is required"),
-  city: Yup.string().required("City is required"),
-  pincode: Yup.string().required("Pincode is required"),
-  country: Yup.string().required("Country is required"),
-  email: Yup.string()
-    .required("Please enter your email")
-    .email("Invalid email format")
-    .matches(EMAIL_REGEX, "Invalid email: example@mail.abc"),
-  phone: phoneValidation(false),
-});
+export const editDetailValidationSchema = (isMultiple: boolean = false) => {
+  const phoneSchema = Yup.object({
+    first_name: Yup.string().required("First name is required"),
+    last_name: Yup.string().required("Last name is required"),
+    city: Yup.string().required("City is required"),
+    pincode: Yup.string().required("Pincode is required"),
+    country: Yup.string().required("Country is required"),
+    email: Yup.string()
+      .required("Please enter your email")
+      .email("Invalid email format")
+      .matches(EMAIL_REGEX, "Invalid email: example@mail.abc"),
+    phone: Yup.string()
+      .required("Phone number is required")
+      .test("len", "Phone number must be valid", (val) => {
+        if (val) {
+          // Remove all non-numeric characters
+          const numericValue = val.replace(/\D/g, "");
+          // Check if the length is between 10 and 15 digits
+          return numericValue.length >= 10 && numericValue.length <= 15;
+        }
+        return false;
+      }),
+  });
+
+  if (isMultiple) {
+    return Yup.array().of(phoneSchema);
+  } else {
+    return phoneSchema;
+  }
+};

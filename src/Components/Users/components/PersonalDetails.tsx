@@ -40,10 +40,9 @@ const PersonalDetails = () => {
   const { mutate: updateUser } = useUpdateUserDetails();
 
   const finalData = useMemo(() => data?.data, [data]);
-  const [countryName, setCountryName] = useState("");
 
   const formik = useFormik({
-    validationSchema: editDetailValidationSchema,
+    validationSchema: editDetailValidationSchema(false),
     initialValues: {
       first_name: finalData?.first_name || "",
       last_name: finalData?.last_name || "",
@@ -139,7 +138,7 @@ const PersonalDetails = () => {
                     finalData?.address.landmark,
                     finalData?.address.country,
                     finalData?.address.pincode &&
-                    `(${finalData?.address.pincode})`,
+                      `(${finalData?.address.pincode})`,
                   ]
                     .filter(Boolean)
                     .join(", ")}
@@ -183,7 +182,7 @@ const PersonalDetails = () => {
                         placeholder="Enter First Name"
                       />
                       {formik.touched?.first_name &&
-                        formik.errors?.first_name ? (
+                      formik.errors?.first_name ? (
                         <div className="text-red-600">
                           {formik?.errors.first_name}
                         </div>

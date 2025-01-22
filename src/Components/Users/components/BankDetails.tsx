@@ -9,6 +9,7 @@ import { showToast } from "../../../utils/toaster/toastWrapper";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
 import { Modal } from "flowbite-react";
 import { CloseOutlined } from "@mui/icons-material";
+import bankDetailsValidationSchema from "../../../utils/validations/bankDetailsValidationSchema";
 
 const BankDetails = () => {
   const { id } = useParams();
@@ -33,6 +34,7 @@ const BankDetails = () => {
 
   const formik = useFormik({
     initialValues,
+    validationSchema: bankDetailsValidationSchema,
     onSubmit: (values) => {
       if (!id) {
         console.error();
@@ -47,6 +49,7 @@ const BankDetails = () => {
             formik.resetForm({ values });
             toggleOpen(false);
             refetch();
+            setOpenModal(false);
           },
         }
       );
@@ -138,6 +141,12 @@ const BankDetails = () => {
                         value={formik.values.accountHolderName}
                         disabled={isPending}
                       />
+                      {formik.touched?.accountHolderName &&
+                      formik.errors?.accountHolderName ? (
+                        <div className="text-red-600">
+                          {formik?.errors.accountHolderName}
+                        </div>
+                      ) : null}
                     </div>
                     <div>
                       <Input
@@ -147,6 +156,11 @@ const BankDetails = () => {
                         value={formik.values.bankName}
                         disabled={isPending}
                       />
+                      {formik.touched?.bankName && formik.errors?.bankName ? (
+                        <div className="text-red-600">
+                          {formik?.errors.bankName}
+                        </div>
+                      ) : null}
                     </div>
                     <div>
                       <Input
@@ -156,6 +170,11 @@ const BankDetails = () => {
                         value={formik.values.currency}
                         disabled={isPending}
                       />
+                      {formik.touched?.currency && formik.errors?.currency ? (
+                        <div className="text-red-600">
+                          {formik?.errors.currency}
+                        </div>
+                      ) : null}
                     </div>
                     <div>
                       <Input
@@ -165,6 +184,11 @@ const BankDetails = () => {
                         value={formik.values.iban}
                         disabled={isPending}
                       />
+                      {formik.touched?.iban && formik.errors?.iban ? (
+                        <div className="text-red-600">
+                          {formik?.errors.iban}
+                        </div>
+                      ) : null}
                     </div>
                     <div>
                       <Input
@@ -174,6 +198,12 @@ const BankDetails = () => {
                         value={formik.values.accountNumber}
                         disabled={isPending}
                       />
+                      {formik.touched?.accountNumber &&
+                      formik.errors?.accountNumber ? (
+                        <div className="text-red-600">
+                          {formik?.errors.accountNumber}
+                        </div>
+                      ) : null}
                     </div>
                     <div>
                       <Input
@@ -183,6 +213,11 @@ const BankDetails = () => {
                         value={formik.values.address}
                         disabled={isPending}
                       />
+                      {formik.touched?.address && formik.errors?.address ? (
+                        <div className="text-red-600">
+                          {formik?.errors.address}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </Form>
@@ -193,7 +228,6 @@ const BankDetails = () => {
                 disabled={!formik.dirty || isPending} // Disable Save button when no changes or submission in progress
                 onClick={async () => {
                   await formik.submitForm();
-                  setOpenModal(false);
                 }}
                 className="btn1 h-10 !px-8 tracking-wider"
               >

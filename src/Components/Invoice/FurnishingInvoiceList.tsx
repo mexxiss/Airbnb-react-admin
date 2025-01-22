@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import ReusableTable from "../ReusableTable/ReusableTable";
 import { columnsHandlerFurnishing } from "../../utils/columnsHandlers/columnsHandlerFurnishing";
 
-const FurnishingInvoiceList = () => {
+interface Iprops {
+  searchTerm?: string;
+}
+const FurnishingInvoiceList = ({ searchTerm }: Iprops) => {
+  console.log({ searchTerm });
   const navigate = useNavigate();
   const columns = columnsHandlerFurnishing(navigate);
   const { data, isLoading, error, isError } = useFetchFurnishingInvoice();

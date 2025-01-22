@@ -2,7 +2,12 @@ import { useFetchRevenueList } from "../../hooks/react-query/revenue/useFetchRev
 import ReusableTable from "../ReusableTable/ReusableTable";
 import { getRevenueColumnsHandler } from "../../utils/columnsHandlers/revenueColumnsHandler";
 
-const RevenueInvoiceList = () => {
+interface Iprops {
+  searchTerm?: string;
+}
+const RevenueInvoiceList = ({ searchTerm }: Iprops) => {
+  console.log("revenue", { searchTerm });
+
   const { data, isLoading, isError, error } = useFetchRevenueList();
   const columns = getRevenueColumnsHandler();
 

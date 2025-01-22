@@ -12,7 +12,12 @@ export const useUpdateProperties = () => {
     mutationFn: ({ id, updates }: UseUpdatePropertiesPayload) =>
       updateProperty(id, { updates }),
     onSuccess: (data) => {
-      showToast("success", data.message);
+      showToast(
+        "success",
+        `Property ${
+          data.data.status === "Inactive" ? "In-Active" : "Active"
+        } Successfully`
+      );
     },
     onError: (error: any) => {
       showToast(

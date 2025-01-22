@@ -1,9 +1,9 @@
-// ApiResponseProperties
-
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchProperties } from "../../../services/apiServices";
 import { ApiResponseProperties } from "../../../types/propertiesTypes";
 import useDebounce from "../../custom-hook/useDebounce";
+import { useMemo } from "react";
+
 const fetchFilteredData = async (filters: {
   dates: Date[];
   status: string;
@@ -12,12 +12,9 @@ const fetchFilteredData = async (filters: {
   limit: number;
 }) => {
   const { dates, status, searchTerm, page, limit } = filters;
-  console.log({ status });
 
-  // Initialize URLSearchParams for dynamic query building
   const query = new URLSearchParams();
 
-  // Append date range if provided
   if (dates.length === 2) {
     query.append("startDate", dates[0].toISOString());
     query.append("endDate", dates[1].toISOString());
@@ -36,17 +33,13 @@ const fetchFilteredData = async (filters: {
 
   try {
     const response = await fetchProperties(query.toString());
-    console.log({ response });
-
-    // if (response.status !== 200) {
-    //   throw new Error("Failed to fetch filtered data");
-    // }
-    return await response;
+    return response;
   } catch (error) {
     console.error("Error fetching filtered data:", error);
     throw error;
   }
 };
+
 export const useFetchProperties = ({
   dates,
   searchTerm,
@@ -60,14 +53,21 @@ export const useFetchProperties = ({
   page: number;
   limit: number;
 }) => {
-  const debouncedFilters = useDebounce(
-    { dates, status, page, limit, searchTerm },
-    500
+  const filters = useMemo(
+    () => ({ dates, status, page, limit, searchTerm }),
+    [dates, status, page, limit, searchTerm]
   );
+
+  const debouncedFilters = useDebounce(filters, 300);
+
   return useQuery<ApiResponseProperties>({
     queryKey: ["properties", debouncedFilters],
     queryFn: () => fetchFilteredData(debouncedFilters),
     placeholderData: keepPreviousData,
-    enabled: true,
+    enabled:
+      true ||
+      !!debouncedFilters.searchTerm ||
+      !!debouncedFilters.status ||
+      debouncedFilters.dates.length > 0,
   });
 };

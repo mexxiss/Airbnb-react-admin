@@ -22,13 +22,13 @@ import {
   StatisticsApplicationsChart,
   StatisticsApplicationsChartUsers,
 } from "../charts/Apex-chart/ApexChart";
+import { PieChart } from "../charts/pie-charts/PieChart";
 type DateOption = {
   label: string;
   value: "weekly" | "monthly" | "yearly";
 };
 
 const Dashboard: React.FC = () => {
-
   type SelectedKeySelect = "weekly" | "monthly" | "yearly";
 
   const [selectedKey, setSelectedKey] = useState<SelectedKeySelect>("weekly");
@@ -190,18 +190,25 @@ const Dashboard: React.FC = () => {
           <div className="2xl:w-[25%] mt-8 2xl:mt-0">
             <div className="grid lg:grid-cols-2 2xl:grid-cols-1 gap-x-5 gap-y-8">
               <div className="bg-white rounded-2xl shadow-[0px_2.11px_105.51px_0px_#00000014] pt-1">
-                <CityDistributionChart
+                <PieChart
+                  data={updatedLeadingCities}
+                  title="Leading Cities"
+                  // width={380}
+                  showLegend={false}
+                />
+                {/* <CityDistributionChart
                   title="Leading Cities"
                   data={updatedLeadingCities}
-                />
+                /> */}
               </div>
               <div className="">
                 <div className="grid xs:grid-cols-2 gap-5">
                   <HorizontalCard
                     icon={users}
                     count={data?.totalUsers || 0}
-                    label={`Total ${data?.totalUsers === 1 ? "User" : "Users"
-                      } `}
+                    label={`Total ${
+                      data?.totalUsers === 1 ? "User" : "Users"
+                    } `}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"
@@ -210,8 +217,9 @@ const Dashboard: React.FC = () => {
                   <HorizontalCard
                     icon={properties}
                     count={data?.totalBookings || 0}
-                    label={`Total Book${data?.totalBookings === 1 ? "ing" : "ings"
-                      }`}
+                    label={`Total Book${
+                      data?.totalBookings === 1 ? "ing" : "ings"
+                    }`}
                     bgColor={colors.primary[500]}
                     iconBgColor={colors.others.white}
                     textColor="#f9f7f2"

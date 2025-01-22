@@ -9,6 +9,7 @@ import CustomButton from "../CustomButton/CustomButton";
 import { IconButton, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { showToast } from "../../utils/toaster/toastWrapper";
 
 interface IMonthlyInvoiceGenerator {
   isUseIcons?: boolean;
@@ -54,6 +55,7 @@ const MonthlyInvoiceGenerator = ({
       console.error("Error generating/uploading invoice:", error);
     } finally {
       setIsGenerating(false);
+      showToast("success", "Statement genrated successfully!");
     }
   };
 

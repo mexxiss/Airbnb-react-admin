@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import UpDown from "../../assets/icons/UpDown.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
@@ -309,7 +309,7 @@ const Users: React.FC = () => {
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] text-center">
-                                  {user.address.area || "N/A"}
+                                  {user.address?.area || "N/A"}
                                 </span>
                               </td>
                               <td className="py-3 px-3">

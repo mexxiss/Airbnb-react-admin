@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useFetchBankDetailById } from "../../../hooks/react-query/bank-details-queries";
 import { Form, FormikProvider, useFormik } from "formik";
 import Input from "../../Input/Input";
-import { useToggle } from "../../../hooks/custom-hook/useToggle";
 import { useUpsertBankDetails } from "../../../hooks/react-query/bank-details-queries/useUpsertBankDetails";
 import { showToast } from "../../../utils/toaster/toastWrapper";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
@@ -13,7 +12,6 @@ import bankDetailsValidationSchema from "../../../utils/validations/bankDetailsV
 
 const BankDetails = () => {
   const { id } = useParams();
-  const [isOpen, toggleOpen] = useToggle();
   const [openModal, setOpenModal] = useState(false);
 
   // Fetch user details
@@ -47,7 +45,6 @@ const BankDetails = () => {
         {
           onSuccess: () => {
             formik.resetForm({ values });
-            toggleOpen(false);
             refetch();
             setOpenModal(false);
           },
@@ -64,66 +61,77 @@ const BankDetails = () => {
         {" "}
         <div className="flex items-center justify-between">
           <h6 className="text-lg text-text1 font-semibold">Bank Details</h6>
+
           <div>
-            <button
+            {data?.data && <button
               onClick={() => setOpenModal(true)}
               className="btn1 h-10 !px-8 tracking-wider"
             >
               Edit
-            </button>
+            </button>}
+
           </div>
         </div>
         <div className="mt-3 bg-white px-4 py-6 rounded-md shadow">
           <div>
-            <ul className="grid xl:grid-cols-2 gap-x-8 gap-y-2 flex-col">
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">Account Name</span>
-                <span className="font-medium">
-                  {data?.data?.accountHolderName === ""
-                    ? "-"
-                    : data?.data?.accountHolderName}
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">Bank Name</span>
-                <span className="font-medium">
-                  {data?.data?.bankName === "" ? "-" : data?.data?.bankName}
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">Currency</span>
-                <span className="font-medium">
-                  {data?.data?.currency === "" ? "-" : data?.data?.currency}
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">IBAN</span>
-                <span className="font-medium">
-                  {data?.data?.iban === "" ? "-" : data?.data?.iban}
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">Account Number</span>
-                <span className="font-medium">
-                  {data?.data?.accountNumber === ""
-                    ? "-"
-                    : data?.data?.accountNumber}
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row items-start justify-between">
-                <span className="text-text3 w-[150px]">Bank Address</span>
-                <span className="font-medium max-w-[250px] sm:text-end">
-                  {data?.data?.address === "" ? "-" : data?.data?.address}
-                </span>
-              </li>
-            </ul>
+            {data?.data ?
+              <ul className="grid xl:grid-cols-2 gap-x-8 gap-y-2 flex-col">
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">Account Name</span>
+                  <span className="font-medium">
+                    {data?.data?.accountHolderName === ""
+                      ? "-"
+                      : data?.data?.accountHolderName}
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">Bank Name</span>
+                  <span className="font-medium">
+                    {data?.data?.bankName === "" ? "-" : data?.data?.bankName}
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">Currency</span>
+                  <span className="font-medium">
+                    {data?.data?.currency === "" ? "-" : data?.data?.currency}
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">IBAN</span>
+                  <span className="font-medium">
+                    {data?.data?.iban === "" ? "-" : data?.data?.iban}
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">Account Number</span>
+                  <span className="font-medium">
+                    {data?.data?.accountNumber === ""
+                      ? "-"
+                      : data?.data?.accountNumber}
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row items-start justify-between">
+                  <span className="text-text3 w-[150px]">Bank Address</span>
+                  <span className="font-medium max-w-[250px] sm:text-end">
+                    {data?.data?.address === "" ? "-" : data?.data?.address}
+                  </span>
+                </li>
+              </ul>
+              :
+              <div className=" text-center">
+                <p className="text-lg text-text3 font-medium">
+                  No Bank Account Added Yet!
+                </p>
+                <button className="btn1 mt-3" onClick={() => setOpenModal(true)}>Add Account</button>
+              </div>
+            }
           </div>
         </div>
         <Modal show={openModal} onClose={() => setOpenModal(false)} size="3xl">
           <Modal.Body>
             <div className="flex items-center justify-between mb-4">
               <h6 className="text-xl font-medium text-primary">
-                Bank Detail Edit
+                {data?.data ? "Edit Bank Detail" : "Add Bank Detail"}
               </h6>
               <button onClick={() => setOpenModal(false)}>
                 <CloseOutlined />
@@ -142,8 +150,8 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.accountHolderName &&
-                      formik.errors?.accountHolderName ? (
-                        <div className="text-red-600">
+                        formik.errors?.accountHolderName ? (
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.accountHolderName}
                         </div>
                       ) : null}
@@ -157,7 +165,7 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.bankName && formik.errors?.bankName ? (
-                        <div className="text-red-600">
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.bankName}
                         </div>
                       ) : null}
@@ -171,7 +179,7 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.currency && formik.errors?.currency ? (
-                        <div className="text-red-600">
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.currency}
                         </div>
                       ) : null}
@@ -185,7 +193,7 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.iban && formik.errors?.iban ? (
-                        <div className="text-red-600">
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.iban}
                         </div>
                       ) : null}
@@ -199,8 +207,8 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.accountNumber &&
-                      formik.errors?.accountNumber ? (
-                        <div className="text-red-600">
+                        formik.errors?.accountNumber ? (
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.accountNumber}
                         </div>
                       ) : null}
@@ -214,7 +222,7 @@ const BankDetails = () => {
                         disabled={isPending}
                       />
                       {formik.touched?.address && formik.errors?.address ? (
-                        <div className="text-red-600">
+                        <div className="text-red-600 mt-1 text-sm">
                           {formik?.errors.address}
                         </div>
                       ) : null}
@@ -225,7 +233,7 @@ const BankDetails = () => {
             </div>
             <div className="mt-4 text-end">
               <button
-                disabled={!formik.dirty || isPending} // Disable Save button when no changes or submission in progress
+                disabled={isPending} // Disable Save button when no changes or submission in progress
                 onClick={async () => {
                   await formik.submitForm();
                 }}

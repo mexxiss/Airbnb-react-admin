@@ -42,6 +42,7 @@ export const editDetailValidationSchema = (isMultiple: boolean = false) => {
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
     city: Yup.string().required("City is required"),
+    area: Yup.string().required("Area is required"),
     pincode: Yup.string().required("Pincode is required"),
     country: Yup.string().required("Country is required"),
     email: Yup.string()

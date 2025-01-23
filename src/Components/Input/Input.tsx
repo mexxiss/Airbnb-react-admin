@@ -12,6 +12,7 @@ interface InputProps {
   inputClass?: string;
   labelClass?: string;
   containerClass?: string;
+  required?: boolean;
   disabled?: boolean;
   rows?: number;
   onChangeValue?: (name: string, value: string | number) => void;
@@ -28,6 +29,7 @@ const Input: React.FC<InputProps> = ({
   containerClass,
   disabled = false,
   rows = 6,
+  required = false,
   onChangeValue,
 }) => {
   const formikContext = useFormikContext<{ [key: string]: any }>();
@@ -66,7 +68,7 @@ const Input: React.FC<InputProps> = ({
             labelClass
           )}
         >
-          {label}
+          {label} {required && <span>*</span>}
         </label>
       )}
       <div className="relative">

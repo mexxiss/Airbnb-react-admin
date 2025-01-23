@@ -15,13 +15,13 @@ export function formatAmountWithCurrency(
 
   switch (currency) {
     case "AED":
-      formattedAmount = `AED ${amount.toLocaleString()} د.إ`;
+      formattedAmount = `AED ${amount.toLocaleString()}`;
       break;
     case "USD":
-      formattedAmount = `USD ${amount.toLocaleString()} $`;
+      formattedAmount = `USD ${amount.toLocaleString()}`;
       break;
     case "INR":
-      formattedAmount = `INR ${amount.toLocaleString()} ₹`;
+      formattedAmount = `INR ${amount.toLocaleString()}`;
       break;
     default:
       throw new Error("Unsupported currency type");

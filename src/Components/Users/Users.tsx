@@ -3,11 +3,8 @@ import userImg from "../../assets/images/userImg.png";
 import UpDown from "../../assets/icons/UpDown.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  Clear,
-  KeyboardArrowLeftOutlined,
-  KeyboardArrowRightOutlined,
-} from "@mui/icons-material";
+import { Clear } from "@mui/icons-material";
+import { Pagination as MuiPagination } from "@mui/material";
 import {
   useDeleteUser,
   userFetchQuery,
@@ -32,7 +29,7 @@ const Users: React.FC = () => {
   const [status, setStatus] = useState("");
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
 
   const { data, isLoading, isError, error } = userFetchQuery({
@@ -40,7 +37,7 @@ const Users: React.FC = () => {
     searchTerm,
     isDeleted: status,
     limit,
-    page,
+    page: currentPage,
   });
 
   const { mutate: toggleDelete, isPending: togglePending } = useDeleteUser();
@@ -59,6 +56,7 @@ const Users: React.FC = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page on search
   };
 
   const handleSort = (field: string) => {
@@ -84,6 +82,7 @@ const Users: React.FC = () => {
     setSearchTerm("");
     setDates([]);
     setStatus("");
+    setCurrentPage(1);
     refComp.current?.flatpickr?.clear();
   };
 
@@ -94,8 +93,12 @@ const Users: React.FC = () => {
     sortOrder,
   });
 
-  const startUserIndex = (page - 1) * limit + 1;
-  const endUserIndex = Math.min(page * limit, data?.totalUsers || 0);
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
+  };
+
+  const startUserIndex = (currentPage - 1) * limit + 1;
+  const endUserIndex = Math.min(currentPage * limit, data?.totalUsers || 0);
 
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
@@ -352,48 +355,32 @@ const Users: React.FC = () => {
                           Showing {startUserIndex} - {endUserIndex} of{" "}
                           {data?.totalUsers} users
                         </p>
-                        <div>
-                          <ul className="flex items-center gap-3">
-                            <li>
-                              <button
-                                className="text-[#8B8B8B]"
-                                onClick={() =>
-                                  setPage((prev) => Math.max(prev - 1, 1))
-                                }
-                              >
-                                <KeyboardArrowLeftOutlined />
-                              </button>
-                            </li>
-                            {Array.from(
-                              { length: data?.totalPages || 0 },
-                              (_, index) => (
-                                <li key={index}>
-                                  <button
-                                    className={`${
-                                      page === index + 1
-                                        ? "text-white bg-[#040404]"
-                                        : "text-text2"
-                                    } w-10 h-10 rounded-full flex items-center justify-center`}
-                                    onClick={() => setPage(index + 1)}
-                                  >
-                                    {index + 1}
-                                  </button>
-                                </li>
-                              )
-                            )}
-                            <li>
-                              <button
-                                className="text-[#8B8B8B]"
-                                onClick={() =>
-                                  setPage((prev) =>
-                                    Math.min(prev + 1, data?.totalPages || 1)
-                                  )
-                                }
-                              >
-                                <KeyboardArrowRightOutlined />
-                              </button>
-                            </li>
-                          </ul>
+                        <div className="flex overflow-x-auto sm:justify-end">
+                          <MuiPagination
+                            count={data?.totalPages || 1}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            color="primary"
+                            shape="circular"
+                            size="large"
+                            // showFirstButton
+                            // showLastButton
+                            sx={{
+                              "& .MuiPaginationItem-root": {
+                                color: "#666",
+                                "&.Mui-selected": {
+                                  backgroundColor: "#bb9e6c",
+                                  color: "white",
+                                  "&:hover": {
+                                    backgroundColor: "#a68d5f",
+                                  },
+                                },
+                                "&:not(.Mui-selected):hover": {
+                                  backgroundColor: "rgba(187, 158, 108, 0.1)",
+                                },
+                              },
+                            }}
+                          />
                         </div>
                       </div>
                     </div>

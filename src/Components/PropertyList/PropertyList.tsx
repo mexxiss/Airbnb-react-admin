@@ -18,6 +18,7 @@ import Flatpickr from "react-flatpickr";
 import { useToggle } from "../../hooks/custom-hook/useToggle";
 import DataHandler from "../ErrorHandleMessage/DataHandler";
 import DataNotFound from "../DataNotFound/DataNotFound";
+import { Pagination } from "@mui/material";
 
 const PropertyList = () => {
   const refComp = useRef<Flatpickr | null>(null);
@@ -29,13 +30,14 @@ const PropertyList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
+
   const { data, isLoading, isError, error } = useFetchProperties({
     dates,
     searchTerm,
     limit,
-    page,
+    page: currentPage,
     status,
   });
 
@@ -48,12 +50,8 @@ const PropertyList = () => {
     };
 
     updateShowMonths();
-
     window.addEventListener("resize", updateShowMonths);
-
-    return () => {
-      window.removeEventListener("resize", updateShowMonths);
-    };
+    return () => window.removeEventListener("resize", updateShowMonths);
   }, []);
 
   useEffect(() => {
@@ -64,12 +62,18 @@ const PropertyList = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
   const handleSort = (field: string) => {
     setSortField(field);
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
+
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
+  };
+
   const filteredSortedProperties = filterAndSortProperties({
     propertiesList,
     searchTerm,
@@ -77,10 +81,9 @@ const PropertyList = () => {
     sortOrder,
   });
 
-  const itemsPerPage = 10;
-  const startUserIndex = (page - 1) * itemsPerPage + 1;
+  const startUserIndex = (currentPage - 1) * limit + 1;
   const endUserIndex = Math.min(
-    page * itemsPerPage,
+    currentPage * limit,
     data?.totalProperties || 0
   );
 
@@ -109,11 +112,28 @@ const PropertyList = () => {
     }
   };
 
+  const [addressField, setAddressField] = useState<
+    "city" | "area" | "street" | "country"
+  >("city");
+
+  const handleAddressSort = () => {
+    const nextField = {
+      city: "area",
+      area: "street",
+      street: "country",
+      country: "city",
+    }[addressField] as "city" | "area" | "street" | "country";
+
+    setAddressField(nextField);
+    handleSort(`address.${nextField}`);
+  };
+
   const handleClear = () => {
     toggleOpen(false);
     setSearchTerm("");
     setDates([]);
     setStatus("");
+    setCurrentPage(1);
     refComp.current?.flatpickr?.clear();
   };
 
@@ -236,20 +256,19 @@ const PropertyList = () => {
                           <img
                             src={UpDown}
                             className="w-2"
-                            onClick={() => handleSort("address")}
+                            onClick={handleAddressSort}
                           />
                         </div>
                       </th>
-                      <th
+                      {/* <th
                         scope="col"
                         className="py-2 px-3"
                         style={{ minWidth: "150px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
                           Listed by
-                          {/* <img src={UpDown} className="w-2" /> */}
                         </div>
-                      </th>
+                      </th> */}
                       <th
                         scope="col"
                         className="py-2 px-3"
@@ -257,7 +276,13 @@ const PropertyList = () => {
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
                           Price Per Night
-                          {/* <img src={UpDown} className="w-2" /> */}
+                          <img
+                            src={UpDown}
+                            className="w-2"
+                            onClick={() =>
+                              handleSort("costs.prices.price_per_night")
+                            }
+                          />
                         </div>
                       </th>
                       <th
@@ -307,11 +332,11 @@ const PropertyList = () => {
                               {`${property.address.building_no}, ${property.address.street}, ${property.address.city}, ${property.address.country}`}
                             </span>
                           </td>
-                          <td className=" py-3 px-3">
+                          {/* <td className=" py-3 px-3">
                             <span className="text-sm text-[#040404] font-medium">
                               air bnb
                             </span>
-                          </td>
+                          </td> */}
                           <td className=" py-3 px-3">
                             <span className="text-sm text-[#040404] font-medium">
                               {formatAmountWithCurrency(
@@ -355,79 +380,30 @@ const PropertyList = () => {
                     Showing {startUserIndex} - {endUserIndex} of{" "}
                     {data?.totalProperties} Properties
                   </p>
-                  <div>
-                    <ul className="flex items-center gap-3">
-                      <li>
-                        <button
-                          className="text-[#8B8B8B]"
-                          onClick={() =>
-                            setPage((prev) => Math.max(prev - 1, 1))
-                          }
-                        >
-                          <KeyboardArrowLeftOutlined />
-                        </button>
-                      </li>
-                      {Array.from(
-                        { length: data?.totalPages || 0 },
-                        (_, index) => (
-                          <li key={index}>
-                            <button
-                              className={`${
-                                page === index + 1
-                                  ? "text-white bg-primary"
-                                  : "text-text2"
-                              } w-10 h-10 rounded-full flex items-center justify-center`}
-                              onClick={() => setPage(index + 1)}
-                            >
-                              {index + 1}
-                            </button>
-                          </li>
-                        )
-                      )}
-                      {/* <li>
-                      <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
-                        1
-                      </button>
-                    </li>
-                    <li>
-                      <button className="text-white bg-primary w-10 h-10 rounded-full flex items-center justify-center">
-                        2
-                      </button>
-                    </li> */}
-                      {/* <li>
-                      <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
-                        3
-                      </button>
-                    </li>
-                    <li>
-                      <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
-                        4
-                      </button>
-                    </li> */}
-                      {/* <li>
-                      <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
-                        ...
-                      </button>
-                    </li> */}
-                      {/* <li>
-                      <button className="text-text2 w-10 h-10 rounded-full flex items-center justify-center">
-                        10
-                      </button>
-                    </li> */}
-                      <li>
-                        <button
-                          className="text-[#8B8B8B]"
-                          onClick={() =>
-                            setPage((prev) =>
-                              Math.min(prev + 1, data?.totalPages || 1)
-                            )
-                          }
-                        >
-                          <KeyboardArrowRightOutlined />
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
+                  <Pagination
+                    count={data?.totalPages || 1}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{
+                      "& .MuiPaginationItem-root": {
+                        color: "#666",
+                        "&.Mui-selected": {
+                          backgroundColor: "#bb9e6c",
+                          color: "white",
+                          "&:hover": {
+                            backgroundColor: "#a68d5f",
+                          },
+                        },
+                        "&:not(.Mui-selected):hover": {
+                          backgroundColor: "rgba(187, 158, 108, 0.1)",
+                        },
+                      },
+                    }}
+                    shape="circular"
+                    size="large"
+                    // showFirstButton
+                    // showLastButton
+                  />
                 </div>
               </div>
             </div>

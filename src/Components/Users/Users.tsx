@@ -13,8 +13,6 @@ import {
   userFetchQuery,
 } from "../../hooks/react-query/users-queries";
 import { User } from "../../types/usersTypes";
-import Loader from "../Loader/Loader";
-import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { IconButton } from "@mui/material";
 import { ToggleSwitch } from "flowbite-react";
 import { filterAndSortUsers } from "./utils/helpers";
@@ -220,7 +218,7 @@ const Users: React.FC = () => {
                               onClick={() => handleSort("first_name")}
                             >
                               <div className="flex items-center gap-2.5">
-                                User <img src={UpDown} className="w-2" alt="" />
+                                Name <img src={UpDown} className="w-2" alt="" />
                               </div>
                             </th>
                             <th

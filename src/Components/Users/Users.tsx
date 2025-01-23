@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import UpDown from "../../assets/icons/UpDown.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
@@ -13,8 +13,6 @@ import {
   userFetchQuery,
 } from "../../hooks/react-query/users-queries";
 import { User } from "../../types/usersTypes";
-import Loader from "../Loader/Loader";
-import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import { IconButton } from "@mui/material";
 import { ToggleSwitch } from "flowbite-react";
 import { filterAndSortUsers } from "./utils/helpers";
@@ -22,6 +20,7 @@ import { Link } from "react-router-dom";
 import Flatpickr from "react-flatpickr";
 import { useToggle } from "../../hooks/custom-hook/useToggle";
 import DataHandler from "../ErrorHandleMessage/DataHandler";
+import DataNotFound from "../DataNotFound/DataNotFound";
 
 const Users: React.FC = () => {
   const refComp = useRef<Flatpickr | null>(null);
@@ -202,11 +201,7 @@ const Users: React.FC = () => {
               </div>
               <div className="mt-4 sm:mt-0">
                 {!filteredUsers?.length ? (
-                  <div className="w-full relative z-10 flex items-center justify-center pt-10">
-                    <p className="text-2xl sm:text-3xl text-gray-500 font-medium">
-                      No User Found
-                    </p>
-                  </div>
+                  <DataNotFound message="Users" />
                 ) : (
                   <>
                     <div className="relative overflow-x-auto">
@@ -223,7 +218,7 @@ const Users: React.FC = () => {
                               onClick={() => handleSort("first_name")}
                             >
                               <div className="flex items-center gap-2.5">
-                                User <img src={UpDown} className="w-2" alt="" />
+                                Name <img src={UpDown} className="w-2" alt="" />
                               </div>
                             </th>
                             <th

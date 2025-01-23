@@ -6,9 +6,7 @@ interface Iprops {
   searchTerm?: string;
 }
 const RevenueInvoiceList = ({ searchTerm }: Iprops) => {
-  console.log("revenue", { searchTerm });
-
-  const { data, isLoading, isError, error } = useFetchRevenueList();
+  const { data, isLoading, isError, error } = useFetchRevenueList(searchTerm);
   const columns = getRevenueColumnsHandler();
 
   return (
@@ -18,6 +16,7 @@ const RevenueInvoiceList = ({ searchTerm }: Iprops) => {
       data={data?.data || []}
       loadingStates={[isLoading]}
       errorStates={[{ isError, error }]}
+      noDataText="Revenue Invoice Data"
     />
   );
 };

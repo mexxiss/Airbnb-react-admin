@@ -151,16 +151,11 @@ const PersonalDetails = () => {
                     .filter(Boolean)
                     .join(", ")}
                 </p>
-
-                <p className="text-text3 mt-0.5">
-                  {finalData?.phone
-                    ?.filter(Boolean)
-                    .map((phone, index, array) => (
-                      <>
-                        {phone}
-                        {index < array.length - 1 && <span>,&nbsp;</span>}
-                      </>
-                    ))}
+                <p className="text-sm text-text3 mt-1">
+                  {finalData?.email[1]}
+                </p>
+                <p className="text-sm text-text3 mt-0.5">
+                  {finalData?.phone[1]}
                 </p>
               </div>
             </div>

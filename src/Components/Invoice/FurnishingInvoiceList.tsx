@@ -7,10 +7,10 @@ interface Iprops {
   searchTerm?: string;
 }
 const FurnishingInvoiceList = ({ searchTerm }: Iprops) => {
-  console.log({ searchTerm });
   const navigate = useNavigate();
   const columns = columnsHandlerFurnishing(navigate);
-  const { data, isLoading, error, isError } = useFetchFurnishingInvoice();
+  const { data, isLoading, error, isError } =
+    useFetchFurnishingInvoice(searchTerm);
 
   return (
     <ReusableTable
@@ -18,6 +18,7 @@ const FurnishingInvoiceList = ({ searchTerm }: Iprops) => {
       data={data?.data || []}
       loadingStates={[isLoading]}
       errorStates={[{ isError, error }]}
+      noDataText="Furnishing Invoice Data"
     />
   );
 };

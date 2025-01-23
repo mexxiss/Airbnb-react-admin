@@ -8,15 +8,13 @@ import { useState, useEffect } from "react";
  */
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
   useEffect(() => {
-    // Only update if the value actually changes
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
 
     return () => {
-      clearTimeout(handler); // Cleanup timeout
+      clearTimeout(handler);
     };
   }, [value, delay]);
 

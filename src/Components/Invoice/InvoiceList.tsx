@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import FurnishingInvoiceList from "./FurnishingInvoiceList";
 import RevenueInvoiceList from "./RevenueInvoiceList";

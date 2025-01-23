@@ -9,13 +9,33 @@ export interface FilterSortParams {
 
 /**
  * Safely retrieves nested object values based on the given path.
+ * @param obj The object to search within.
+ * @param path The string path representing the nested key.
+ * @returns The value at the given path, or undefined if not found.
  */
 const getNestedValue = (obj: any, path: string): any => {
-  return path.split(".").reduce((acc, key) => acc?.[key], obj);
+  return path
+    .split(".")
+    .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
+};
+
+/**
+ * Converts a string to a number if possible (for comparison).
+ * @param value The value to convert.
+ * @returns The number value or the original value if conversion is not possible.
+ */
+const parseToNumber = (value: any): number | string => {
+  const parsedValue = parseFloat(value);
+  return isNaN(parsedValue) ? value : parsedValue;
 };
 
 /**
  * Filters and sorts a list of properties based on the search term and sorting parameters.
+ * @param propertiesList The list of properties to filter and sort.
+ * @param searchTerm The term to search for in the property title, address, or costs.
+ * @param sortField The field to sort by (optional).
+ * @param sortOrder The order to sort by ("asc" or "desc", default is "asc").
+ * @returns The filtered and sorted list of properties.
  */
 export const filterAndSortProperties = ({
   propertiesList,
@@ -23,15 +43,13 @@ export const filterAndSortProperties = ({
   sortField,
   sortOrder = "asc",
 }: FilterSortParams): PropertyResponse[] => {
-  // Convert search term to lowercase for case-insensitive matching
   const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+
+  const numericSearchTerm = parseToNumber(searchTerm);
 
   return propertiesList
     .filter((property) => {
       const titleMatch = property.title
-        .toLowerCase()
-        .includes(lowerCaseSearchTerm);
-      const descriptionMatch = property.description
         .toLowerCase()
         .includes(lowerCaseSearchTerm);
 
@@ -44,27 +62,21 @@ export const filterAndSortProperties = ({
         addressPart.toLowerCase().includes(lowerCaseSearchTerm)
       );
 
-      const amenitiesMatch = property.amenities?.some(
-        (amenityId) =>
-          typeof amenityId === "string" &&
-          amenityId.toLowerCase().includes(lowerCaseSearchTerm)
-      );
-
-      const wifiMatch =
-        property?.property_details?.wifi?.name
-          ?.toLowerCase()
+      // Checking if the search term matches any cost-related fields (handling numbers as well)
+      const costMatch =
+        property.costs?.currency.toLowerCase().includes(lowerCaseSearchTerm) ||
+        property.costs?.prices.cleaning_fee
+          .toString()
           .includes(lowerCaseSearchTerm) ||
-        property?.property_details?.wifi?.password
-          ?.toLowerCase()
+        property.costs?.prices.price_per_night === numericSearchTerm ||
+        property.costs?.prices.price_per_night
+          .toString()
+          .includes(lowerCaseSearchTerm) ||
+        property.costs?.prices.security_amount
+          .toString()
           .includes(lowerCaseSearchTerm);
 
-      return (
-        titleMatch ||
-        descriptionMatch ||
-        addressMatch ||
-        amenitiesMatch ||
-        wifiMatch
-      );
+      return titleMatch || addressMatch || costMatch;
     })
     .sort((a, b) => {
       if (!sortField) return 0; // No sorting if sortField is not provided
@@ -84,6 +96,6 @@ export const filterAndSortProperties = ({
         return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
       }
 
-      return 0; // If types do not match or are not sortable
+      return 0;
     });
 };

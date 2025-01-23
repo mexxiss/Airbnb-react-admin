@@ -20,20 +20,30 @@ const UserPropertiesList = () => {
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <h6 className="text-lg text-text1 font-semibold">
-          Listed Properties ({data?.totalCount || 0})
+          Listed Properties {data?.totalCount !== 0 ? <span>({data?.totalCount})</span> : ""}
         </h6>
-        <Link
-          to={`/admin/user/${userId}/add-property`}
-          className="btn1 flex items-center"
-        >
-          Add Property
-        </Link>
+        {!data?.properties?.length ? "" :
+          <Link
+            to={`/admin/user/${userId}/add-property`}
+            className="btn1 flex items-center"
+          >
+            Add Property
+          </Link>
+        }
       </div>
       <div className="mt-3 bg-white px-4 py-6 rounded-md shadow">
         {!data?.properties?.length ? (
-          <p className="text-lg text-center text-text3 font-medium">
-            No Properties Listed Yet!
-          </p>
+          <div>
+            <p className="text-lg text-center text-text3 font-medium">
+              No Properties Listed Yet!
+            </p>
+            <Link
+              to={`/admin/user/${userId}/add-property`}
+              className="btn1 flex items-center w-max mx-auto mt-3"
+            >
+              Add Property
+            </Link>
+          </div>
         ) : (
           <div className="grid xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 mt-5 gap-4">
             {data?.properties.map((property) => {

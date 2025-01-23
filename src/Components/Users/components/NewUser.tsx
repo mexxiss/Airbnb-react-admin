@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../../../utils/toaster/toastWrapper";
 import { signupValidationSchema } from "../../../utils/validations/loginValidator";
 import { useSignUpUser } from "../../../hooks/react-query/users-queries";
+import CustomPhoneInput from "../../PhoneInput/CustomPhoneInput";
 
 const NewUser = () => {
   const { mutate: signUp, isPending } = useSignUpUser();
@@ -78,7 +79,15 @@ const NewUser = () => {
                   </span>
                 )}
               </div>
-
+              <div className="flex flex-col gap-1">
+                <CustomPhoneInput
+                  name="phone"
+                  label="Phone Number"
+                  placeholder="Enter phone number"
+                  country="ae"
+                  formik={formik}
+                />
+              </div>
               <div className="flex flex-col gap-1">
                 <Input
                   name="email"

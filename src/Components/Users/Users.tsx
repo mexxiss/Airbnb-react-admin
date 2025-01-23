@@ -311,7 +311,7 @@ const Users: React.FC = () => {
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] text-center">
-                                  {user.address.area || "N/A"}
+                                  {user.address?.area || "N/A"}
                                 </span>
                               </td>
                               <td className="py-3 px-3">

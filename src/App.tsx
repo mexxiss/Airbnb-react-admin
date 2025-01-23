@@ -31,6 +31,7 @@ import MaintenanceInvoiceDetails from "./Components/Invoice/MaintenanceForm/Main
 import MaintenancePdfViewer from "./Components/Invoice/MaintenanceForm/MaintenancePdfViewer.tsx";
 import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/MaintenanceFormEdit.tsx";
 import Faq from "./Components/faq/Faq.tsx";
+import SupportQuerry from "./Components/SupportQuerry/SupportQuerry.tsx";
 import Profile from "./Components/Profile/Profile.tsx";
 
 const App = () => {
@@ -217,6 +218,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <Faq />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "support",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <SupportQuerry />
             </ProtectedRoute>
           ),
         },

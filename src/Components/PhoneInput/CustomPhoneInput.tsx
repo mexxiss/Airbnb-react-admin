@@ -15,6 +15,7 @@ interface PhoneInputProps {
   className?: string;
   inputClassName?: string;
   isMultiple?: boolean;
+  isAddShowButton?: boolean;
 }
 
 const CustomPhoneInput: React.FC<PhoneInputProps> = ({
@@ -27,29 +28,23 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
   inputClassName = "",
   isMultiple = false,
   required = false,
+  isAddShowButton = false,
   formik,
 }) => {
   const [field, meta, helpers] = useField(name);
-  const { validateField, setFieldTouched } = useFormikContext();
+  const { validateField, setFieldTouched, touched } = useFormikContext();
 
-  console.log("Required Field: ", required);
-  
-
-  // Function to validate phone number
   const validatePhoneNumber = (value: string) => {
-    // Validate immediately when value changes
     validateField(name);
     setFieldTouched(name, true, false);
   };
 
-  // Handle single phone input change
   const handleSinglePhoneChange = (value: string, country: any) => {
     helpers.setValue(value);
     formik?.setFieldValue("country", country?.name || "");
     validatePhoneNumber(value);
   };
 
-  // Handle multiple phone input change
   const handleMultiplePhoneChange = (
     value: string,
     index: number,
@@ -59,7 +54,6 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
     validatePhoneNumber(`${name}.${index}`);
   };
 
-  // Set field as touched on mount to enable immediate validation
   useEffect(() => {
     setFieldTouched(name, true, false);
   }, [name, setFieldTouched]);
@@ -67,9 +61,10 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
   const getInputClassName = (error?: string) => `
     p-2 pl-12 !h-[43px] border-none rounded-lg outline-none 
     transition-all duration-200 !bg-[#f3F4F6] !w-full 
-    ${error
-      ? "border-red-500 focus:border-red-600"
-      : "border-gray-300 focus:border-blue-500"
+    ${
+      error
+        ? "border-red-500 focus:border-red-600"
+        : "border-gray-300 focus:border-blue-500"
     }
     ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}
     ${inputClassName}
@@ -90,52 +85,56 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({
             <div className="space-y-4">
               {field.value && field.value.length > 0
                 ? field.value.map((phone: string, index: number) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <div className="flex-grow relative">
-                      <PhoneInput
-                        country={country}
-                        value={phone}
-                        onChange={(value) =>
-                          handleMultiplePhoneChange(
-                            value,
-                            index,
-                            arrayHelpers
-                          )
-                        }
-                        placeholder={placeholder}
-                        disabled={disabled}
-                        enableSearch
-                        inputProps={{
-                          name: `${name}.${index}`,
-                          id: `${name}.${index}`,
-                        }}
-                        inputClass={getInputClassName(meta.error?.[index])}
-                      />
-                      {meta.error?.[index] && (
-                        <p className="mt-1 text-sm text-red-500">
-                          {meta.error[index]}
-                        </p>
+                    <div key={index} className="flex items-start gap-2">
+                      <div className="flex-grow relative">
+                        <PhoneInput
+                          country={country}
+                          value={phone}
+                          onChange={(value) =>
+                            handleMultiplePhoneChange(
+                              value,
+                              index,
+                              arrayHelpers
+                            )
+                          }
+                          placeholder={placeholder}
+                          disabled={disabled}
+                          enableSearch
+                          inputProps={{
+                            name: `${name}.${index}`,
+                            id: `${name}.${index}`,
+                          }}
+                          inputClass={getInputClassName(meta.error?.[index])}
+                        />
+                        {meta.error?.[index] && (
+                          <p className="mt-1 text-sm text-red-500">
+                            {meta.error[index]}
+                          </p>
+                        )}
+                      </div>
+                      {isAddShowButton && (
+                        <button
+                          type="button"
+                          onClick={() => arrayHelpers.remove(index)}
+                          className="mt-1 p-2 text-red-500 hover:text-red-700 transition-colors"
+                          aria-label="Remove phone number"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       )}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => arrayHelpers.remove(index)}
-                      className="mt-1 p-2 text-red-500 hover:text-red-700 transition-colors"
-                      aria-label="Remove phone number"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                ))
+                  ))
                 : null}
-              <button
-                type="button"
-                onClick={() => arrayHelpers.push("")}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add Phone Number
-              </button>
+              {isAddShowButton && (
+                <button
+                  type="button"
+                  onClick={() => arrayHelpers.push("")}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Phone Number
+                </button>
+              )}
             </div>
           )}
         />

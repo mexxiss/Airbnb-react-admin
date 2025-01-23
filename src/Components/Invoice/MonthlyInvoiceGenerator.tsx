@@ -55,7 +55,7 @@ const MonthlyInvoiceGenerator = ({
       console.error("Error generating/uploading invoice:", error);
     } finally {
       setIsGenerating(false);
-      showToast("success", "Statement genrated successfully!");
+      showToast("success", "Statement Genrated Successfully!");
     }
   };
 

@@ -16,6 +16,7 @@ const NewUser = () => {
       last_name: "",
       email: "",
       password: "",
+      phone: [""],
     },
     validationSchema: signupValidationSchema,
     onSubmit: async (values) => {
@@ -25,8 +26,9 @@ const NewUser = () => {
           last_name: values.last_name,
           email: [values.email].filter(Boolean),
           password: values.password,
+          phone: values?.phone?.map((num) => `+${num}`),
         };
-        console.log({ updates });
+
         signUp(updates, {
           onSuccess: (data) => {
             console.log("Local Success Handler:", data);
@@ -45,6 +47,7 @@ const NewUser = () => {
       }
     },
   });
+
   return (
     <div>
       <h6 className="text-lg text-text1 font-semibold">Create User</h6>
@@ -81,6 +84,7 @@ const NewUser = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <CustomPhoneInput
+                  isMultiple
                   name="phone"
                   label="Phone Number"
                   placeholder="Enter phone number"
@@ -116,7 +120,7 @@ const NewUser = () => {
                 type="submit"
                 className="px-4 py-2 text-white bg-primary hover:bg-primary-dark"
               >
-                Create User
+                {isPending ? "Creating..." : "Create User"}
               </button>
             </div>
           </Form>

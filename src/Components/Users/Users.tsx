@@ -214,6 +214,9 @@ const Users: React.FC = () => {
                       >
                         <thead className="text-sm text-[#8B8B8B] font-medium">
                           <tr>
+                            <th scope="col" className="py-2 px-3">
+                              <div className="flex items-center gap-2.5">#</div>
+                            </th>
                             <th
                               scope="col"
                               className="py-2 px-3"
@@ -235,6 +238,19 @@ const Users: React.FC = () => {
                               >
                                 Email
                                 <img src={UpDown} className="w-2" alt="" />
+                              </div>
+                            </th>
+                            <th
+                              scope="col"
+                              className="py-2 px-3"
+                              style={{ minWidth: "150px" }}
+                            >
+                              <div
+                                className="flex items-center gap-2.5"
+                                // onClick={() => handleSort("phone")}
+                              >
+                                Phone
+                                {/* <img src={UpDown} className="w-2" alt="" /> */}
                               </div>
                             </th>
                             <th
@@ -281,9 +297,12 @@ const Users: React.FC = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredUsers?.map((user) => (
+                          {filteredUsers?.map((user, i) => (
                             <tr className="bg-white mb-2" key={user._id}>
                               <td className="py-3 px-3 rounded-l-xl">
+                                #️{startUserIndex + i}
+                              </td>
+                              <td className="py-3 px-3">
                                 <div>
                                   <div className="flex items-center gap-3">
                                     <img
@@ -304,7 +323,12 @@ const Users: React.FC = () => {
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] flex flex-col">
-                                  {user.email[0]}
+                                  {user.email[0] || "N/A"}
+                                </span>
+                              </td>
+                              <td className="py-3 px-3">
+                                <span className="text-sm text-[#040404] flex flex-col">
+                                  {user.phone[0] || "N/A"}
                                 </span>
                               </td>
                               <td className="py-3 px-3">

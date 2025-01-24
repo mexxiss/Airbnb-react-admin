@@ -28,55 +28,55 @@ const ReusableTable: React.FC<TableProps> = ({
 }) => {
   return (
     <DataHandler loadingStates={loadingStates} errorStates={errorStates}>
-      <table
-        className="w-full border-separate min-w-full"
-        style={{ borderSpacing: "0 10px" }}
-      >
-        {!data.length ? (
-          <DataNotFound message={noDataText || ""} />
-        ) : (
-          <>
-            <thead className="text-sm text-[#8B8B8B] font-medium">
-              <tr>
-                {columns.map((col) => (
-                  <th
-                    key={col.key}
-                    scope="col"
-                    className="py-2 px-3"
-                    style={{ minWidth: col.minWidth }}
-                  >
-                    <div className="flex items-center gap-2.5">{col.label}</div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr className="bg-white mb-2" key={item?._id || index}>
+      <div className="relative overflow-x-auto">
+        <table
+          className="w-full border-separate min-w-full"
+          style={{ borderSpacing: "0 10px" }}
+        >
+          {!data.length ? (
+            <DataNotFound message={noDataText || ""} />
+          ) : (
+            <>
+              <thead className="text-sm text-[#8B8B8B] font-medium">
+                <tr>
                   {columns.map((col) => (
-                    <td
+                    <th
                       key={col.key}
-                      className={`py-3 px-3 ${columnsAlignment} ${
-                        index === 0 && col.key === "invoiceNumber"
-                          ? "rounded-l"
-                          : ""
-                      } ${
-                        index === data.length - 1 && col.key === "actions"
-                          ? "rounded-r"
-                          : ""
-                      }`}
+                      scope="col"
+                      className="py-2 px-3"
+                      style={{ minWidth: col.minWidth }}
                     >
-                      {col?.render
-                        ? col.render(item[col.key] || item)
-                        : item[col.key]}
-                    </td>
+                      <div className="flex items-center gap-2.5">{col.label}</div>
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </>
-        )}
-      </table>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr className="bg-white mb-2" key={item?._id || index}>
+                    {columns.map((col) => (
+                      <td
+                        key={col.key}
+                        className={`py-3 px-3 !text-left ${columnsAlignment} ${index === 0 && col.key === "invoiceNumber"
+                          ? "rounded-l"
+                          : ""
+                          } ${index === data.length - 1 && col.key === "actions"
+                            ? "rounded-r"
+                            : ""
+                          }`}
+                      >
+                        {col?.render
+                          ? col.render(item[col.key] || item)
+                          : item[col.key]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          )}
+        </table>
+      </div>
     </DataHandler>
   );
 };

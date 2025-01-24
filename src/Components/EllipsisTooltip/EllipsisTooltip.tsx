@@ -22,7 +22,7 @@ interface EllipsisTooltipProps {
 
 const EllipsisTooltip: React.FC<EllipsisTooltipProps> = ({
   title,
-  width = "100px",
+  width = "200px",
   className = "",
   placement = "top",
 }) => {

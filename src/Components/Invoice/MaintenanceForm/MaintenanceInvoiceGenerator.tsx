@@ -9,6 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { MaintenanceResponseValues } from "../../../types/maintenanceTypes";
 import { createInvoice, uploadFile } from "../../../services/apiServices";
 import CustomButton from "../../CustomButton/CustomButton";
+import { DeleteOutline } from "@mui/icons-material";
 
 interface IMaintenanceInvoiceGenerator {
   isUseIcons?: boolean;
@@ -162,13 +163,27 @@ const MaintenanceInvoiceGenerator = ({
           <a
             href={blob ? URL.createObjectURL(blob) : "#"}
             download={`invoice-${invoiceData?.taxInvoiceNumber}.pdf`}
-            className={` bg-gray-600 text-white rounded-lg hover:bg-gray-700 ${
-              !blob ? "disabled:opacity-50 pointer-events-none" : ""
-            }`}
+            className={` bg-gray-600 text-white rounded-lg hover:bg-gray-700 ${!blob ? "disabled:opacity-50 pointer-events-none" : ""
+              }`}
           >
             Download PDF
           </a>
         )}
+        <Tooltip title="Download">
+          <span>
+            <IconButton
+              sx={{ p: { xs: 0, sm: 0.5 } }}
+              disabled={!blob} // Disable the button if the blob is not available
+              className="!text-red-400 !text-lg hover:text-red-600 duration-300"
+            >
+              <DeleteOutline
+                sx={{
+                  fontSize: { xs: 14, sm: 18 },
+                }}
+              />
+            </IconButton>
+          </span>
+        </Tooltip>
       </div>
     </div>
   );

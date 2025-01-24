@@ -236,6 +236,9 @@ const PropertyList = () => {
                 >
                   <thead className="text-sm text-[#8B8B8B] font-medium">
                     <tr>
+                      <th scope="col" className="py-2 px-3">
+                        <div className="flex items-center gap-2.5">#</div>
+                      </th>
                       <th
                         scope="col"
                         className="py-2 px-3"
@@ -310,7 +313,10 @@ const PropertyList = () => {
                     {filteredSortedProperties?.map((property, index) => {
                       return (
                         <tr className="bg-white mb-2" key={index}>
-                          <td className=" py-3 px-3 rounded-l-xl">
+                          <td className="py-3 px-3 rounded-l-xl">
+                            #️{startUserIndex + index}
+                          </td>
+                          <td className=" py-3 px-3 ">
                             <div>
                               <div className="flex items-center gap-3">
                                 <img

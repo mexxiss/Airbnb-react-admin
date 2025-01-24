@@ -19,17 +19,17 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div>
-      <div className="max-w-[1640px] mx-auto">
+      <div className="max-w-[1640px] mx-auto overflow-x-hidden">
         <div className="relative w-full">
           <div
-            className={`absolute top-0 left-0  hidden lg:block border-[#c0a679] overflow-x-hidden ${isActiveMenu ? "w-0" : "w-[220px] border-r"
+            className={`absolute top-0 left-0  hidden lg:block border-[#c0a679] overflow-x-hidden ${isActiveMenu ? "-translate-x-full" : "translate-x-0 border-r"
               } duration-100 h-screen bg-[#8e7344]`}
           >
             <Sidebar isActiveMenu={isActiveMenu} />
           </div>
           <MobileMenu isActiveMobileMenu={isActiveMobileMenu} setIsActiveMobileMenu={setIsActiveMobileMenu} />
           <div
-            className={`duration-200 ${isActiveMenu ? "w-full lg:pl-0" : "w-full lg:pl-[220px]"
+            className={`duration-100 ${isActiveMenu ? "w-full lg:pl-0" : "w-full lg:pl-[220px]"
               }`}
           >
             <div className="px-6 py-[20px] flex items-center justify-between border-b border-gray-300 bg-[#8e7344]">

@@ -222,6 +222,26 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
             </li>
             <li className="py-2">
               <NavLink
+                to="/admin/support"
+                className={({ isActive }) =>
+                  `flex gap-3 items-center text-white px-8 text-nowrap py-2 hover:bg-primary ${isActive
+                    ? "bg-primary"
+                    : ""
+                  }`
+                }
+              >
+                <img
+                  src={changepassword}
+                  className="min-w-6 w-6"
+                  alt="Change Password"
+                />
+                <span className={`${isActiveMenu && "hidden"}`}>
+                  Support
+                </span>
+              </NavLink>
+            </li>
+            <li className="py-2">
+              <NavLink
                 to="/admin/change-password"
                 className={({ isActive }) =>
                   `flex gap-3 items-center text-white px-8 text-nowrap py-2 hover:bg-primary ${isActive

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import userImg from "../../assets/images/userImg.png";
+import userImg2 from "../../assets/images/userImg2.png";
 import UpDown from "../../assets/icons/UpDown.png";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -287,7 +287,7 @@ const Users: React.FC = () => {
                                 <div>
                                   <div className="flex items-center gap-3">
                                     <img
-                                      src={user?.profile_img || userImg}
+                                      src={user?.profile_img || userImg2}
                                       className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
                                       alt=""
                                     />

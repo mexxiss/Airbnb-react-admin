@@ -139,7 +139,7 @@ const PropertyList = () => {
 
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
-      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
+      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
         <div className="flex items-center justify-between border-b border-[#00858e5e] pb-5">
           <h5 className="text-22 text-primary font-bold">Properties</h5>
 

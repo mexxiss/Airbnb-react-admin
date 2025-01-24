@@ -18,6 +18,7 @@ interface EllipsisTooltipProps {
   title: string;
   width?: string;
   className?: string;
+  tooltipclass?: string;
 }
 
 const EllipsisTooltip: React.FC<EllipsisTooltipProps> = ({
@@ -25,9 +26,10 @@ const EllipsisTooltip: React.FC<EllipsisTooltipProps> = ({
   width = "200px",
   className = "",
   placement = "top",
+  tooltipclass= ""
 }) => {
   return (
-    <Tooltip title={title} placement={placement}>
+    <Tooltip title={title} placement={placement} className={tooltipclass}>
       <p
         className={`text-nowrap text-ellipsis overflow-hidden ${className}`}
         style={{ width }}

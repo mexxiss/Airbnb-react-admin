@@ -36,7 +36,7 @@ const InvoiceList: React.FC = () => {
 
   return (
     <div className="">
-      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-10">
+      <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
         <SearchBar
           title="Invoices"
           placeholder="Search invoices..."

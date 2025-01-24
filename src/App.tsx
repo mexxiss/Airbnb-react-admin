@@ -33,6 +33,7 @@ import MaintenanceFormEdit from "./Components/Invoice/MaintenanceForm/Maintenanc
 import Faq from "./Components/faq/Faq.tsx";
 import SupportQuerry from "./Components/SupportQuerry/SupportQuerry.tsx";
 import Profile from "./Components/Profile/Profile.tsx";
+import SupportChat from "./Components/SupportChat/SupportChat.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -226,6 +227,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <SupportQuerry />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "support/chat",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <SupportChat />
             </ProtectedRoute>
           ),
         },

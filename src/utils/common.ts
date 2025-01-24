@@ -177,3 +177,12 @@ export const calculateSubtotalAndVAT = (
 
   return { subtotal, vatTax, total };
 };
+
+export const fixPhoneNumbers = (numbers: string[]): string[] => {
+  return numbers.map((num) => {
+    // Remove all `+` symbols first
+    const cleanNum = num.replace(/\+/g, "");
+    // Add `+` at the beginning to ensure it starts with it
+    return `+${cleanNum}`;
+  });
+};

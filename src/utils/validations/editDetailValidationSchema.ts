@@ -37,14 +37,10 @@ const phoneValidation = (isMultiple: boolean) => {
   }
 };
 
-export const editDetailValidationSchema = (isMultiple: boolean = false) => {
-  const phoneSchema = Yup.object({
+export const personalDetailsValidationSchema = (isMultiple = false) => {
+  const schema = Yup.object({
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
-    city: Yup.string().required("City is required"),
-    area: Yup.string().required("Area is required"),
-    pincode: Yup.string().required("Pincode is required"),
-    country: Yup.string().required("Country is required"),
     email: Yup.string()
       .required("Please enter your email")
       .email("Invalid email format")
@@ -53,18 +49,45 @@ export const editDetailValidationSchema = (isMultiple: boolean = false) => {
       .required("Phone number is required")
       .test("len", "Phone number must be valid", (val) => {
         if (val) {
-          // Remove all non-numeric characters
           const numericValue = val.replace(/\D/g, "");
-          // Check if the length is between 10 and 15 digits
           return numericValue.length >= 10 && numericValue.length <= 15;
         }
         return false;
       }),
+    SecEmail: Yup.string()
+      .email("Invalid email format")
+      .matches(EMAIL_REGEX, "Invalid email: example@mail.abc"),
+    SecNumber: Yup.string().test("len", "Phone number must be valid", (val) => {
+      if (val) {
+        const numericValue = val.replace(/\D/g, "");
+        return numericValue.length >= 10 && numericValue.length <= 15;
+      }
+      return true; // Allow empty string for optional secondary number
+    }),
+    country: Yup.string(),
   });
 
   if (isMultiple) {
-    return Yup.array().of(phoneSchema);
+    return Yup.array().of(schema);
   } else {
-    return phoneSchema;
+    return schema;
+  }
+};
+
+export const addressValidationSchema = (isMultiple = false) => {
+  const schema = Yup.object({
+    building_no: Yup.string(),
+    street: Yup.string(),
+    city: Yup.string().required("City is required"),
+    area: Yup.string().required("Area is required"),
+    landmark: Yup.string(),
+    country: Yup.string().required("Country is required"),
+    pincode: Yup.string().required("Pincode is required"),
+  });
+
+  if (isMultiple) {
+    return Yup.array().of(schema);
+  } else {
+    return schema;
   }
 };

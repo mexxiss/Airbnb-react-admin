@@ -1,4 +1,4 @@
-import React from 'react'
+import userImg2 from "../../assets/images/userImg2.png";
 
 const SupportQuerry = () => {
     return (
@@ -17,7 +17,7 @@ const SupportQuerry = () => {
                                     <th
                                         scope="col"
                                         className="py-2 px-3"
-                                        style={{ minWidth: "270px" }}
+                                        style={{ minWidth: "200px" }}
                                     >
                                         <div className="flex items-center gap-2.5">
                                             User
@@ -26,7 +26,16 @@ const SupportQuerry = () => {
                                     <th
                                         scope="col"
                                         className="py-2 px-3"
-                                        style={{ minWidth: "150px" }}
+                                        style={{ minWidth: "200px" }}
+                                    >
+                                        <div className="flex items-center gap-2.5">
+                                            Email
+                                        </div>
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-2 px-3"
+                                        style={{ minWidth: "200px" }}
                                     >
                                         <div
                                             className="flex items-center gap-2.5"
@@ -37,10 +46,10 @@ const SupportQuerry = () => {
                                     <th
                                         scope="col"
                                         className="py-2 px-3"
-                                        style={{ minWidth: "100px" }}
+                                        style={{ minWidth: "200px" }}
                                     >
-                                        <div className="flex items-center gap-2.5">
-                                            Status
+                                        <div className="flex items-center gap-2.5 line-clamp-1">
+                                            Message
                                         </div>
                                     </th>
                                     <th
@@ -54,6 +63,35 @@ const SupportQuerry = () => {
                                     </th>
                                 </tr>
                             </thead>
+
+                            <tbody>
+                                <tr className="bg-white mb-2">
+                                    <td className="py-3 px-3 rounded-l-xl">
+                                        <div>
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={userImg2}
+                                                    className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
+                                                    alt=""
+                                                />
+                                                <div>
+                                                    <p className="text-sm text-[#040404] font-medium">
+                                                        inder
+                                                    </p>
+                                                    <p className="text-xs text-text2 font-medium">
+                                                        inder@gmail.com
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="py-3 px-3 text-center rounded-r-xl flex gap-1">
+                                        <button>
+                                                {/* <VisibilityIcon className="text-[#bb9e6c]" /> */}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>

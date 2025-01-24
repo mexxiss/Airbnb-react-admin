@@ -16,6 +16,9 @@ export const columnsHandlerFurnishing = (navigate: (path: string) => void) => [
     key: "invoiceNumber",
     label: "Invoice No.",
     minWidth: "20px",
+    render: (rowData: any) => {
+      return <EllipsisTooltip title={rowData} />;
+    },
   },
   {
     key: "statementPeriod",

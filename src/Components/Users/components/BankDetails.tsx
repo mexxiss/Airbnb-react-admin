@@ -148,6 +148,7 @@ const BankDetails = () => {
                         placeholder="Enter Account Name"
                         value={formik.values.accountHolderName}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.accountHolderName &&
                         formik.errors?.accountHolderName ? (
@@ -163,6 +164,7 @@ const BankDetails = () => {
                         placeholder="Enter Bank Name"
                         value={formik.values.bankName}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.bankName && formik.errors?.bankName ? (
                         <div className="text-red-600 mt-1 text-sm">
@@ -177,6 +179,7 @@ const BankDetails = () => {
                         placeholder="Enter Currency"
                         value={formik.values.currency}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.currency && formik.errors?.currency ? (
                         <div className="text-red-600 mt-1 text-sm">
@@ -191,6 +194,7 @@ const BankDetails = () => {
                         placeholder="Enter IBAN"
                         value={formik.values.iban}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.iban && formik.errors?.iban ? (
                         <div className="text-red-600 mt-1 text-sm">
@@ -205,6 +209,7 @@ const BankDetails = () => {
                         placeholder="Enter Account Number"
                         value={formik.values.accountNumber}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.accountNumber &&
                         formik.errors?.accountNumber ? (
@@ -220,6 +225,7 @@ const BankDetails = () => {
                         placeholder="Enter Bank Address"
                         value={formik.values.address}
                         disabled={isPending}
+                        required
                       />
                       {formik.touched?.address && formik.errors?.address ? (
                         <div className="text-red-600 mt-1 text-sm">

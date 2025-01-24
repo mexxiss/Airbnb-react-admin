@@ -51,7 +51,7 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
           key={tab.key}
           className={`text-sm py-1.5 px-4 tracking-wider border rounded-full cursor-pointer ${
             searchParams.get("tab") === tab.key
-              ? "font-medium bg-[#1E1E1E] border-[#1E1E1E] text-white"
+              ? "font-medium bg-primary border-pribg-primary text-white"
               : "border-border1 text-text2"
           }`}
           onClick={() => updateQueryParams(tab.key)}

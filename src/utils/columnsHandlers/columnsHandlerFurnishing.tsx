@@ -16,6 +16,16 @@ export const columnsHandlerFurnishing = (
   refatch: () => void
 ) => [
   {
+    key: "ownerDetails.name",
+    label: "Customer",
+    minWidth: "150px",
+    render: (rowData: any) => (
+      <div className="font-medium text-gray-900">
+        {rowData?.ownerDetails?.name || "-"}
+      </div>
+    ),
+  },
+  {
     key: "invoiceNumber",
     label: "Invoice No.",
     minWidth: "20px",

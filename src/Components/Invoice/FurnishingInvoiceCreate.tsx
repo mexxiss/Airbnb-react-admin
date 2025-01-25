@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { User } from "../../types/usersTypes";
 import { SelectionGroup } from "../SelectionGroup/SelectionGroup";
 import useAuthStore from "../../store/authStore";
@@ -21,7 +16,6 @@ import DataHandler from "../ErrorHandleMessage/DataHandler";
 import { useCreateFurnishingInvoice } from "../../hooks/react-query/revenue/useCreateFurnishingInvoice";
 
 const FurnishingInvoiceCreate = () => {
-
   const { user } = useAuthStore();
   const {
     data: bankdetails,
@@ -64,12 +58,12 @@ const FurnishingInvoiceCreate = () => {
     property_id: selectedProperty as string,
     companyDetails: {
       name: `${user?.first_name} ${user?.last_name}`,
-      address: `${user?.address.street} ${user?.address.country}`,
+      address: `${user?.address?.street} ${user?.address?.country}`,
       phone: user?.phone[0] || user?.phone[1] || "",
     },
     ownerDetails: {
       name: `${currentUser?.first_name} ${currentUser?.last_name}`,
-      address: `${currentUser?.address.street} ${currentUser?.address.country}`,
+      address: `${currentUser?.address?.street} ${currentUser?.address?.country}`,
       phone: currentUser?.phone[0] || currentUser?.phone[1] || "",
     },
     status: "Pending",
@@ -122,7 +116,9 @@ const FurnishingInvoiceCreate = () => {
           <Form onSubmit={formik.handleSubmit}>
             <div>
               <div className="mb-5">
-                <h5 className="text-22 text-primary font-bold">Create Furnishing Invoice</h5>
+                <h5 className="text-22 text-primary font-bold">
+                  Create Furnishing Invoice
+                </h5>
               </div>
               <SelectionGroup
                 onUserChange={handleUserChange}

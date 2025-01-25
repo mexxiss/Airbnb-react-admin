@@ -9,7 +9,6 @@ import { useCreateMonthlyInvoice } from "../../hooks/react-query/revenue";
 import { SelectionGroup } from "../SelectionGroup/SelectionGroup";
 
 const InvoiceCreate = () => {
-
   const { user } = useAuthStore();
 
   const [selectedValue, setSelectedValue] = useState<
@@ -55,19 +54,19 @@ const InvoiceCreate = () => {
 
   const newObject: IMonthlyInvoice = revenueData
     ? {
-      ...revenueData,
-      property_id: selectedProperty as string,
-      ownerDetails: {
-        name: `${user?.first_name} ${user?.last_name}`,
-        address: `${user?.address.street} ${user?.address.country}`,
-        phone: user?.phone[0] || user?.phone[1],
-      },
-      companyDetails: {
-        name: `${currentUser?.first_name} ${currentUser?.last_name}`,
-        address: `${currentUser?.address.street} ${currentUser?.address.country}`,
-        phone: currentUser?.phone[0] || currentUser?.phone[1],
-      },
-    }
+        ...revenueData,
+        property_id: selectedProperty as string,
+        ownerDetails: {
+          name: `${user?.first_name} ${user?.last_name}`,
+          address: `${user?.address?.street} ${user?.address?.country}`,
+          phone: user?.phone[0] || user?.phone[1],
+        },
+        companyDetails: {
+          name: `${currentUser?.first_name} ${currentUser?.last_name}`,
+          address: `${currentUser?.address?.street} ${currentUser?.address?.country}`,
+          phone: currentUser?.phone[0] || currentUser?.phone[1],
+        },
+      }
     : null;
 
   const { mutate: createInvoice, isPending } = useCreateMonthlyInvoice();
@@ -86,7 +85,9 @@ const InvoiceCreate = () => {
           errorStates={[{ isError: reveIsError, error: reveError }]}
         >
           <div className="mb-5">
-            <h5 className="text-22 text-primary font-bold">Create Revenue Invoice</h5>
+            <h5 className="text-22 text-primary font-bold">
+              Create Revenue Invoice
+            </h5>
           </div>
           <SelectionGroup
             onUserChange={handleUserChange}

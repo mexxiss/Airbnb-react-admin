@@ -136,10 +136,10 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
       formik.setFieldValue("tax", vatTax);
       formik.setFieldValue(
         "amountOwedToFP",
-        formik.values.receivedAmount - total
+        formik?.values?.receivedAmount - total
       );
     }
-  }, [formik.values.receivedAmount, formik.values.essentialWorks, data]);
+  }, [formik?.values?.receivedAmount, formik?.values?.essentialWorks, data]);
 
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>

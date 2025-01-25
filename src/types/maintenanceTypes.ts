@@ -69,6 +69,7 @@ export interface MaintenanceResponseValues {
   totalMaintenceCost: number;
   receivedAmount: number;
   amountOwedToFP: number;
+  isStatementGenrated?: boolean;
   bank_details: {
     _id: string;
     accountHolderName: string;

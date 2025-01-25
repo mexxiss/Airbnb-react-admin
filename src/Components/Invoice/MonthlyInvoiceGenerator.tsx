@@ -1,27 +1,80 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import { BlobProvider } from "@react-pdf/renderer";
-import { createInvoice, uploadFile } from "../../services/apiServices";
+import { uploadFile } from "../../services/apiServices";
 import MonthlyInvoicePDFWithTable from "./MonthlyInvoicePDFWithTable";
 import { IMonthlyInvoice } from "../../types/invoiceTypes";
 import CustomButton from "../CustomButton/CustomButton";
-import { IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { showToast } from "../../utils/toaster/toastWrapper";
 import { DeleteOutline } from "@mui/icons-material";
+import {
+  useCreateInvoice,
+  useDeleteStatement,
+} from "../../hooks/react-query/statement";
+import { showConfirmationDialog } from "../../utils/alerts/alertService";
 
 interface IMonthlyInvoiceGenerator {
   isUseIcons?: boolean;
   invoiceData?: IMonthlyInvoice;
+  refatch?: () => void;
 }
 const MonthlyInvoiceGenerator = ({
   invoiceData,
   isUseIcons = false,
+  refatch,
 }: IMonthlyInvoiceGenerator) => {
+  const neWObj = { ...invoiceData } as IMonthlyInvoice;
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [blob, setBlob] = useState<Blob | null>(null);
+  const { mutate: createInvoiceMutation, isPending: isPendingCreate } =
+    useCreateInvoice();
+  const { mutate: deleteStatement, isPending } = useDeleteStatement();
+
+  const handleCreateInvoice = async (invoiceData: any) => {
+    const isConfirmed = await showConfirmationDialog(
+      `Do you want to proceed with generating the statement for user panel, ${neWObj?.companyDetails?.name}?`,
+      "",
+      "Proceed",
+      "Go Back"
+    );
+
+    if (isConfirmed) {
+      createInvoiceMutation(
+        { invoiceData },
+        {
+          onSuccess: () => {
+            refatch && refatch();
+          },
+        }
+      );
+    }
+  };
+
+  const handleDeleteStatement = async (title: string) => {
+    const isConfirmed = await showConfirmationDialog(
+      `Are you sure you want to delete the generated invoice from the user panel, ${
+        neWObj?.companyDetails?.name || ""
+      }?`,
+      "",
+      "Yes",
+      "No"
+    );
+
+    if (isConfirmed) {
+      deleteStatement(
+        { title },
+        {
+          onSuccess: () => {
+            refatch && refatch();
+          },
+        }
+      );
+    }
+  };
 
   const handleGenerateAndUploadPDF = async () => {
     if (!blob) {
@@ -47,16 +100,16 @@ const MonthlyInvoiceGenerator = ({
         net_amount_to_pay: invoiceData?.summary?.totalIncome ?? 0,
         property: invoiceData?.property_id ?? "",
         received_amount: invoiceData?.summary?.netAmountDue ?? 0,
-        title: `Invoice #${invoiceData?.invoiceDetails?.invoiceNumber}`,
+        title: invoiceData?.invoiceDetails?.invoiceNumber ?? "",
         total_amount: invoiceData?.summary?.totalIncome ?? 0,
       };
 
-      await createInvoice(invoicePayload);
+      handleCreateInvoice(invoicePayload);
     } catch (error) {
       console.error("Error generating/uploading invoice:", error);
     } finally {
       setIsGenerating(false);
-      showToast("success", "Statement Genrated Successfully!");
+      // showToast("success", "Statement Genrated Successfully!");
     }
   };
 
@@ -119,32 +172,7 @@ const MonthlyInvoiceGenerator = ({
           </Link>
         )}
 
-        {isUseIcons ? (
-          <Tooltip
-            title={isGenerating ? "Generating..." : "Generate Statment "}
-          >
-            <IconButton
-              onClick={handleGenerateAndUploadPDF}
-              sx={{ p: { xs: 0, sm: 0.5 } }}
-            >
-              <NoteAddIcon
-                sx={{
-                  fontSize: { xs: 14, sm: 18 },
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <CustomButton
-            isDisabled={isGenerating || !blob}
-            isLoading={isGenerating}
-            isTooltip={false}
-            text={isGenerating ? "Generating..." : "Generate Statment "}
-            tooltipText="Tooltip content"
-            onClick={handleGenerateAndUploadPDF}
-            className="bg-primary text-white text-sm rounded-lg hover:bg-primary-dark"
-          />
-        )}
+        {/* DownLoad Button */}
         {isUseIcons ? (
           <Tooltip title="Download">
             <span>
@@ -166,27 +194,84 @@ const MonthlyInvoiceGenerator = ({
           <a
             href={blob ? URL.createObjectURL(blob) : "#"}
             download={`invoice-${invoiceData?.invoiceDetails?.invoiceNumber}.pdf`}
-            className={` bg-gray-600 text-white rounded-lg hover:bg-gray-700 ${!blob ? "disabled:opacity-50 pointer-events-none" : ""
-              }`}
+            className={` bg-gray-600 text-white rounded-lg hover:bg-gray-700 ${
+              !blob ? "disabled:opacity-50 pointer-events-none" : ""
+            }`}
           >
             Download PDF
           </a>
         )}
-        <Tooltip title="Download">
-          <span>
-            <IconButton
-              sx={{ p: { xs: 0, sm: 0.5 } }}
-              disabled={!blob} // Disable the button if the blob is not available
-              className="!text-red-400 !text-lg hover:text-red-600 duration-300"
-            >
-              <DeleteOutline
-                sx={{
-                  fontSize: { xs: 14, sm: 18 },
-                }}
-              />
-            </IconButton>
-          </span>
-        </Tooltip>
+
+        {/* Genrate  Button */}
+        {isUseIcons ? (
+          <div>
+            {invoiceData?.isStatementGenrated ? (
+              <>
+                {isPending ? (
+                  <IconButton sx={{ p: { xs: 0, sm: 0.5 } }} disabled={!blob}>
+                    <CircularProgress size={14} />
+                  </IconButton>
+                ) : (
+                  <Tooltip title="Delete Statement">
+                    <span>
+                      <IconButton
+                        onClick={() =>
+                          handleDeleteStatement(
+                            invoiceData?.invoiceDetails?.invoiceNumber || ""
+                          )
+                        }
+                        sx={{ p: { xs: 0, sm: 0.5 } }}
+                        disabled={!blob}
+                        className="!text-red-400 !text-lg hover:text-red-600 duration-300"
+                      >
+                        <DeleteOutline
+                          sx={{
+                            fontSize: { xs: 14, sm: 18 },
+                          }}
+                        />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                )}
+              </>
+            ) : (
+              <>
+                {isGenerating || isPendingCreate ? (
+                  <IconButton sx={{ p: { xs: 0, sm: 0.5 } }} disabled={!blob}>
+                    <CircularProgress size={14} />
+                  </IconButton>
+                ) : (
+                  <Tooltip
+                    title={
+                      isGenerating ? "Generating..." : "Generate Statment "
+                    }
+                  >
+                    <IconButton
+                      onClick={handleGenerateAndUploadPDF}
+                      sx={{ p: { xs: 0, sm: 0.5 } }}
+                    >
+                      <NoteAddIcon
+                        sx={{
+                          fontSize: { xs: 14, sm: 18 },
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            )}
+          </div>
+        ) : (
+          <CustomButton
+            isDisabled={isGenerating || !blob}
+            isLoading={isGenerating}
+            isTooltip={false}
+            text={isGenerating ? "Generating..." : "Generate Statment "}
+            tooltipText="Tooltip content"
+            onClick={handleGenerateAndUploadPDF}
+            className="bg-primary text-white text-sm rounded-lg hover:bg-primary-dark"
+          />
+        )}
       </div>
     </div>
   );

@@ -670,3 +670,18 @@ export function formatCheckDetails(checkDetails: PropertyCheckDetails) {
     check_out: convertTo12HourFormat(checkDetails?.check_out),
   };
 }
+
+export const deleteStatement = async (
+  title: string
+): Promise<{ message: string }> => {
+  try {
+    const response = await axiosInstance.delete<{ message: string }>(
+      `/admin/statements/${title}`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to delete statement"
+    );
+  }
+};

@@ -38,6 +38,7 @@ export interface FurnishingResponseInvoice {
   };
   _id: string;
   property_id: PropertyFieldData;
+  isStatementGenrated?: boolean;
   invoiceNumber: string;
   statementPeriod: string;
   status: "Paid" | "Pending" | "Overdue" | "Draft"; // Enum for status

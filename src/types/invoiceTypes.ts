@@ -60,6 +60,7 @@ export interface IMonthlyInvoice {
     address?: string;
     phone?: string;
   };
+  isStatementGenrated?: boolean;
   ownerDetails?: {
     name?: string;
     address?: string;

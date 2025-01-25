@@ -5,7 +5,10 @@ import EllipsisTooltip from "../../Components/EllipsisTooltip/EllipsisTooltip";
 import ActionButtonGroup from "../../Components/ActionButtonGroup/ActionButtonGroup";
 import MaintenanceInvoiceGenerator from "../../Components/Invoice/MaintenanceForm/MaintenanceInvoiceGenerator";
 
-export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
+export const columnsHandlerMaintenance = (
+  navigate: (path: string) => void,
+  refatch: () => void
+) => [
   {
     key: "taxInvoiceNumber",
     label: "Invoice No.",
@@ -85,7 +88,10 @@ export const columnsHandlerMaintenance = (navigate: (path: string) => void) => [
     label: "Download",
     minWidth: "100px",
     render: (rowData: any) => {
-      return <MaintenanceInvoiceGenerator invoiceData={rowData} />;
+      return (
+        <MaintenanceInvoiceGenerator invoiceData={rowData} refatch={refatch} />
+      );
+      refatch;
     },
   },
 ];

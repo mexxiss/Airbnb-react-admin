@@ -10,6 +10,16 @@ export const columnsHandlerMaintenance = (
   refatch: () => void
 ) => [
   {
+    key: "ownerDetails.name",
+    label: "Customer",
+    minWidth: "150px",
+    render: (rowData: any) => (
+      <div className="font-medium text-gray-900">
+        {rowData?.ownerDetails?.name || "-"}
+      </div>
+    ),
+  },
+  {
     key: "taxInvoiceNumber",
     label: "Invoice No.",
     minWidth: "100px",

@@ -1,8 +1,4 @@
-import {
-  FieldArray,
-  FormikProvider,
-  useFormik,
-} from "formik";
+import { FieldArray, FormikProvider, useFormik } from "formik";
 import { maintenanceSchemaValidation } from "../../../utils/validations/maintenanceSchema";
 import { Form } from "react-router-dom";
 import { MaintenanceFormValues } from "../../../types/maintenanceTypes";
@@ -30,7 +26,6 @@ const uploadFileHandler = async (
   return { imageUrl };
 };
 const MaintenanceForm: React.FC = () => {
-
   const { user } = useAuthStore();
   const {
     data: taxData,
@@ -83,12 +78,12 @@ const MaintenanceForm: React.FC = () => {
     ],
     companyDetails: {
       name: `${user?.first_name} ${user?.last_name}`,
-      address: `${user?.address.street} ${user?.address.country}`,
+      address: `${user?.address?.street} ${user?.address?.country}`,
       phone: user?.phone[0] || user?.phone[1] || "",
     },
     ownerDetails: {
       name: `${currentUser?.first_name} ${currentUser?.last_name}`,
-      address: `${currentUser?.address.street} ${currentUser?.address.country}`,
+      address: `${currentUser?.address?.street} ${currentUser?.address?.country}`,
       phone: currentUser?.phone[0] || currentUser?.phone[1] || "",
     },
     subtotal: 0,
@@ -156,7 +151,9 @@ const MaintenanceForm: React.FC = () => {
       <div>
         <div className="">
           <div className="mb-5">
-            <h5 className="text-22 text-primary font-bold">Create Maintenance Invoice</h5>
+            <h5 className="text-22 text-primary font-bold">
+              Create Maintenance Invoice
+            </h5>
           </div>
           <SelectionGroup
             onUserChange={handleUserChange}

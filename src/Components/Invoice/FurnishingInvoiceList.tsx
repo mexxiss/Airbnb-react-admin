@@ -12,6 +12,8 @@ const FurnishingInvoiceList = ({ searchTerm }: Iprops) => {
     useFetchFurnishingInvoice(searchTerm);
   const columns = columnsHandlerFurnishing(navigate, refetch);
 
+  console.log({ data });
+
   return (
     <ReusableTable
       columns={columns}

@@ -77,6 +77,8 @@ const InvoiceCreate = () => {
     }
   };
 
+  console.log({ revenueData });
+
   return (
     <div>
       <div>
@@ -101,7 +103,7 @@ const InvoiceCreate = () => {
           )}
 
           <div className="text-end mt-8">
-            {revenueData && Object.keys(revenueData).length > 0 && (
+            {revenueData && revenueData?.reservations?.length > 0 && (
               <button
                 onClick={handleSubmit}
                 disabled={isPending}

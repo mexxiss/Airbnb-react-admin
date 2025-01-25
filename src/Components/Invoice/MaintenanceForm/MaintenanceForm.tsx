@@ -162,7 +162,7 @@ const MaintenanceForm: React.FC = () => {
             onSelectedUserChange={handleSelectedUserChange}
           />
 
-          {selectedValue && (
+          {selectedValue && selectedProperty && (
             <div className="">
               <div className="mt-6">
                 <div className="grid grid-cols-1 gap-6">

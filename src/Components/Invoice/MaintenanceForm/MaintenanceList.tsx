@@ -8,9 +8,9 @@ interface Iprops {
 }
 const MaintenanceList = ({ searchTerm }: Iprops) => {
   const navigate = useNavigate();
-  const { data, isLoading, error, isError } =
+  const { data, isLoading, error, isError, refetch } =
     useFetchMaintenanceInvoice(searchTerm);
-  const columns = columnsHandlerMaintenance(navigate);
+  const columns = columnsHandlerMaintenance(navigate, refetch);
 
   return (
     <ReusableTable

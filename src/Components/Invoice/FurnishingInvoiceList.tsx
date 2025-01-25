@@ -8,9 +8,9 @@ interface Iprops {
 }
 const FurnishingInvoiceList = ({ searchTerm }: Iprops) => {
   const navigate = useNavigate();
-  const columns = columnsHandlerFurnishing(navigate);
-  const { data, isLoading, error, isError } =
+  const { data, isLoading, error, isError, refetch } =
     useFetchFurnishingInvoice(searchTerm);
+  const columns = columnsHandlerFurnishing(navigate, refetch);
 
   return (
     <ReusableTable

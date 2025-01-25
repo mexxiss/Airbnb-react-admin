@@ -11,7 +11,10 @@ const statusClasses = {
   Overdue: "bg-red-100 text-red-700",
   Draft: "bg-gray-100 text-gray-700",
 };
-export const columnsHandlerFurnishing = (navigate: (path: string) => void) => [
+export const columnsHandlerFurnishing = (
+  navigate: (path: string) => void,
+  refatch: () => void
+) => [
   {
     key: "invoiceNumber",
     label: "Invoice No.",
@@ -85,7 +88,7 @@ export const columnsHandlerFurnishing = (navigate: (path: string) => void) => [
     render: (rowData: any) => {
       return (
         <>
-          <FurnishingInvoiceGenerator invoiceData={rowData} />
+          <FurnishingInvoiceGenerator invoiceData={rowData} refatch={refatch} />
         </>
       );
     },

@@ -102,7 +102,7 @@ export const showConfirmationDialog = async (
       title: classes?.title || "text-gray-800 font-bold text-lg",
       confirmButton:
         classes?.confirmButton ||
-        "bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600",
+        "bg-primary text-white font-medium py-2 px-4 rounded hover:bg-[#bb9e6c]",
       cancelButton:
         classes?.cancelButton ||
         "bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded hover:bg-gray-400",

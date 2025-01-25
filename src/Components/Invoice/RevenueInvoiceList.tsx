@@ -6,8 +6,9 @@ interface Iprops {
   searchTerm?: string;
 }
 const RevenueInvoiceList = ({ searchTerm }: Iprops) => {
-  const { data, isLoading, isError, error } = useFetchRevenueList(searchTerm);
-  const columns = getRevenueColumnsHandler();
+  const { data, isLoading, isError, error, refetch } =
+    useFetchRevenueList(searchTerm);
+  const columns = getRevenueColumnsHandler(refetch);
 
   return (
     <ReusableTable

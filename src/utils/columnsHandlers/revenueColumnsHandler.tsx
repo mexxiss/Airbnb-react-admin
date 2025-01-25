@@ -3,7 +3,7 @@ import { formatDate } from "../../utils/common";
 import UpDownIcon from "../../assets/icons/UpDown.png";
 import MonthlyInvoiceGenerator from "../../Components/Invoice/MonthlyInvoiceGenerator";
 
-export const getRevenueColumnsHandler = () => [
+export const getRevenueColumnsHandler = (refatch: any) => [
   {
     key: "companyDetails.name",
     label: "Customer",
@@ -51,7 +51,11 @@ export const getRevenueColumnsHandler = () => [
     label: "Actions",
     minWidth: "100px",
     render: (rowData: any) => (
-      <MonthlyInvoiceGenerator invoiceData={rowData} isUseIcons={true} />
+      <MonthlyInvoiceGenerator
+        invoiceData={rowData}
+        isUseIcons={true}
+        refatch={refatch}
+      />
     ),
   },
 ];

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { ChangePasswordProps, LoginFormInputs } from "../types/loginTypes";
-import { User } from "../types/usersTypes";
+import { OnlyPropertyUserApiResponse, User } from "../types/usersTypes";
 import axiosInstance from "./axiosInstance";
 import {
   PropertiesPostResponse,
@@ -685,3 +685,11 @@ export const deleteStatement = async (
     );
   }
 };
+
+export const fetchOnlyPropertyUser =
+  async (): Promise<OnlyPropertyUserApiResponse> => {
+    const response = await axiosInstance.get<OnlyPropertyUserApiResponse>(
+      "/admin/only-properties-userlist"
+    );
+    return response.data;
+  };

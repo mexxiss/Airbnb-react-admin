@@ -63,7 +63,9 @@ const InvoiceCreate = () => {
         },
         companyDetails: {
           name: `${currentUser?.first_name} ${currentUser?.last_name}`,
-          address: `${currentUser?.address?.street} ${currentUser?.address?.country}`,
+          address: `${currentUser?.address?.street || "N/A"} ${
+            currentUser?.address?.country || "N/A"
+          }`,
           phone: currentUser?.phone[0] || currentUser?.phone[1],
         },
       }
@@ -103,7 +105,14 @@ const InvoiceCreate = () => {
           )}
 
           <div className="text-end mt-8">
-            {revenueData && revenueData?.reservations?.length > 0 && (
+            <button
+              onClick={handleSubmit}
+              disabled={isPending}
+              className=" inline-block  px-4 py-2 bg-primary rounded text-white"
+            >
+              {isPending ? "Creating..." : "Create Invoice"}
+            </button>
+            {/* {revenueData && revenueData?.reservations?.length > 0 && (
               <button
                 onClick={handleSubmit}
                 disabled={isPending}
@@ -111,7 +120,7 @@ const InvoiceCreate = () => {
               >
                 {isPending ? "Creating..." : "Create Invoice"}
               </button>
-            )}
+            )} */}
           </div>
         </DataHandler>
       </div>

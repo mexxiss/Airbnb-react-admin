@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   tHead: {
-    backgroundColor: "#FDF4E3"
+    backgroundColor: "#FDF4E3",
   },
   tableRow: {
     padding: "8px 0",
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
     color: "#000",
-    opacity: 0.6
+    opacity: 0.6,
   },
   totalValue: {
     fontSize: 12,
@@ -153,126 +153,153 @@ Font.register({
   ],
 });
 
-const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.logo}>Logo</Text>
-        </View>
-        <View style={styles.headerRight}>
-          <View style={styles.decorationBadge}>
-            <Text style={styles.decorationText}>Revenue Statement</Text>
-          </View>
-          <Text style={styles.invoiceNumber}>{invoice?.invoiceDetails?.invoiceNumber}</Text>
-        </View>
-      </View>
-      <View style={styles.gridContainer}>
-        <View>
-          <Text style={styles.h4}>{invoice?.ownerDetails?.name}</Text>
-          <Text>{invoice?.ownerDetails?.address}</Text>
-          <Text>Phone: {invoice.ownerDetails?.phone}</Text>
+const MonthlyInvoicePDFWithTable = ({ invoice }: InvoicePDFProps) => {
+  console.log("MonthlyInvoicePDFWithTable====>>>>>>", { invoice });
 
-          <View style={styles.mt6}>
-            <Text style={styles.date}>
-              Date: {formatDate(invoice?.invoiceDetails?.date || "")}
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <Text style={styles.logo}>Logo</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <View style={styles.decorationBadge}>
+              <Text style={styles.decorationText}>Revenue Statement</Text>
+            </View>
+            <Text style={styles.invoiceNumber}>
+              {invoice?.invoiceDetails?.invoiceNumber || "N/A"}
             </Text>
           </View>
         </View>
-        <View>
-          <Text style={styles.h4}>{invoice?.companyDetails?.name}</Text>
-          <Text>
-            {invoice?.companyDetails?.address}
-          </Text>
-          <Text>
-            <Text>Phone:</Text>
+        <View style={styles.gridContainer}>
+          <View>
+            <Text style={styles.h4}>
+              {invoice?.ownerDetails?.name || "N/A"}
+            </Text>
+            <Text>{invoice?.ownerDetails?.address || "N/A"}</Text>
+            <Text>Phone: {invoice.ownerDetails?.phone || "N/A"}</Text>
+
+            <View style={styles.mt6}>
+              <Text style={styles.date}>
+                Date: {formatDate(invoice?.invoiceDetails?.date || "")}
+              </Text>
+            </View>
+          </View>
+          <View>
+            <Text style={styles.h4}>
+              {invoice?.companyDetails?.name || "N/A"}
+            </Text>
+            <Text>{invoice?.companyDetails?.address || "N/A"}</Text>
             <Text>
-              {invoice?.companyDetails?.phone}
+              <Text>Phone:</Text>
+              <Text>{invoice?.companyDetails?.phone || "N/A"}</Text>
             </Text>
-          </Text>
 
-          <View style={styles.mt6}>
-            <Text style={styles.date}>
-              Statement Period: {invoice?.invoiceDetails?.statementPeriod}
+            <View style={styles.mt6}>
+              <Text style={styles.date}>
+                Statement Period:{" "}
+                {invoice?.invoiceDetails?.statementPeriod || "N/A"}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Table Header */}
+        <View style={[styles.table, styles.mb8, styles.mt12]}>
+          <View style={[styles.tableRow, styles.h4, styles.tHead]}>
+            <Text style={[styles.tableCell_1, styles.body2, styles.px6]}>
+              #
+            </Text>
+            <Text style={[styles.tableCell_2, styles.body2, styles.px6]}>
+              Reservation Code
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              Guest Name
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              Check-In
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              Check-Out
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              Total Nights
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              Income
             </Text>
           </View>
         </View>
-      </View>
 
-      {/* Table Header */}
-      <View style={[styles.table, styles.mb8, styles.mt12]}>
-        <View style={[styles.tableRow, styles.h4, styles.tHead]}>
-          <Text style={[styles.tableCell_1, styles.body2, styles.px6]}>#</Text>
-          <Text style={[styles.tableCell_2, styles.body2, styles.px6]}>
-            Reservation Code
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>Guest Name</Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>Check-In</Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>Check-Out</Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>Total Nights</Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>Income</Text>
-        </View>
-      </View>
+        {/* Table Rows */}
+        {invoice?.reservations?.map((reservation, index) => (
+          <View key={index} style={styles.tableRow}>
+            <Text style={[styles.tableCell_1, styles.body2, styles.px6]}>
+              {index + 1}
+            </Text>
+            <Text style={[styles.tableCell_2, styles.body2, styles.px6]}>
+              {reservation.reservationCode || "N/A"}
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              {reservation.guestName || "N/A"}
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              {formatDate(reservation.checkIn || "") || "N/A"}
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              {formatDate(reservation.checkOut || "") || "N/A"}
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              {reservation.totalNights || 0}
+            </Text>
+            <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
+              ${reservation.netRentalIncome || 0}
+            </Text>
+          </View>
+        ))}
 
-      {/* Table Rows */}
-      {invoice?.reservations?.map((reservation, index) => (
-        <View key={index} style={styles.tableRow}>
-          <Text style={[styles.tableCell_1, styles.body2, styles.px6]}>{index + 1}</Text>
-          <Text style={[styles.tableCell_2, styles.body2, styles.px6]}>
-            {reservation.reservationCode}
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
-            {reservation.guestName}
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
-            {formatDate(reservation.checkIn || "")}
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
-            {formatDate(reservation.checkOut || "")}
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
-            {reservation.totalNights}
-          </Text>
-          <Text style={[styles.tableCell_3, styles.body2, styles.px6]}>
-            ${reservation.netRentalIncome}
-          </Text>
+        <View style={[styles.totalsContainer, styles.px6]}>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalValue}>
+              AED {invoice.summary?.totalIncome || 0}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>
+              Management Fee ({invoice.summary?.managementFee.percentage}%)
+            </Text>
+            <Text style={styles.totalValue}>
+              -AED {invoice.summary?.managementFee.amount}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Net Total</Text>
+            <Text style={styles.totalValue}>
+              AED {invoice.summary?.netAmountDue}
+            </Text>
+          </View>
         </View>
-      ))}
 
-      <View style={[styles.totalsContainer, styles.px6]}>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total</Text>
-          <Text style={styles.totalValue}>
-            AED 100
+        <View style={styles.footer}>
+          <Text>Kind regards,</Text>
+          <Text>Mexxstates</Text>
+          <Text
+            style={{
+              backgroundColor: "#bb9e6c",
+              marginTop: 15,
+              paddingVertical: 6,
+              paddingHorizontal: 3,
+            }}
+          >
+            www.frankporter.com
           </Text>
         </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Management Fee (17%)</Text>
-          <Text style={styles.totalValue}>AED 17</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Net Total</Text>
-          <Text style={styles.totalValue}>AED 83</Text>
-        </View>
-      </View>
-
-      <View style={styles.footer}>
-        <Text>Kind regards,</Text>
-        <Text>Mexxstates</Text>
-        <Text
-          style={{
-            backgroundColor: "#bb9e6c",
-            marginTop: 15,
-            paddingVertical: 6,
-            paddingHorizontal: 3,
-          }}
-        >
-          www.frankporter.com
-        </Text>
-      </View>
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
+};
 
 export default MonthlyInvoicePDFWithTable;

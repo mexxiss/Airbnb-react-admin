@@ -1,6 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { User } from "../../types/usersTypes";
-import { userFetchQuery } from "../react-query/users-queries";
+import {
+  useOnlyPropertyUsersQuery,
+  userFetchQuery,
+} from "../react-query/users-queries";
 import { usePropertiesByUser } from "../react-query/properties-query";
 
 interface UseSelectionProps {
@@ -30,19 +33,8 @@ export const useSelection = ({
     initialValues.selectedUser || null
   );
 
-  const [dates, setDates] = useState<Date[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [status, setStatus] = useState("");
-  const [page, setPage] = useState(1);
-
   // Fetch users
-  const { data, isLoading, isError, error } = userFetchQuery({
-    dates,
-    searchTerm,
-    isDeleted: status,
-    limit,
-    page,
-  });
+  const { data, isLoading, isError, error } = useOnlyPropertyUsersQuery();
 
   // Fetch properties by user
   const {

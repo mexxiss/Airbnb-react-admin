@@ -45,6 +45,8 @@ const RevenueStatement: React.FC<Props> = ({ data }) => {
     ownerDetails,
   } = data;
 
+  console.log({ data });
+
   return (
     <div className="mt-8">
       <div className="p-8 rounded-2xl shadow-lg bg-white">

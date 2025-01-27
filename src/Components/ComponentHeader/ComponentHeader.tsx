@@ -7,7 +7,7 @@ interface ComponentHeaderProps {
   linkText: string;
   linkTo: string;
   userImage: string;
-  onMenuClick: () => void;
+  onMenuClick?: () => void;
 }
 
 const ComponentHeader: React.FC<ComponentHeaderProps> = ({

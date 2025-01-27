@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import userImg from "../../assets/images/userImg.png";
 import { DashboardContext } from "../../ContextApi";
 import { MenuOutlined } from "@mui/icons-material";
@@ -26,16 +20,9 @@ import { useParams } from "react-router-dom";
 import { useFetchFurnishingDataById } from "../../hooks/react-query/revenue/useFetchFurnishingDataById";
 import { useUpdateFurnishingInvoice } from "../../hooks/react-query/revenue";
 
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
-
 const FurnishingInvoiceEdit = () => {
   const { id } = useParams();
 
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
   const { data, isLoading, error, isError } = useFetchFurnishingDataById({
     id: id || "",
   });
@@ -105,7 +92,7 @@ const FurnishingInvoiceEdit = () => {
     },
     ownerDetails: {
       name: `${currentUser?.first_name} ${currentUser?.last_name}`,
-      address: `${currentUser?.address.street} ${currentUser?.address.country}`,
+      address: `${currentUser?.address?.street} ${currentUser?.address?.country}`,
       phone: currentUser?.phone[0] || currentUser?.phone[1] || "",
     },
     status: "Pending",
@@ -180,10 +167,7 @@ const FurnishingInvoiceEdit = () => {
       {/* UI */}
       <div className="px-6 lg:px-10 py-[32px] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button
-            className="lg:hidden hover:text-primary active:text-primary"
-            onClick={() => setIsActiveMobileMenu(true)}
-          >
+          <button className="lg:hidden hover:text-primary active:text-primary">
             <MenuOutlined className="!text-3xl" />
           </button>
           <h5 className="text-22 text-primary font-bold">

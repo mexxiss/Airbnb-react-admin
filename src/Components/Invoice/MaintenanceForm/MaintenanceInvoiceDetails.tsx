@@ -1,27 +1,16 @@
-import React, { useContext, useEffect } from "react";
 import ComponentHeader from "../../ComponentHeader/ComponentHeader";
-import { DashboardContext } from "../../../ContextApi";
 import userImg from "../../../assets/images/userImg.png";
-import property from "../../../assets/images/property.png";
 import { Link, useParams } from "react-router-dom";
 import { KeyboardArrowLeftOutlined } from "@mui/icons-material";
 import { useFetchMaintenanceById } from "../../../hooks/react-query/revenue";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
-import { formatDate } from "../../../utils/common";
+import { formatDate, numberRoundFix } from "../../../utils/common";
 
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
 const MaintenanceInvoiceDetails = () => {
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
   const { id } = useParams();
   const { data, isLoading, isError, error } = useFetchMaintenanceById({
     id: id || "",
   });
-
-  console.log({ data });
 
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
@@ -31,7 +20,6 @@ const MaintenanceInvoiceDetails = () => {
           linkText=""
           linkTo="/admin/invoices"
           userImage={userImg}
-          onMenuClick={() => setIsActiveMobileMenu(true)}
         />
 
         <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
@@ -59,7 +47,7 @@ const MaintenanceInvoiceDetails = () => {
                         TECHNICAL SERVICES
                       </span>
                       <p className="text-lg font-medium">
-                        {data?.taxInvoiceNumber}
+                        {data?.taxInvoiceNumber || "N/A"}
                       </p>
                     </div>
                   </div>
@@ -67,12 +55,17 @@ const MaintenanceInvoiceDetails = () => {
                     <div>
                       <div className="text-gray-800 text-sm">
                         <p className="font-semibold">
-                          {data?.companyDetails.name}
+                          {data?.companyDetails?.name || "N/A"}
                         </p>
-                        <p className="mt-1">{data?.companyDetails.address}</p>
+                        <p className="mt-1">
+                          {data?.companyDetails?.address || "N/A"}
+                        </p>
                         <div className="flex mt-1 gap-2">
                           <span className="font-medium">Phone:</span>
-                          <p className=""> {data?.companyDetails.phone}</p>
+                          <p className="">
+                            {" "}
+                            {data?.companyDetails?.phone || "N/A"}
+                          </p>
                         </div>
                         <div className="flex gap-2 mt-4">
                           <span className="font-medium">Date:</span>
@@ -86,15 +79,15 @@ const MaintenanceInvoiceDetails = () => {
                       <div className="text-gray-800 text-sm">
                         <div className="flex gap-2">
                           <span className="font-medium">Client Name:</span>
-                          <p className="">{data?.ownerDetails.name}</p>
+                          <p className="">{data?.ownerDetails.name || "N/A"}</p>
                         </div>
                         <div className="flex mt-1 gap-2">
                           <span className="font-medium">Month:</span>
-                          <p className="">{data?.statementPeriod}</p>
+                          <p className="">{data?.statementPeriod || "N/A"}</p>
                         </div>
                         <div className="flex mt-1 gap-2">
                           <span className="font-medium">Property:</span>
-                          <p className="">{data?.property_id.title}</p>
+                          <p className="">{data?.property_id.title || "N/A"}</p>
                         </div>
                       </div>
                     </div>
@@ -135,22 +128,28 @@ const MaintenanceInvoiceDetails = () => {
                                 </th>
                               </thead>
                               <tbody>
-                                {data?.essentialWorks.map((essentialWork) => (
-                                  <tr key={essentialWork.itemService}>
+                                {data?.essentialWorks?.map((essentialWork) => (
+                                  <tr key={essentialWork?.itemService}>
                                     <td
                                       colSpan={2}
                                       className="border border-primary px-4 py-2"
                                     >
-                                      {essentialWork.itemService}
+                                      {numberRoundFix(
+                                        essentialWork?.itemService
+                                      ) || "N/A"}
                                     </td>
                                     <td className="border border-primary px-4 py-2 text-center">
-                                      {essentialWork.quantity}
+                                      {essentialWork?.quantity || "N/A"}
                                     </td>
                                     <td className="border border-primary px-4 py-2 text-center">
-                                      {essentialWork.priceUnit}
+                                      {numberRoundFix(
+                                        essentialWork?.priceUnit
+                                      ) || "N/A"}
                                     </td>
                                     <td className="border border-primary px-4 py-2 text-center">
-                                      {essentialWork.priceSummary}
+                                      {numberRoundFix(
+                                        essentialWork?.priceSummary
+                                      ) || "N/A"}
                                     </td>
                                   </tr>
                                 ))}
@@ -163,7 +162,7 @@ const MaintenanceInvoiceDetails = () => {
                                     Sub Total
                                   </td>
                                   <td className="border border-primary text-right px-4 py-2 font-semibold">
-                                    {data?.subtotal}
+                                    {numberRoundFix(data?.subtotal) || "N/A"}
                                   </td>
                                 </tr>
                                 <tr>
@@ -174,7 +173,7 @@ const MaintenanceInvoiceDetails = () => {
                                     Vat 5%
                                   </td>
                                   <td className="border border-primary text-right px-4 py-2 font-semibold">
-                                    {data?.tax}
+                                    {numberRoundFix(data?.tax) || "N/A"}
                                   </td>
                                 </tr>
                                 <tr>
@@ -185,7 +184,8 @@ const MaintenanceInvoiceDetails = () => {
                                     Total
                                   </td>
                                   <td className="border border-primary text-right px-4 py-2 font-semibold">
-                                    {data?.totalMaintenceCost}
+                                    {numberRoundFix(data?.totalMaintenceCost) ||
+                                      "N/A"}
                                   </td>
                                 </tr>
                                 <tr>
@@ -196,7 +196,8 @@ const MaintenanceInvoiceDetails = () => {
                                     Recieved Amount
                                   </td>
                                   <td className="border border-primary text-right px-4 py-2 font-semibold">
-                                    {data?.receivedAmount}
+                                    {numberRoundFix(data?.receivedAmount) ||
+                                      "N/A"}
                                   </td>
                                 </tr>
                                 <tr>
@@ -207,7 +208,8 @@ const MaintenanceInvoiceDetails = () => {
                                     TOTAL AMOUNT OWED TO FP
                                   </td>
                                   <td className="border border-primary text-right px-4 py-2 font-semibold">
-                                    {data?.amountOwedToFP}
+                                    {numberRoundFix(data?.amountOwedToFP) ||
+                                      "N/A"}
                                   </td>
                                 </tr>
                               </tbody>
@@ -227,44 +229,48 @@ const MaintenanceInvoiceDetails = () => {
                           Account Holder Name:{" "}
                         </span>
                         <p className="">
-                          {data?.bank_details.accountHolderName}
+                          {data?.bank_details?.accountHolderName}
                         </p>
                       </div>
                       <div className="flex gap-2 text-sm mt-0.5">
                         <span className="font-medium">Account Number: </span>
-                        <p className="">{data?.bank_details.accountNumber}</p>
+                        <p className="">
+                          {data?.bank_details?.accountNumber || "N/A"}
+                        </p>
                       </div>
                       <div className="flex gap-2 text-sm mt-0.5">
                         <span className="font-medium">Bank: </span>
-                        <p className="">{data?.bank_details.bankName}</p>
+                        <p className="">
+                          {data?.bank_details?.bankName || "N/A"}
+                        </p>
                       </div>
                       <div className="flex gap-2 text-sm mt-0.5">
                         <span className="font-medium">IBAN:</span>
-                        <p className="">{data?.bank_details.iban}</p>
+                        <p className="">{data?.bank_details?.iban || "N/A"}</p>
                       </div>
                       <div className="flex gap-2 text-sm mt-0.5">
                         <span className="font-medium">SWIFT CODE: </span>
-                        <p className="">{data?.bank_details.swiftCode}</p>
+                        <p className="">
+                          {data?.bank_details?.swiftCode || "N/A"}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="mt-12">
-                  <h4 className="font-semibold">
-                    Essential Works Photos (1/2)
-                  </h4>
+                  <h4 className="font-semibold">Essential Works Photos</h4>
                   <div className="grid grid-cols-3 gap-2 mt-2">
                     {data?.essentialWorksImages.map((image) => (
                       <div
-                        key={image.work_name}
+                        key={image?.work_name}
                         className="border border-primary p-2 rounded bg-primary bg-opacity-10"
                       >
                         <img
-                          src={image.url}
+                          src={image?.url}
                           className="w-full object-contain max-h-[260px]"
                         />
                         <p className="text-center text-sm mt-2">
-                          {image.work_name}
+                          {image?.work_name}
                         </p>
                       </div>
                     ))}

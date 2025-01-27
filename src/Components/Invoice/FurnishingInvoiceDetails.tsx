@@ -2,20 +2,13 @@ import React, { useContext } from "react";
 // "react-rte": "^0.16.5",
 import userImg from "../../assets/images/userImg.png";
 import { Link, useParams } from "react-router-dom";
-import { DashboardContext } from "../../ContextApi";
 import { KeyboardArrowLeftOutlined, MenuOutlined } from "@mui/icons-material";
 import ComponentHeader from "../ComponentHeader/ComponentHeader";
 import { useFetchFurnishingDataById } from "../../hooks/react-query/revenue/useFetchFurnishingDataById";
 import DataHandler from "../ErrorHandleMessage/DataHandler";
 import { formatDate, formatWithCommas } from "../../utils/common";
 
-interface DashboardContextType {
-  setIsActiveMobileMenu: (isActive: boolean) => void;
-}
 const FurnishingInvoiceDetails = () => {
-  const { setIsActiveMobileMenu } = useContext(
-    DashboardContext
-  ) as DashboardContextType;
   const { id } = useParams();
 
   const { data, isLoading, error, isError } = useFetchFurnishingDataById({
@@ -30,7 +23,6 @@ const FurnishingInvoiceDetails = () => {
           linkText="Invoice List"
           linkTo="/admin/invoices"
           userImage={userImg}
-          onMenuClick={() => setIsActiveMobileMenu(true)}
         />
         <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
           <div className="">

@@ -1,12 +1,18 @@
 
-import { Link } from "react-router-dom";
-import userImg2 from "../../assets/images/userImg2.png";
-import { AttachFileOutlined, CloseOutlined, EmailOutlined, KeyboardArrowLeftOutlined, PhoneOutlined, VisibilityOutlined } from "@mui/icons-material";
+import { Link, useSearchParams } from "react-router-dom";
+import { CloseOutlined, KeyboardArrowLeftOutlined } from "@mui/icons-material";
 import EllipsisTooltip from "../EllipsisTooltip/EllipsisTooltip";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
+import { useGetContactSupportByUser } from "../../hooks/react-query/contact-support/useGetContactQueriesByUser";
 const SupportChat = () => {
     const [showModal, setShowModal] = useState(false);
+    const [searchParams] = useSearchParams();
+
+    const user = searchParams.get('user') || '';
+    const {data, isLoading, isError, error} = useGetContactSupportByUser(user);
+    console.log(data);
+    
     return (
         <div>
             <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">

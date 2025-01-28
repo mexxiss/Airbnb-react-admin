@@ -16,7 +16,6 @@ import { AmenitiesResponse } from "../types/amenitiesTypes";
 import { DashboardData } from "../types/dashboard";
 import {
   AboutUsTypes,
-  LegalContent,
   LegalContentResponse,
 } from "../types/legalsTypes";
 import { IMonthlyInvoice } from "../types/invoiceTypes";
@@ -123,8 +122,6 @@ export const toggleUserDeletedStatus = async (
   const response = await axiosInstance.delete(`/admin/users/${id}`);
   return response.data;
 };
-
-//** properties services */
 
 export const fetchProperties = async (query: string): Promise<any> => {
   const response = await axiosInstance.get(`/admin/properties?${query}`);
@@ -686,10 +683,19 @@ export const deleteStatement = async (
   }
 };
 
-export const fetchOnlyPropertyUser =
-  async (): Promise<OnlyPropertyUserApiResponse> => {
-    const response = await axiosInstance.get<OnlyPropertyUserApiResponse>(
-      "/admin/only-properties-userlist"
-    );
-    return response.data;
-  };
+export const fetchOnlyPropertyUser = async (): Promise<OnlyPropertyUserApiResponse> => {
+  const response = await axiosInstance.get<OnlyPropertyUserApiResponse>(
+    "/admin/only-properties-userlist"
+  );
+  return response.data;
+};
+
+export const fetchContactSupportQueries = async () => {
+  const response = await axiosInstance.get(`/admin/queries`);
+  return response.data;
+}
+
+export const fetchQueriesByUser = async (user: string) => {
+  const response = await axiosInstance.get(`/admin/user-queries?user=${user}`);
+  return response.data;
+}

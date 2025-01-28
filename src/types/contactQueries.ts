@@ -11,3 +11,11 @@ export interface contactQueries {
     pendingCount: number;
     _id: string
 }
+
+
+export interface Query {
+    question_type: string;
+    message: string;
+    createdAt: string;
+    status: string;
+}

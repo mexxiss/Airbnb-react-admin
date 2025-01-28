@@ -1,20 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import {
-  ErrorMessage,
-  Field,
-  FieldArray,
-  Formik,
-  FormikProvider,
-  useFormik,
-} from "formik";
+import React, { useEffect, useState } from "react";
+import { FieldArray, FormikProvider, useFormik } from "formik";
 import { maintenanceSchemaValidation } from "../../../utils/validations/maintenanceSchema";
 import { Form, useParams } from "react-router-dom";
 import { MaintenanceFormValues } from "../../../types/maintenanceTypes";
 import ComponentHeader from "../../ComponentHeader/ComponentHeader";
-import { DashboardContext } from "../../../ContextApi";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import userImg from "../../../assets/images/userImg.png";
-
 import { uploadFile } from "../../../services/apiServices";
 import { SelectionGroup } from "../../SelectionGroup/SelectionGroup";
 import ImageUploadField from "../../ImageUploadField/ImageUploadField";
@@ -34,9 +25,6 @@ const uploadFileHandler = async (folder = "maintenance", file: File) => {
 
 const MaintenanceFormEdit: React.FC<{}> = ({}) => {
   const { id } = useParams();
-  const { setIsActiveMobileMenu } = useContext(DashboardContext) as {
-    setIsActiveMobileMenu: (isActive: boolean) => void;
-  };
 
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -47,7 +35,7 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
 
   const [selectedProperty, setSelectedProperty] = useState<
     string | number | (string | number)[]
-  >(data?.property_id._id || "");
+  >(data?.property_id?._id || "");
 
   const [selectedMonth, setSelectedMonth] = useState<string>(
     data?.statementPeriod || ""
@@ -58,7 +46,7 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
   useEffect(() => {
     if (data) {
       setSelectedValue(data?.property_id?.user || "");
-      setSelectedProperty(data.property_id._id || "");
+      setSelectedProperty(data.property_id?._id || "");
       setSelectedMonth(data.statementPeriod);
     }
   }, [data]);
@@ -78,7 +66,7 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
   };
 
   const initialValues: MaintenanceFormValues = {
-    property_id: data?.property_id._id || "",
+    property_id: data?.property_id?._id || "",
     essentialWorksImages: data?.essentialWorksImages || [
       { url: "", work_name: "" },
     ],
@@ -100,7 +88,7 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
     totalMaintenceCost: data?.totalMaintenceCost || 0,
     receivedAmount: data?.receivedAmount || 0,
     amountOwedToFP: data?.amountOwedToFP || 0,
-    bank_details: data?.bank_details._id || "",
+    bank_details: data?.bank_details?._id || "",
     notes: data?.notes || "",
     statementPeriod: data?.statementPeriod || "",
   };
@@ -149,7 +137,6 @@ const MaintenanceFormEdit: React.FC<{}> = ({}) => {
           linkText="Back to Maintenance List"
           linkTo="/admin/maintenances"
           userImage={userImg}
-          onMenuClick={() => setIsActiveMobileMenu(true)}
         />
         <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
           <SelectionGroup

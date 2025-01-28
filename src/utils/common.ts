@@ -125,8 +125,9 @@ export const formatDate = (
   format: string = "YYYY/MM/DD"
 ): string => {
   if (!date) {
+    return "";
     console.error("Error: Date input is null or undefined.");
-    throw new Error("Invalid date input. Please provide a valid date string.");
+    // throw new Error("Invalid date input. Please provide a valid date string.");
   }
 
   const formattedDate = moment(date);
@@ -185,4 +186,9 @@ export const fixPhoneNumbers = (numbers: string[]): string[] => {
     // Add `+` at the beginning to ensure it starts with it
     return `+${cleanNum}`;
   });
+};
+
+export const numberRoundFix = (value: any = 0.0) => {
+  const roundedValue = Math.round(value * 100) / 100;
+  return roundedValue;
 };

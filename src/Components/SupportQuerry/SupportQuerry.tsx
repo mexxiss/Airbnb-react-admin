@@ -1,149 +1,29 @@
-import { VisibilityOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
 import { useGetContactSupport } from "../../hooks/react-query/contact-support/useGetContactSupport";
 import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import Loader from "../Loader/Loader";
+import DataNotFound from "../DataNotFound/DataNotFound";
+import UserQueries from "./Component/UserQueries";
 
 const SupportQuerry = () => {
     const { data: queries, isLoading, isError, error } = useGetContactSupport();
 
+
     if (isLoading) return <Loader />;
     if (isError && error instanceof Error)
         return <ErrorHandleMessage msg={error.message} />;
-
-    if (queries.length === 0) {
-        return (
-            <div className="flex justify-center items-center text-sm font-medium text-gray-500 py-12">
-                No queries found.
-            </div>
-        );
-    }
 
     return (
         <div>
             <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
                 <h5 className="text-22 text-primary font-bold mb-5">Support Querry</h5>
                 <div>
-                    <div className="relative overflow-x-auto">
-                        <table
-                            className="w-full border-separate min-w-full"
-                            style={{ borderSpacing: "0 10px" }}
-                        >
-                            <thead className="text-sm text-[#8B8B8B] font-medium">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "200px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5">
-                                            User
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "200px" }}
-                                    >
-                                        <div
-                                            className="flex items-center gap-2.5"
-                                        >
-                                            Number
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "120px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5">
-                                            Total Queries
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "120px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5">
-                                            Pending
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "120px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5">
-                                            Status
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "60px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5">
-                                            Actions
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {queries.map((query: any, index: number) => (
-                                    <tr key={index} className="bg-white mb-2">
-                                        <td className="py-3 px-3 rounded-l-xl">
-                                            <div>
-                                                <div className="flex items-center gap-3">
-                                                    <img
-                                                        src={query?.user.profile_img}
-                                                        className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
-                                                        alt=""
-                                                    />
-                                                    <div>
-                                                        <p className="text-sm text-[#040404] font-medium capitalize">
-                                                            {query?.user.first_name} {query?.user.last_name}
-                                                        </p>
-                                                        <p className="text-xs text-text2 font-medium">
-                                                            {query?.user.email}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="py-3 px-3">
-                                            <span className="text-text3 text-center font-medium">
-                                                {query?.user.phone}
-                                            </span>
-                                        </td>
-                                        <td className="py-3 px-3">
-                                            <span className="text-text3 text-center font-medium">
-                                                {query.count}
-                                            </span>
-                                        </td>
-                                        <td className="py-3 px-3">
-                                            <span className="text-text3 text-center font-medium">
-                                                {query.pendingCount}
-                                            </span>
-                                        </td>
-                                        <td className="py-3 px-3 text-left max-w-[60px]">
-                                            <span
-                                                className={`text-sm px-2 py-1 rounded ${query?.pendingCount === 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
-                                            >
-                                                {query?.pendingCount === 0 ? 'Done' : 'Pending'}
-                                            </span>
-                                        </td>
-                                        <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
-                                            <Link to={`/admin/support/chat?user=${query.user._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
-                                                <VisibilityOutlined className="!text-xl " />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {queries?.length === 0 ?
+                        <DataNotFound message="Queries" />
+                        :
+                        <div className="relative overflow-x-auto">
+                            <UserQueries queries={queries} />
+                        </div>
+                    }
                 </div>
             </div>
         </div>

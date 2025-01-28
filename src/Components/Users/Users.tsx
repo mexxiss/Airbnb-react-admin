@@ -234,20 +234,7 @@ const Users: React.FC = () => {
                             >
                               <div
                                 className="flex items-center gap-2.5"
-                                onClick={() => handleSort("email")}
-                              >
-                                Email
-                                <img src={UpDown} className="w-2" alt="" />
-                              </div>
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-2 px-3"
-                              style={{ minWidth: "150px" }}
-                            >
-                              <div
-                                className="flex items-center gap-2.5"
-                                // onClick={() => handleSort("phone")}
+                              // onClick={() => handleSort("phone")}
                               >
                                 Phone
                                 {/* <img src={UpDown} className="w-2" alt="" /> */}
@@ -320,11 +307,6 @@ const Users: React.FC = () => {
                                     </div>
                                   </div>
                                 </div>
-                              </td>
-                              <td className="py-3 px-3">
-                                <span className="text-sm text-[#040404] flex flex-col">
-                                  {user.email[0] || "N/A"}
-                                </span>
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] flex flex-col">

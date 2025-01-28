@@ -25,7 +25,7 @@ const SupportQuerry = () => {
                                             User
                                         </div>
                                     </th>
-                                    <th
+                                    {/* <th
                                         scope="col"
                                         className="py-2 px-3"
                                         style={{ minWidth: "200px" }}
@@ -44,7 +44,7 @@ const SupportQuerry = () => {
                                         <div className="flex items-center gap-2.5 line-clamp-1">
                                             Message
                                         </div>
-                                    </th>
+                                    </th> */}
                                     <th
                                         scope="col"
                                         className="py-2 px-3"
@@ -105,7 +105,7 @@ const SupportQuerry = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-3 px-3">
+                                    {/* <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
                                             Gerenal Question
                                         </span>
@@ -115,7 +115,7 @@ const SupportQuerry = () => {
                                             <EllipsisTooltip width="100%" className="!text-wrap !text-left line-clamp-2" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio modi quos nisi ipsum ratione laborum obcaecati ea veniam, vitae autem, iure quisquam dolores nulla asperiores magni omnis!" />
 
                                         </span>
-                                    </td>
+                                    </td> */}
                                     <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
                                             3
@@ -159,7 +159,7 @@ const SupportQuerry = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-3 px-3">
+                                    {/* <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
                                             Gerenal Question
                                         </span>
@@ -169,7 +169,7 @@ const SupportQuerry = () => {
                                             <EllipsisTooltip width="100%" className="!text-wrap !text-left line-clamp-2" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio modi quos nisi ipsum ratione laborum obcaecati ea veniam, vitae autem, iure quisquam dolores nulla asperiores magni omnis!" />
 
                                         </span>
-                                    </td>
+                                    </td> */}
                                     <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
                                             15

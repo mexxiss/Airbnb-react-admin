@@ -26,9 +26,6 @@ const FurnishingInvoiceEdit = () => {
   const { data, isLoading, error, isError } = useFetchFurnishingDataById({
     id: id || "",
   });
-
-  console.log({ data });
-
   const { user } = useAuthStore();
 
   const {

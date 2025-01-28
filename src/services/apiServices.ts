@@ -695,6 +695,11 @@ export const fetchContactSupportQueries = async () => {
   return response.data;
 }
 
+export const fetchPropertyQueries = async () => {
+  const response = await axiosInstance.get(`/admin/property-queries`);
+  return response.data;
+}
+
 export const fetchQueriesByUser = async (user: string) => {
   const response = await axiosInstance.get(`/admin/user-queries?user=${user}`);
   return response.data;

@@ -18,14 +18,16 @@ export const filterAndSortUsers = ({
 }: FilterSortParams): User[] => {
   return usersList
     .filter((user) => {
-      const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+      const fullName = `${user?.first_name} ${user?.last_name}`?.toLowerCase();
       const emailMatch = user.email.some((email) =>
-        email.toLowerCase().includes(searchTerm.toLowerCase())
+        email?.toLowerCase()?.includes(searchTerm?.toLowerCase())
       );
       const phoneMatch = user.phone.some((phone) => phone.includes(searchTerm));
 
       return (
-        fullName.includes(searchTerm.toLowerCase()) || emailMatch || phoneMatch
+        fullName?.includes(searchTerm?.toLowerCase()) ||
+        emailMatch ||
+        phoneMatch
       );
     })
     .sort((a, b) => {
@@ -36,8 +38,8 @@ export const filterAndSortUsers = ({
 
       if (sortField === "area") {
         // Handle nested property 'area'
-        aValue = a.address.area?.toLowerCase();
-        bValue = b.address.area?.toLowerCase();
+        aValue = a?.address?.area?.toLowerCase();
+        bValue = b?.address?.area?.toLowerCase();
       } else if (sortField === "isDeleted") {
         // Handle boolean sorting for 'isDeleted'
         aValue = a.isDeleted;

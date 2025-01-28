@@ -1,9 +1,24 @@
 import { VisibilityOutlined } from "@mui/icons-material";
-import userImg2 from "../../assets/images/userImg2.png";
-import EllipsisTooltip from "../EllipsisTooltip/EllipsisTooltip";
 import { Link } from "react-router-dom";
+import { useGetContactSupport } from "../../hooks/react-query/contact-support/useGetContactSupport";
+import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
+import Loader from "../Loader/Loader";
 
 const SupportQuerry = () => {
+    const { data: queries, isLoading, isError, error } = useGetContactSupport();
+
+    if (isLoading) return <Loader />;
+    if (isError && error instanceof Error)
+        return <ErrorHandleMessage msg={error.message} />;
+
+    if (queries.length === 0) {
+        return (
+            <div className="flex justify-center items-center text-sm font-medium text-gray-500 py-12">
+                No queries found.
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
@@ -25,7 +40,7 @@ const SupportQuerry = () => {
                                             User
                                         </div>
                                     </th>
-                                    {/* <th
+                                    <th
                                         scope="col"
                                         className="py-2 px-3"
                                         style={{ minWidth: "200px" }}
@@ -33,18 +48,9 @@ const SupportQuerry = () => {
                                         <div
                                             className="flex items-center gap-2.5"
                                         >
-                                            Type
+                                            Number
                                         </div>
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="py-2 px-3"
-                                        style={{ minWidth: "200px" }}
-                                    >
-                                        <div className="flex items-center gap-2.5 line-clamp-1">
-                                            Message
-                                        </div>
-                                    </th> */}
                                     <th
                                         scope="col"
                                         className="py-2 px-3"
@@ -85,114 +91,56 @@ const SupportQuerry = () => {
                             </thead>
 
                             <tbody>
-                                <tr className="bg-white mb-2">
-                                    <td className="py-3 px-3 rounded-l-xl">
-                                        <div>
-                                            <div className="flex items-center gap-3">
-                                                <img
-                                                    src={userImg2}
-                                                    className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
-                                                    alt=""
-                                                />
-                                                <div>
-                                                    <p className="text-sm text-[#040404] font-medium capitalize">
-                                                        jagjit
-                                                    </p>
-                                                    <p className="text-xs text-text2 font-medium">
-                                                        jagjit@gmail.com
-                                                    </p>
+                                {queries.map((query: any, index: number) => (
+                                    <tr key={index} className="bg-white mb-2">
+                                        <td className="py-3 px-3 rounded-l-xl">
+                                            <div>
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={query?.user.profile_img}
+                                                        className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
+                                                        alt=""
+                                                    />
+                                                    <div>
+                                                        <p className="text-sm text-[#040404] font-medium capitalize">
+                                                            {query?.user.first_name} {query?.user.last_name}
+                                                        </p>
+                                                        <p className="text-xs text-text2 font-medium">
+                                                            {query?.user.email}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    {/* <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            Gerenal Question
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 w-[400px]">
-                                        <span className="text-sm text-text3 text-center">
-                                            <EllipsisTooltip width="100%" className="!text-wrap !text-left line-clamp-2" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio modi quos nisi ipsum ratione laborum obcaecati ea veniam, vitae autem, iure quisquam dolores nulla asperiores magni omnis!" />
-
-                                        </span>
-                                    </td> */}
-                                    <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            3
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            0
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 text-left max-w-[60px]">
-                                        <span
-                                            className={`text-sm px-2 py-1 rounded bg-green-100 text-green-700`}
-                                        >
-                                            Done
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
-                                        <Link to="/admin/support/chat" className="text-[#bb9e6c] hover:text-primaryDark duration-300">
-                                            <VisibilityOutlined className="!text-xl " />
-                                        </Link>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white mb-2">
-                                    <td className="py-3 px-3 rounded-l-xl">
-                                        <div>
-                                            <div className="flex items-center gap-3">
-                                                <img
-                                                    src={userImg2}
-                                                    className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
-                                                    alt=""
-                                                />
-                                                <div>
-                                                    <p className="text-sm text-[#040404] font-medium">
-                                                        inder
-                                                    </p>
-                                                    <p className="text-xs text-text2 font-medium">
-                                                        inder@gmail.com
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    {/* <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            Gerenal Question
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 w-[400px]">
-                                        <span className="text-sm text-text3 text-center">
-                                            <EllipsisTooltip width="100%" className="!text-wrap !text-left line-clamp-2" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio modi quos nisi ipsum ratione laborum obcaecati ea veniam, vitae autem, iure quisquam dolores nulla asperiores magni omnis!" />
-
-                                        </span>
-                                    </td> */}
-                                    <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            15
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3">
-                                        <span className="text-text3 text-center font-medium">
-                                            3
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 text-left max-w-[60px]">
-                                        <span
-                                            className={`text-sm px-2 py-1 rounded bg-red-100 text-red-700`}
-                                        >
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
-                                        <Link to="/admin/support/chat" className="text-[#bb9e6c] hover:text-primaryDark duration-300">
-                                            <VisibilityOutlined className="!text-xl " />
-                                        </Link>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td className="py-3 px-3">
+                                            <span className="text-text3 text-center font-medium">
+                                                {query?.user.phone}
+                                            </span>
+                                        </td>
+                                        <td className="py-3 px-3">
+                                            <span className="text-text3 text-center font-medium">
+                                                {query.count}
+                                            </span>
+                                        </td>
+                                        <td className="py-3 px-3">
+                                            <span className="text-text3 text-center font-medium">
+                                                {query.pendingCount}
+                                            </span>
+                                        </td>
+                                        <td className="py-3 px-3 text-left max-w-[60px]">
+                                            <span
+                                                className={`text-sm px-2 py-1 rounded ${query?.pendingCount === 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                                            >
+                                                {query?.pendingCount === 0 ? 'Done' : 'Pending'}
+                                            </span>
+                                        </td>
+                                        <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
+                                            <Link to={`/admin/support/chat?user=${query.user._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
+                                                <VisibilityOutlined className="!text-xl " />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

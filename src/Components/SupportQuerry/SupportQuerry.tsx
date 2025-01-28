@@ -31,7 +31,7 @@ const SupportQuerry = () => {
     return (
         <div>
             <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-                <h5 className="text-22 text-primary font-bold">Support Querry</h5>
+                <h5 className="text-22 text-primary font-bold">Support Query</h5>
                 <div className="mt-8">
                     <ul className="flex items-center gap-4">
                         <li>

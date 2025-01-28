@@ -6,6 +6,7 @@ import ErrorHandleMessage from '../../ErrorHandleMessage/ErrorHandleMessage'
 import Loader from '../../Loader/Loader'
 import { propertyQuery } from '../../../types/propertyQuery'
 import DataNotFound from '../../DataNotFound/DataNotFound'
+import { getRelativeTime } from '../../../utils/common'
 
 const PropertyQueries = () => {
     const [showModal, setShowModal] = useState(false);
@@ -117,7 +118,7 @@ const PropertyQueries = () => {
                                     </td>
                                     <td className="py-3 px-3 w-[400px]">
                                         <span className="text-sm text-text3 line-clamp-2">
-                                            {query.createdAt}
+                                            {getRelativeTime(query.createdAt)}
                                         </span>
                                     </td>
                                     <td className="py-3 px-3 text-left max-w-[60px]">

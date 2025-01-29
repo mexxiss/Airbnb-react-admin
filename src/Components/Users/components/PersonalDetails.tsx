@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Modal } from "flowbite-react";
 import { CloseOutlined, EditOutlined } from "@mui/icons-material";

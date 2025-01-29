@@ -73,7 +73,7 @@ const PropertyDetails = ({ setCurrentStep }: any) => {
               <Input
                 name="title"
                 type="text"
-                label="Title"
+                label="Property Name"
                 placeholder="Title"
                 value={formik.values.title}
                 onChangeValue={formik.handleChange}

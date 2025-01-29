@@ -91,6 +91,17 @@ export const getDateRange = (
   return { startDate, endDate };
 };
 
+export const getRelativeTime = (date: string): string => {
+  const parsedDate = moment(new Date(date));
+
+  // Check if the date is valid
+  if (!parsedDate.isValid()) {
+    throw new Error("Invalid date format");
+  }
+
+  return parsedDate.fromNow(); // Returns relative time
+};
+
 export const assignDynamicColors = (
   leadingCities: { name: string; percentage: string }[]
 ) => {

@@ -16,3 +16,8 @@ export const validationSchemaAbout = Yup.object().shape({
   body: Yup.string().required("Body content is required"),
   images: Yup.array().min(1, "At least one image is required"),
 });
+
+export const contactQuerySchema = Yup.object().shape({
+  reply: Yup.string().required("Message is required"),
+  status: Yup.string().required("Status is required"),
+});

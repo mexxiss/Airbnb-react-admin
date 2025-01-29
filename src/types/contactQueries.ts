@@ -12,8 +12,8 @@ export interface contactQueries {
     _id: string
 }
 
-
 export interface Query {
+    _id: string;
     question_type: string;
     message: string;
     createdAt: string;

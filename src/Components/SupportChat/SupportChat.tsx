@@ -2,13 +2,14 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { KeyboardArrowLeftOutlined } from "@mui/icons-material";
 import EllipsisTooltip from "../EllipsisTooltip/EllipsisTooltip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetContactSupportByUser } from "../../hooks/react-query/contact-support/useGetContactQueriesByUser";
 import { getRelativeTime } from "../../utils/common";
 import Loader from "../Loader/Loader";
 import ErrorHandleMessage from "../ErrorHandleMessage/ErrorHandleMessage";
 import ContactSupportReply from "../Modals/ContactSupportReply";
 import { Query } from "../../types/contactQueries";
+import useUserContactQueriesStore from "../../store/useUserContactQueriesStore";
 
 const SupportChat = () => {
     const [showModal, setShowModal] = useState(false);
@@ -16,10 +17,17 @@ const SupportChat = () => {
 
     const user = searchParams.get('id') || '';
     const user_name = searchParams.get('name') || '';
-    const { data: queries, isLoading, isError, error } = useGetContactSupportByUser(user);
+    const { setQueries, queries } = useUserContactQueriesStore();
 
-    const [selectedQuery, setSelectedQuery] = useState<Query | null>(null)
+    const { data, isLoading, isError, error } = useGetContactSupportByUser(user);
+    const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
 
+    useEffect(() => {
+        if (data) {
+            setQueries(data);
+        }
+    }, [data, setQueries]);
+    
     if (isLoading) return <Loader />;
     if (isError && error instanceof Error)
         return <ErrorHandleMessage msg={error.message} />;
@@ -117,7 +125,7 @@ const SupportChat = () => {
                                         </td>
                                         <td className="py-3 px-3 text-left max-w-[60px]">
                                             <span
-                                                className={`text-sm px-2 py-1 rounded bg-red-100 text-red-700`}
+                                            className={`text-sm px-2 py-1 rounded ${query?.status === "Pending" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
                                             >
                                                 {query?.status}
                                             </span>

@@ -1,30 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
-import userImg2 from "../../assets/images/userImg2.png";
-import UpDown from "../../assets/icons/UpDown.png";
+import { useToggle } from "../../hooks/custom-hook/useToggle";
+import { LicenseRequestPayload } from "../../types/licenseTypes";
+import { useFetchQueryLicense } from "../../hooks/react-query/create-license/useFetchQueryLicense";
+import DataHandler from "../ErrorHandleMessage/DataHandler";
+import { filterAndSortLicenses } from "./utils/filterAndSortLicenses";
+import { IconButton, Pagination as MuiPagination } from "@mui/material";
 import searchIcon from "../../assets/icons/searchIcon.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Clear } from "@mui/icons-material";
-import { Pagination as MuiPagination } from "@mui/material";
-import {
-  useDeleteUser,
-  userFetchQuery,
-} from "../../hooks/react-query/users-queries";
-import { User } from "../../types/usersTypes";
-import { IconButton } from "@mui/material";
-import { ToggleSwitch } from "flowbite-react";
-import { filterAndSortUsers } from "./utils/helpers";
 import { Link } from "react-router-dom";
-import Flatpickr from "react-flatpickr";
-import { useToggle } from "../../hooks/custom-hook/useToggle";
-import DataHandler from "../ErrorHandleMessage/DataHandler";
 import DataNotFound from "../DataNotFound/DataNotFound";
+import Flatpickr from "react-flatpickr";
+import EditIcon from "@mui/icons-material/Edit";
 
-const Users: React.FC = () => {
+const statusClasses: Record<string, string> = {
+  paid: "text-sm px-2 py-1 rounded bg-green-100 text-green-700",
+  unpaid: "text-sm px-2 py-1 rounded bg-red-100 text-red-700",
+  pending: "text-sm px-2 py-1 rounded bg-yellow-100 text-yellow-700",
+  expired: "text-sm px-2 py-1 rounded bg-gray-100 text-gray-700",
+};
+
+const DETLicenseList = () => {
   const refComp = useRef<Flatpickr | null>(null);
   const [isOpen, toggleOpen] = useToggle();
   const [dates, setDates] = useState<Date[]>([]);
   const [showMonths, setShowMonths] = useState(2);
-  const [usersList, setUsersList] = useState<User[]>([]);
+  const [licensesList, setLicensesList] = useState<LicenseRequestPayload[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [status, setStatus] = useState("");
   const [sortField, setSortField] = useState<string | null>(null);
@@ -32,15 +33,13 @@ const Users: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, isError, error } = userFetchQuery({
+  const { data, isLoading, isError, error } = useFetchQueryLicense({
     dates,
     searchTerm,
-    isDeleted: status,
+    status: status,
     limit,
     page: currentPage,
   });
-
-  const { mutate: toggleDelete, isPending: togglePending } = useDeleteUser();
 
   useEffect(() => {
     const updateShowMonths = () =>
@@ -51,7 +50,7 @@ const Users: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (data) setUsersList(data.data);
+    if (data) setLicensesList(data?.data?.licenses || []);
   }, [data]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,19 +63,6 @@ const Users: React.FC = () => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  const handleToggleDelete = (id: string) => {
-    toggleDelete(id, {
-      onSuccess: (updatedUser) => {
-        setUsersList((prevUsers) =>
-          prevUsers.map((user) =>
-            user._id === updatedUser?.data?._id ? updatedUser?.data : user
-          )
-        );
-      },
-      onError: (err) => console.error("Error toggling user status:", err),
-    });
-  };
-
   const handleClear = () => {
     toggleOpen(false);
     setSearchTerm("");
@@ -86,8 +72,8 @@ const Users: React.FC = () => {
     refComp.current?.flatpickr?.clear();
   };
 
-  const filteredUsers = filterAndSortUsers({
-    usersList,
+  const filteredLicenses = filterAndSortLicenses({
+    licensesList,
     searchTerm,
     sortField,
     sortOrder,
@@ -98,7 +84,10 @@ const Users: React.FC = () => {
   };
 
   const startUserIndex = (currentPage - 1) * limit + 1;
-  const endUserIndex = Math.min(currentPage * limit, data?.totalUsers || 0);
+  const endUserIndex = Math.min(
+    currentPage * limit,
+    data?.data?.totalLicenses || 0
+  );
 
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
@@ -107,11 +96,13 @@ const Users: React.FC = () => {
           {isLoading ? (
             <p>Loading...</p>
           ) : isError ? (
-            <p>Error loading users</p>
+            <p>Error loading Licenses</p>
           ) : (
             <div>
               <div className="flex items-center justify-between border-b border-[#00858e5e] pb-5">
-                <h5 className="text-22 text-primary font-bold">User Lists</h5>
+                <h5 className="text-22 text-primary font-bold">
+                  License Lists
+                </h5>
 
                 <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5 hidden sm:block border border-gray-300">
                   <input
@@ -130,18 +121,18 @@ const Users: React.FC = () => {
               </div>
               <div className="flex items-center justify-between mt-5">
                 <p className="text-lg text-[#040404] font-medium">
-                  Total users{" "}
-                  {!filteredUsers?.length ? (
+                  Total Licenses{" "}
+                  {!filteredLicenses?.length ? (
                     ""
                   ) : (
-                    <span>({data?.totalUsers})</span>
+                    <span>({data?.data?.totalLicenses})</span>
                   )}
                 </p>
                 <Link
-                  to={"/admin/user/new-user"}
+                  to={"/admin/create-license"}
                   className="btn1 flex items-center justify-center"
                 >
-                  Add User
+                  Add License
                 </Link>
               </div>
               <div className="grid sm:grid-cols-2 sm:flex gap-2 sm:gap-4 mt-4">
@@ -187,8 +178,8 @@ const Users: React.FC = () => {
                     }}
                   >
                     <option value="all">All</option>
-                    <option value="false">Active</option>
-                    <option value="true">Inactive</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">unpaid</option>
                   </select>
                 </div>
                 {isOpen && (
@@ -203,8 +194,8 @@ const Users: React.FC = () => {
                 )}
               </div>
               <div className="mt-4 sm:mt-0">
-                {!filteredUsers?.length ? (
-                  <DataNotFound message="Users" />
+                {!filteredLicenses?.length ? (
+                  <DataNotFound message="license" />
                 ) : (
                   <>
                     <div className="relative overflow-x-auto">
@@ -221,10 +212,12 @@ const Users: React.FC = () => {
                               scope="col"
                               className="py-2 px-3"
                               style={{ minWidth: "270px" }}
-                              onClick={() => handleSort("first_name")}
+                              onClick={() => handleSort("licenseNumber")}
                             >
                               <div className="flex items-center gap-2.5">
-                                Name <img src={UpDown} className="w-2" alt="" />
+                                License Number{" "}
+                                {sortField === "licenseNumber" &&
+                                  (sortOrder === "asc" ? "↑" : "↓")}
                               </div>
                             </th>
                             <th
@@ -234,42 +227,37 @@ const Users: React.FC = () => {
                             >
                               <div
                                 className="flex items-center gap-2.5"
-                              // onClick={() => handleSort("phone")}
+                                onClick={() => handleSort("price")}
                               >
-                                Phone
-                                {/* <img src={UpDown} className="w-2" alt="" /> */}
-                              </div>
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-2 px-3"
-                              style={{ minWidth: "130px" }}
-                              onClick={() => handleSort("area")}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                Location
-                                <img src={UpDown} className="w-2" alt="" />
-                              </div>
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-2 px-3"
-                              style={{ minWidth: "100px" }}
-                              onClick={() => handleSort("isDeleted")}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                Status
+                                Price{" "}
+                                {sortField === "price" &&
+                                  (sortOrder === "asc" ? "↑" : "↓")}
                               </div>
                             </th>
                             <th
                               scope="col"
                               className="py-2 px-3"
                               style={{ minWidth: "150px" }}
-                              onClick={() => handleSort("createdAt")}
+                            >
+                              <div
+                                className="flex items-center gap-2.5"
+                                onClick={() => handleSort("issueDate")}
+                              >
+                                Issue Date{" "}
+                                {sortField === "issueDate" &&
+                                  (sortOrder === "asc" ? "↑" : "↓")}
+                              </div>
+                            </th>
+                            <th
+                              scope="col"
+                              className="py-2 px-3"
+                              style={{ minWidth: "130px" }}
+                              onClick={() => handleSort("expiryDate")}
                             >
                               <div className="flex items-center gap-2.5">
-                                Member since{" "}
-                                <img src={UpDown} className="w-2" alt="" />
+                                Expiry Date{" "}
+                                {sortField === "expiryDate" &&
+                                  (sortOrder === "asc" ? "↑" : "↓")}
                               </div>
                             </th>
                             <th
@@ -278,75 +266,65 @@ const Users: React.FC = () => {
                               style={{ minWidth: "100px" }}
                             >
                               <div className="flex items-center gap-2.5">
-                                Actions
+                                Status
                               </div>
                             </th>
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredUsers?.map((user, i) => (
-                            <tr className="bg-white mb-2" key={user._id}>
+                          {filteredLicenses?.map((license, i) => (
+                            <tr className="bg-white mb-2" key={license?._id}>
                               <td className="py-3 px-3 rounded-l-xl">
                                 #️{startUserIndex + i}
                               </td>
                               <td className="py-3 px-3">
-                                <div>
-                                  <div className="flex items-center gap-3">
-                                    <img
-                                      src={user?.profile_img || userImg2}
-                                      className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
-                                      alt=""
-                                    />
-                                    <div>
-                                      <p className="text-sm text-[#040404] font-medium">
-                                        {user.first_name} {user.last_name}
-                                      </p>
-                                      <p className="text-xs text-text2 font-medium">
-                                        {user.email[0]}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
+                                <span className="text-sm text-[#040404] flex flex-col">
+                                  {license?.licenseNumber || "N/A"}
+                                </span>
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] flex flex-col">
-                                  {user.phone[0] || "N/A"}
+                                  {license?.price || "N/A"}
                                 </span>
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404] text-center">
-                                  {user.address?.area || "N/A"}
-                                </span>
-                              </td>
-                              <td className="py-3 px-3">
-                                <span className="text-sm text-[#040404]">
-                                  {user.isDeleted ? "Inactive" : "Active"}
+                                  {new Date(
+                                    license?.issueDate || ""
+                                  )?.toLocaleDateString() || "N/A"}
                                 </span>
                               </td>
                               <td className="py-3 px-3">
                                 <span className="text-sm text-[#040404]">
                                   {new Date(
-                                    user?.createdAt || ""
-                                  )?.toLocaleDateString()}
+                                    license?.expiryDate || ""
+                                  )?.toLocaleDateString() || "N/A"}
+                                </span>
+                              </td>
+                              <td className="py-3 px-3">
+                                <span
+                                  className={
+                                    statusClasses[license.status] ||
+                                    "text-sm px-2 py-1 rounded bg-gray-100 text-gray-700"
+                                  }
+                                >
+                                  {license.status}
                                 </span>
                               </td>
 
                               <td className="py-3 px-3 text-center rounded-r-xl flex gap-1">
-                                <td className=" py-3 px-3">
-                                  <div className="">
-                                    <ToggleSwitch
-                                      disabled={togglePending}
-                                      checked={!user.isDeleted}
-                                      onChange={() =>
-                                        user._id && handleToggleDelete(user._id)
-                                      }
-                                      className="*:focus:!shadow-none *:focus:!ring-0 toggleBtn flex items-center"
-                                    />
-                                  </div>
-                                </td>
-                                <Link to={`/admin/user/${user._id}`}>
+                                <Link
+                                  to={`/admin/view-license/${license?._id}`}
+                                >
                                   <IconButton>
                                     <VisibilityIcon className="text-[#bb9e6c]" />
+                                  </IconButton>
+                                </Link>
+                                <Link
+                                  to={`/admin/edit-license/${license?._id}`}
+                                >
+                                  <IconButton>
+                                    <EditIcon className="text-[#bb9e6c]" />
                                   </IconButton>
                                 </Link>
                               </td>
@@ -359,11 +337,11 @@ const Users: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <p className="text-sm text-[#8B8B8B]">
                           Showing {startUserIndex} - {endUserIndex} of{" "}
-                          {data?.totalUsers} users
+                          {data?.data?.totalLicenses} users
                         </p>
                         <div className="flex overflow-x-auto sm:justify-end">
                           <MuiPagination
-                            count={data?.totalPages || 1}
+                            count={data?.data?.totalPages || 1}
                             page={currentPage}
                             onChange={handlePageChange}
                             color="primary"
@@ -401,4 +379,4 @@ const Users: React.FC = () => {
   );
 };
 
-export default Users;
+export default DETLicenseList;

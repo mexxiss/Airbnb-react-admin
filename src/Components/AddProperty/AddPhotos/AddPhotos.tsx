@@ -128,14 +128,14 @@ const AddPhotos = ({
   return (
     <>
       <div className="pb-16 lg:pb-0">
-        <div className="grid grid-cols-2 xs:grid-cols-3 md:flex sm:flex-wrap gap-x-4 gap-y-5 md:gap-6 lg:gap-11 mb-[30px]">
+        <div className="grid xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-5 mb-[30px]">
           {images.map((image) => (
-            <div key={image.id} className="md:w-44 lg:w-56 relative">
-              <div className="md:w-44 lg:w-56 h-36 xs:h-32 sm:h-44 lg:h-56">
+            <div key={image.id} className="relative rounded overflow-hidden  h-full xs:min-h-[200px] sm:min-h-[270px]">
+              <div className="h-full w-full">
                 <button
                   type="button"
                   onClick={() => handleDeleteImage(image.id, image?._id || "")}
-                  className="w-10 h-10 rounded bg-[#00000066] absolute right-2.5 top-2.5 flex items-center justify-center"
+                  className="w-10 h-10 bg-[#00000066] absolute right-2.5 top-2.5 flex items-center justify-center"
                 >
                   <img src={trashIcon} alt="Delete" className="w-[18px]" />
                 </button>
@@ -145,10 +145,10 @@ const AddPhotos = ({
                   className="w-full h-full object-cover rounded-t"
                 />
               </div>
-              <div className="mt-2">
+              <div className="absolute bottom-3 w-full px-3">
                 <input
                   type="text"
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full p-2 border rounded text-sm"
                   placeholder="Type name here..."
                   disabled
                   defaultValue={image.name}
@@ -157,41 +157,41 @@ const AddPhotos = ({
             </div>
           ))}
           <div>
-            <label
-              htmlFor="addPhotos"
-              className="w-full md:w-44 lg:w-56 h-full xs:min-h-32 sm:min-h-44 lg:min-h-56 border border-dashed border-[#D6D6D6] rounded cursor-pointer flex items-center justify-center flex-col sm:flex-row gap-3 mt-4"
-            >
-              <img src={uploadIcon} alt="Upload" className="w-5" />
-              <span className="font-medium text-sm text-[#A9ACB4]">
-                {isUploading ? "Uploading..." : "Upload Images"}
-              </span>
-            </label>
-            {!selectedOption ? (
-              <div className="text-red-600 mt-1">
-                Please select an option before uploading images.
-              </div>
-            ) : (
-              <input
-                type="file"
-                name="addPhotos"
-                id="addPhotos"
-                className="hidden"
-                accept="image/*"
-                // multiple
-                onChange={handleImageUpload}
-                disabled={isUploading}
+            <div>
+              <label
+                htmlFor="addPhotos"
+                className="w-full min-h-32 sm:min-h-44 border border-dashed border-[#D6D6D6] rounded cursor-pointer flex items-center justify-center flex-col sm:flex-row gap-3"
+              >
+                <img src={uploadIcon} alt="Upload" className="w-5" />
+                <span className="font-medium text-sm text-[#A9ACB4]">
+                  {isUploading ? "Uploading..." : "Upload Images"}
+                </span>
+              </label>
+              <Select
+                maxMenuHeight={200}
+                options={formattedOptions}
+                placeholder="Select an option"
+                value={selectedOption}
+                onChange={handleOptionChange}
+                classNamePrefix="react-select"
+                className="w-full mt-2"
               />
-            )}
-
-            <Select
-              maxMenuHeight={100}
-              options={formattedOptions}
-              placeholder="Select an option"
-              value={selectedOption}
-              onChange={handleOptionChange}
-              classNamePrefix="react-select"
-              className="w-full mt-2"
-            />
+              <div className={`mt-2 text-sm ${selectedOption ? "text-text3" : "text-red-600"}`}>
+                * Please select an option before uploading images.
+              </div>
+              {selectedOption && (
+                <input
+                  type="file"
+                  name="addPhotos"
+                  id="addPhotos"
+                  className="hidden"
+                  accept="image/*"
+                  // multiple
+                  onChange={handleImageUpload}
+                  disabled={isUploading}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

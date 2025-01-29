@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormikProvider } from "formik";
 import Input from "../../Input/Input";
 import CustomPhoneInput from "../../PhoneInput/CustomPhoneInput";
+import userImg2 from "../../../assets/images/userImg2.png"
+import { EditOutlined } from "@mui/icons-material";
 
 export const PersonalDetailsForm = ({ formik }: { formik: any }) => {
+  const [userImg, setUserImg] = useState<File | null>(null);
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={formik.handleSubmit}>
+        <div className="mb-6">
+          <div className="relative min-w-28 w-28 h-28 rounded-full bg-gray-400 mx-auto">
+            <img src={userImg ? URL.createObjectURL(userImg) : userImg2} className="w-full h-full object-cover rounded-full" />
+            <label htmlFor="img" className=" cursor-pointer absolute bottom-0 -right-3"><EditOutlined /></label>
+            <input name="profile_img" type="file" hidden id="img" onChange={(e) => setUserImg(e.target.files ? e.target.files[0] : null)} />
+          </div>
+        </div>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Input

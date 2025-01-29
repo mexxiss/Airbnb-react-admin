@@ -63,9 +63,9 @@ const RadioInput: React.FC<RadioInputProps> = ({
             <label
               htmlFor={option.id}
               className={classNames(
-                "w-full text-center text-[15px] text-[#8B8B8B] bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC]",
+                "w-full text-center text-[15px] text-[#8B8B8B] hover:text-primary duration-300 bg-white py-2.5 px-5 sm:px-7 inline-block rounded-md border border-[#E2E2EC] hover:border-primary cursor-pointer",
                 optionLabelClass,
-                { "border-blue-500 text-blue-500": value === option.id } // Active state
+                { "border-primary !text-white !bg-primary": value === option.id } // Active state
               )}
             >
               <span>{option.label}</span>

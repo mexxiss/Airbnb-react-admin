@@ -34,6 +34,9 @@ import Faq from "./Components/faq/Faq.tsx";
 import SupportQuerry from "./Components/SupportQuerry/SupportQuerry.tsx";
 import Profile from "./Components/Profile/Profile.tsx";
 import SupportChat from "./Components/SupportChat/SupportChat.tsx";
+import DETLicenseForm from "./Components/DETLicenseForm/DETLicenseForm.tsx";
+import DETLicenseList from "./Components/DETLicenseForm/DETLicenseList.tsx";
+import DETLicenseDetail from "./Components/DETLicenseForm/DETLicenseDetail.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -227,6 +230,38 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <SupportQuerry />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "create-license",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <DETLicenseForm />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "edit-license/:id",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <DETLicenseForm />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "view-license/:id",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <DETLicenseDetail />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "license-list",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <DETLicenseList />
             </ProtectedRoute>
           ),
         },

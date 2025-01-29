@@ -1,9 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { User } from "../../types/usersTypes";
-import {
-  useOnlyPropertyUsersQuery,
-  userFetchQuery,
-} from "../react-query/users-queries";
+import { useOnlyPropertyUsersQuery } from "../react-query/users-queries";
 import { usePropertiesByUser } from "../react-query/properties-query";
 
 interface UseSelectionProps {

@@ -66,8 +66,8 @@ const AddAddress = ({ setCurrentStep }: any) => {
         createProperty(
           { propertyData },
           {
-            onSuccess: () => {
-              navigate("/admin/dashboard");
+            onSuccess: (data) => {
+              navigate(`/admin/property-details/${data.data._id}`);
               resetPropertyState();
             },
           }

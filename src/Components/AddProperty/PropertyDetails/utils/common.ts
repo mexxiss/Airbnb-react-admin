@@ -16,11 +16,13 @@ export const optionsCurrency = [
 ];
 
 export const bhkOptions = [
-  { id: "1rk", label: "1 RK" },
   { id: "1bhk", label: "1 BHK" },
   { id: "2bhk", label: "2 BHK" },
   { id: "3bhk", label: "3 BHK" },
-  { id: "3+bhk", label: "3+ BHK" },
+  { id: "4bhk", label: "4 BHK" },
+  { id: "5bhk", label: "5 BHK" },
+  { id: "6+bhk", label: "6+ BHK" },
+  { id: "studio", label: "Studio" },
 ];
 export const furnishTypeOptions = [
   { id: "Premium", label: "Premium" },

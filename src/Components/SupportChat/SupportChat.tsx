@@ -161,6 +161,84 @@ const SupportChat = () => {
           setShowModal={setShowModal}
           query={selectedQuery}
         />
+
+        {/* User Chat */}
+        {/* <div className="border border-border1 rounded-lg bg-white">
+                    <div className="flex items-center justify-between px-4 py-3">
+                        <div className="flex items-center gap-3">
+                            <img
+                                src={userImg2}
+                                className="border-2 border-[#E8E1F6] rounded-lg w-12 h-12 object-cover"
+                                alt=""
+                            />
+                            <div>
+                                <p className="text-lg text-[#040404] font-medium capitalize">
+                                    <Link to={`/admin/user/679213726d1fcbe702f0b168`} className=" hover:text-primary duration-300" >inder</Link>
+                                </p>
+                                <p className="text-xs text-text2 font-medium">
+                                    inder@gmail.com
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <button className="border border-primary text-primary w-9 h-9 rounded-full flex items-center justify-center gap-2 hover:bg-primary hover:text-white duration-300"><PhoneOutlined className="!text-lg" /></button>
+                            <button className="border border-primary text-primary w-9 h-9 rounded-full flex items-center justify-center gap-2 hover:bg-primary hover:text-white duration-300"><EmailOutlined className="!text-lg" /></button>
+                        </div>
+                    </div>
+                    <hr className="border-border1" />
+                    <div className="px-4 py-4 h-[calc(100vh-306px)] overflow-auto">
+                        <div className="flex flex-col gap-3">
+                            <div className="max-w-[85%] xs:max-w-[70%] sm:max-w-[50%] lg:max-w-[45%] mr-auto">
+                                <p className="text-xs flex items-center justify-between mb-1 text-text3"><span>Inder</span><span>12-07-2025</span></p>
+                                <div className="rounded-md bg-gray-100 p-3">
+                                    <div className="">
+                                        <p className="text-sm text-text3">
+                                            <span className="text-text1 font-medium">Type:</span> General Question
+                                        </p>
+                                        <p className="text-sm text-text3 mt-1">
+                                            <span className="text-text1 font-medium">Question:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio ...<button className="underline text-red-500 font-medium">Read More</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="max-w-[85%] xs:max-w-[70%] sm:max-w-[50%] lg:max-w-[45%] mr-auto">
+                                <p className="text-xs flex items-center justify-between mb-1 text-text3"><span>Inder</span><span>12-07-2025</span></p>
+                                <div className="rounded-md bg-gray-100 p-3">
+                                    <div className="">
+                                        <p className="text-sm text-text3">
+                                            <span className="text-text1 font-medium">Type:</span> General Question
+                                        </p>
+                                        <p className="text-sm text-text3 mt-1">
+                                            <span className="text-text1 font-medium">Question:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio ...<button className="underline text-red-500 font-medium">Read More</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="max-w-[85%] xs:max-w-[70%] sm:max-w-[50%] lg:max-w-[45%] ml-auto">
+                                <p className="text-xs flex items-center justify-between mb-1 text-text3"><span>Admin</span><span>12-07-2025</span></p>
+                                <div className="rounded-md bg-green-100 p-3">
+                                    <div className="">
+                                        <p className="text-sm text-text3 mt-1">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum explicabo distinctio
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=" border-t border-border1 py-3 px-4">
+                        <div className="flex items-center gap-2">
+                            <input type="text" className="p-0 border-none focus:ring-0 w-full" placeholder="Write a message..." />
+                            <div className="flex items-center gap-2">
+                                <button className="bg-primary text-white py-1 px-3 rounded ">Send</button>
+                                <div>
+                                    <label htmlFor="file" ><AttachFileOutlined /></label>
+                                    <input type="file" id="file" hidden />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
       </div>
     </div>
   );

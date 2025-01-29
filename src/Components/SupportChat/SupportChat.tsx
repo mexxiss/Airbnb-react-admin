@@ -132,7 +132,7 @@ const SupportChat = () => {
                                         </td>
                                         <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
                                             <button onClick={() => { setShowModal(true); setSelectedQuery(query) }} className="text-primary hover:text-primaryDark duration-300 font-medium">
-                                                Reply
+                                                {query?.status === "Pending" ? "Reply" : "View"}
                                             </button>
                                         </td>
                                     </tr>

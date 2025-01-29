@@ -4,48 +4,35 @@ import { Form, FormikProvider, useFormik } from "formik";
 import { validationAddressSchema } from "../../../utils/validations/reArrengeSchemaValidation";
 import Input from "../../Input/Input";
 import { useCreateProperty } from "../../../hooks/react-query/properties-query/usePostProperty";
+import SelectInput from "../../SelectInput/SelectInput";
+import { citesArr } from "../PropertyDetails/utils/common";
 
 const AddAddress = ({ setCurrentStep }: any) => {
   const { id } = useParams();
-  const {
-    handleChange,
-    address,
-    resetPropertyState,
-    amenities,
-    cancellation_policy,
-    costs,
-    description,
-    discounts_percentage,
-    important_information,
-    property_check_details,
-    property_details,
-    property_images,
-    property_images_urls,
-    property_types,
-    staying_rules,
-    title,
-    status,
-    user,
-  } = useCreatePropertyStoreNew();
+  const { handleChange, address, resetPropertyState } =
+    useCreatePropertyStoreNew();
   const navigate = useNavigate();
 
   const { mutate: createProperty, isPending } = useCreateProperty();
 
   const formik = useFormik({
     initialValues: {
-      address: address,
+      address: { ...address, country: "United Arab Emirates" },
     },
     validationSchema: validationAddressSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       const newObject = { ...values, user: id };
+
       try {
         Object.entries(newObject).forEach(([key, value]) => {
           handleChange(key as keyof typeof values, value);
         });
 
-        const propertyData = {
-          amenities, // Make sure all these values are coming from the form state or context
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        const {
+          amenities,
           cancellation_policy,
           costs,
           description,
@@ -60,7 +47,32 @@ const AddAddress = ({ setCurrentStep }: any) => {
           title,
           status,
           user,
-          address: values.address, // Ensure the address from the form values is added here
+        } = useCreatePropertyStoreNew.getState(); // Ensure latest Zustand state
+
+        if (!title || !description || !address || !user) {
+          alert(
+            "Missing required fields: title, description, address, or user."
+          );
+          return;
+        }
+
+        const propertyData = {
+          amenities,
+          cancellation_policy,
+          costs,
+          description,
+          discounts_percentage,
+          important_information,
+          property_check_details,
+          property_details,
+          property_images,
+          property_images_urls,
+          property_types,
+          staying_rules,
+          title,
+          status,
+          user,
+          address: values.address,
         };
 
         createProperty(
@@ -156,6 +168,15 @@ const AddAddress = ({ setCurrentStep }: any) => {
               ) : null}
             </div>
             <div className="">
+              <SelectInput
+                label="Select City"
+                name="address.city"
+                options={citesArr}
+                placeholder="Choose an option"
+                className="mb-4"
+              />
+            </div>
+            {/* <div className="">
               <Input
                 name="address.city"
                 type="text"
@@ -171,7 +192,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
                   {formik?.errors.address?.city}
                 </div>
               ) : null}
-            </div>
+            </div> */}
             <div className="">
               <Input
                 name="address.pincode"
@@ -192,6 +213,7 @@ const AddAddress = ({ setCurrentStep }: any) => {
             </div>
             <div className="">
               <Input
+                disabled
                 name="address.country"
                 type="text"
                 label="Country"

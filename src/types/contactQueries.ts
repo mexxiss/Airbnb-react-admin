@@ -20,3 +20,13 @@ export interface Query {
     status: string;
     reply?: string
 }
+
+export interface WebQuery {
+    fullname: string;
+    email: string;
+    phone: string;
+    subject: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+}

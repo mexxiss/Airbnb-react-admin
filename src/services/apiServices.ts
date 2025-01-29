@@ -755,13 +755,13 @@ export const fetchOnlyPropertyUser =
     return response.data;
   };
 
-export const fetchContactSupportQueries = async () => {
-  const response = await axiosInstance.get(`/admin/queries`);
+export const fetchContactSupportQueries = async (page: number, limit: number) => {
+  const response = await axiosInstance.get(`/admin/queries?page=${page}&limit=${limit}`);
   return response.data;
 };
 
-export const fetchPropertyQueries = async () => {
-  const response = await axiosInstance.get(`/admin/property-queries`);
+export const fetchPropertyQueries = async (page: number, limit: number) => {
+  const response = await axiosInstance.get(`/admin/property-queries?page=${page}&limit=${limit}`);
   return response.data;
 };
 
@@ -781,3 +781,9 @@ export const replyContactQuery = async ({
   });
   return response.data;
 };
+
+
+export const getWebContactQueries = async (page: number, limit: number) => {
+  const response = await axiosInstance.get(`/admin/contact-queries?page=${page}&limit=${limit}`);
+  return response.data;
+}

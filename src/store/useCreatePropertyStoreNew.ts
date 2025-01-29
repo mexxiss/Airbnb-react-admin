@@ -166,7 +166,7 @@ const useCreatePropertyStoreNew = create<CreatePropertyState>()(
     }),
     {
       name: "create-property-storage",
-      partialize: (state) => ({ ...state }), // Persist entire state
+      partialize: (state) => ({ ...state }),
     }
   )
 );

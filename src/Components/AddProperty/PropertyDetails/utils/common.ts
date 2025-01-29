@@ -9,6 +9,10 @@ export const options = [
   { value: "Active", label: "Active" },
   { value: "Inactive", label: "Inactive" },
 ];
+export const citesArr = [
+  { value: "dubai", label: "Dubai" },
+  { value: "abu dhabi", label: "Abu Dhabi" },
+];
 export const optionsCurrency = [
   { value: "AED", label: "AED" },
   { value: "INR", label: "INR" },

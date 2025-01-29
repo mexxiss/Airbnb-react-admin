@@ -13,8 +13,6 @@ const SupportQuerry = () => {
         setSearchParams({ tab: activeTab });
     }, [activeTab, setSearchParams]);
 
-
-
     const renderActiveTabContent = () => {
         switch (activeTab) {
             case "user":

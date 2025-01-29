@@ -6,7 +6,7 @@ export const usePutContactQuery = () => {
     return useMutation({
         mutationFn: ({ id, updates }: { id: string, updates: { status: string, reply: string } }) => replyContactQuery({ id, updates }),
         onSuccess: () => {
-            showToast("success", "Query Replied");
+            showToast("success", "Reply sent successfully");
         },
         onError: () => {
             showToast("error", "Query reply failed");

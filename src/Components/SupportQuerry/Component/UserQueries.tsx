@@ -5,14 +5,28 @@ import { useGetContactSupport } from "../../../hooks/react-query/contact-support
 import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
 import Loader from "../../Loader/Loader";
 import DataNotFound from "../../DataNotFound/DataNotFound";
-
+import { useState } from "react";
+import { Pagination as MuiPagination } from "@mui/material";
 
 const UserQueries = () => {
-    const { data: queries, isLoading, isError, error } = useGetContactSupport();
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 10;
+    const { data: queries, isLoading, isError, error } = useGetContactSupport({page: currentPage, limit: limit});
+
+    const startUserIndex = (currentPage - 1) * limit + 1;
+    const endUserIndex = Math.min(
+        currentPage * limit,
+        queries?.totalCount || 0
+    );
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+    };
 
     if (isLoading) return <Loader />;
     if (isError && error instanceof Error)
         return <ErrorHandleMessage msg={error.message} />;
+
     return (
         <>
             {queries?.length === 0 ?
@@ -85,22 +99,22 @@ const UserQueries = () => {
                         </thead>
 
                         <tbody>
-                            {queries?.map((query: contactQueries, index: number) => (
+                            {queries?.queries?.map((query: contactQueries, index: number) => (
                                 <tr key={index} className="bg-white mb-2">
                                     <td className="py-3 px-3 rounded-l-xl">
                                         <div>
                                             <div className="flex items-center gap-3">
                                                 <img
-                                                    src={query?.user.profile_img}
+                                                    src={query?.user?.profile_img}
                                                     className="border-2 border-[#E8E1F6] rounded-lg w-10 h-10 object-cover"
                                                     alt=""
                                                 />
                                                 <div>
                                                     <p className="text-sm text-[#040404] font-medium capitalize">
-                                                        {query?.user.first_name} {query?.user.last_name}
+                                                        {query?.user?.first_name} {query?.user?.last_name}
                                                     </p>
                                                     <p className="text-xs text-text2 font-medium">
-                                                        {query?.user.email}
+                                                        {query?.user?.email}
                                                     </p>
                                                 </div>
                                             </div>
@@ -108,17 +122,17 @@ const UserQueries = () => {
                                     </td>
                                     <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
-                                            {query?.user.phone}
+                                            {query?.user?.phone}
                                         </span>
                                     </td>
                                     <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
-                                            {query.count}
+                                            {query?.count}
                                         </span>
                                     </td>
                                     <td className="py-3 px-3">
                                         <span className="text-text3 text-center font-medium">
-                                            {query.pendingCount}
+                                            {query?.pendingCount}
                                         </span>
                                     </td>
                                     <td className="py-3 px-3 text-left max-w-[60px]">
@@ -129,7 +143,7 @@ const UserQueries = () => {
                                         </span>
                                     </td>
                                     <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
-                                        <Link to={`/admin/support/chat?name=${query?.user.first_name} ${query?.user?.last_name}&id=${query.user._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
+                                        <Link to={`/admin/support/chat?name=${query?.user?.first_name} ${query?.user?.last_name}&id=${query.user?._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
                                             <VisibilityOutlined className="!text-xl " />
                                         </Link>
                                     </td>
@@ -137,6 +151,41 @@ const UserQueries = () => {
                             ))}
                         </tbody>
                     </table>
+                    <div className="mt-8">
+                        <div className="flex justify-between items-center">
+                            <p className="text-sm text-[#8B8B8B]">
+                                Showing {startUserIndex} - {endUserIndex} of{" "}
+                                {queries?.totalCount} queries
+                            </p>
+                            <div className="flex overflow-x-auto sm:justify-end">
+                                <MuiPagination
+                                    count={queries?.totalPages || 1}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                    color="primary"
+                                    shape="circular"
+                                    size="large"
+                                    // showFirstButton
+                                    // showLastButton
+                                    sx={{
+                                        "& .MuiPaginationItem-root": {
+                                            color: "#666",
+                                            "&.Mui-selected": {
+                                                backgroundColor: "#bb9e6c",
+                                                color: "white",
+                                                "&:hover": {
+                                                    backgroundColor: "#a68d5f",
+                                                },
+                                            },
+                                            "&:not(.Mui-selected):hover": {
+                                                backgroundColor: "rgba(187, 158, 108, 0.1)",
+                                            },
+                                        },
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
         </>

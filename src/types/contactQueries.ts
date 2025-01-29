@@ -18,4 +18,5 @@ export interface Query {
     message: string;
     createdAt: string;
     status: string;
+    reply?: string
 }

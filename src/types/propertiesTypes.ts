@@ -8,6 +8,7 @@ interface PropertyDetails {
     password: string;
   };
   max_guest_count: number;
+  bhk?: string;
   rooms_count: number;
   beds_count: number;
   bathrooms_count: number;

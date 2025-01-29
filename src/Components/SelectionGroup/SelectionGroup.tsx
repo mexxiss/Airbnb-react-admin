@@ -16,6 +16,9 @@ interface SelectionGroupProps {
     selectedUser: User | null;
   };
   className?: string;
+  showUserSelect?: boolean;
+  showPropertySelect?: boolean;
+  showMonthPicker?: boolean;
 }
 
 export const SelectionGroup: React.FC<SelectionGroupProps> = ({
@@ -25,6 +28,9 @@ export const SelectionGroup: React.FC<SelectionGroupProps> = ({
   onSelectedUserChange,
   initialValues,
   className = "",
+  showUserSelect = true,
+  showPropertySelect = true,
+  showMonthPicker = true,
 }) => {
   const {
     selectedValue,

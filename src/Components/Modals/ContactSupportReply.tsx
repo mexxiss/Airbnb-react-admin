@@ -18,7 +18,7 @@ const ContactSupportReply = ({ showModal, setShowModal, query }: IProps) => {
     const { updateQuery } = useUserContactQueriesStore();
 
     const initialValues = {
-        reply: "",
+        reply: query?.reply || "",
         status: "Replied"
     };
 
@@ -76,18 +76,21 @@ const ContactSupportReply = ({ showModal, setShowModal, query }: IProps) => {
                                         className="border-2 border-[#E8E1F6] rounded-lg w-full py-2 px-3 resize-none"
                                         placeholder="Write your reply..."
                                         rows={3}
+                                        disabled={(query?.reply !== "" && query?.reply !== undefined && query?.reply !== null) ? true : false}
                                     />
                                     {formik.touched.reply && formik.errors.reply ? (
                                         <div className="text-red-600">{formik.errors.reply}</div>
                                     ) : null}
                                 </div>
-                                <div className="mt-2 text-end">
-                                    <button type="submit"
-                                        className="btn1 rounded-full h-10 !px-8 tracking-wider"
-                                    >
-                                        {replyMutation.status === 'pending' ? "Submitting" : "Submit"}
-                                    </button>
-                                </div>
+                                {(query?.reply === "" || query?.reply === undefined || query?.reply === null) &&
+                                    <div className="mt-2 text-end">
+                                        <button type="submit"
+                                            className="btn1 rounded-full h-10 !px-8 tracking-wider"
+                                        >
+                                            {replyMutation.status === 'pending' ? "Submitting" : "Submit"}
+                                        </button>
+                                    </div>
+                                }
                             </Form>
                         </FormikProvider>
                     </div>

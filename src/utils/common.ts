@@ -203,3 +203,12 @@ export const numberRoundFix = (value: any = 0.0) => {
   const roundedValue = Math.round(value * 100) / 100;
   return roundedValue;
 };
+
+export const formatBHK = (bhk: string): string => {
+  if (!bhk) return "N/A";
+
+  return bhk
+    .replace("bhk", "BHK")
+    .replace("studio", "Studio")
+    .replace(/\+/, "+ ");
+};

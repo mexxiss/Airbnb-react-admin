@@ -14,10 +14,7 @@ import { UploadResponse } from "../types/uploadFileTypes";
 import { GalleryResponse, GalleryTypesResponse } from "../types/galleryTypes";
 import { AmenitiesResponse } from "../types/amenitiesTypes";
 import { DashboardData } from "../types/dashboard";
-import {
-  AboutUsTypes,
-  LegalContentResponse,
-} from "../types/legalsTypes";
+import { AboutUsTypes, LegalContentResponse } from "../types/legalsTypes";
 import { IMonthlyInvoice } from "../types/invoiceTypes";
 import { MonthlyInvoiceRevenueResponse } from "../types/revenueTypes";
 import {
@@ -29,6 +26,12 @@ import {
   MaintenanceResponseValues,
 } from "../types/maintenanceTypes";
 import { Faq, FaqResponse } from "../types/faqTypes";
+import {
+  LicenseData,
+  LicenseRequestPayload,
+  LicenseResponse,
+  SingleLicenseApiResponse,
+} from "../types/licenseTypes";
 
 // Example: Login Method
 export const login = async (data: LoginFormInputs): Promise<any> => {
@@ -683,29 +686,98 @@ export const deleteStatement = async (
   }
 };
 
-export const fetchOnlyPropertyUser = async (): Promise<OnlyPropertyUserApiResponse> => {
-  const response = await axiosInstance.get<OnlyPropertyUserApiResponse>(
-    "/admin/only-properties-userlist"
-  );
+export const createLicense = async (
+  payload: LicenseRequestPayload
+): Promise<LicenseResponse> => {
+  try {
+    const response: AxiosResponse<LicenseResponse> = await axiosInstance.post(
+      "/admin/license",
+      payload
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create license."
+    );
+  }
+};
+
+export const getLicenseList = async (
+  query: string
+): Promise<LicenseResponse> => {
+  try {
+    const response: AxiosResponse<LicenseResponse> = await axiosInstance.get(
+      `/admin/license?${query}`
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to create license."
+    );
+  }
+};
+
+export const fetchLicenseById = async (
+  id: string
+): Promise<SingleLicenseApiResponse> => {
+  if (!id) {
+    throw new Error("License ID is required.");
+  }
+
+  try {
+    const response: AxiosResponse<SingleLicenseApiResponse> =
+      await axiosInstance.get(`/admin/license/${id}`);
+
+    return response.data;
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch license details";
+    throw new Error(errorMessage);
+  }
+};
+
+// Update License
+export const updateLicense = async (payload: {
+  id: string;
+  data: LicenseData;
+}) => {
+  const { id, data } = payload;
+  const response = await axiosInstance.put(`/admin/license/${id}`, data);
   return response.data;
 };
+export const fetchOnlyPropertyUser =
+  async (): Promise<OnlyPropertyUserApiResponse> => {
+    const response = await axiosInstance.get<OnlyPropertyUserApiResponse>(
+      "/admin/only-properties-userlist"
+    );
+    return response.data;
+  };
 
 export const fetchContactSupportQueries = async () => {
   const response = await axiosInstance.get(`/admin/queries`);
   return response.data;
-}
+};
 
 export const fetchPropertyQueries = async () => {
   const response = await axiosInstance.get(`/admin/property-queries`);
   return response.data;
-}
+};
 
 export const fetchQueriesByUser = async (user: string) => {
   const response = await axiosInstance.get(`/admin/user-queries?user=${user}`);
   return response.data;
-}
-export const replyContactQuery = async ({id, updates}: {id: string, updates: {status: string, reply: string}}) => {
-
-  const response = await axiosInstance.put(`/admin/reply-query/${id}`, {updates});
+};
+export const replyContactQuery = async ({
+  id,
+  updates,
+}: {
+  id: string;
+  updates: { status: string; reply: string };
+}) => {
+  const response = await axiosInstance.put(`/admin/reply-query/${id}`, {
+    updates,
+  });
   return response.data;
-}
+};

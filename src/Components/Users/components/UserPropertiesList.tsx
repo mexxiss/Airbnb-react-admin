@@ -1,5 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { usePropertiesByUser } from "../../../hooks/react-query/properties-query";
+import Loader from "../../Loader/Loader";
+import ErrorHandleMessage from "../../ErrorHandleMessage/ErrorHandleMessage";
+import EllipsisTooltip from "../../EllipsisTooltip/EllipsisTooltip";
 import { formatBHK } from "../../../utils/common";
 import DataHandler from "../../ErrorHandleMessage/DataHandler";
 
@@ -50,14 +53,14 @@ const UserPropertiesList = () => {
                     <div className="">
                       <img
                         src={property?.property_images[0]?.img_url}
-                        className="w-full h-full object-cover"
+                        className="w-full h-[200px] object-cover"
                       />
                     </div>
                     <div className="w-full ">
                       <div className="px-2 pb-2 sm:pb-3 w-full">
                         <div>
-                          <h6 className="sm:text-lg md:text-xl text-gray-800 w-[calc(100%_-_10px)] text-nowrap overflow-hidden text-ellipsis">
-                            {property?.title}
+                          <h6 className="sm:text-lg md:text-xl text-gray-800 line-clamp-1">
+                            <EllipsisTooltip title={property?.title} width="100%" />
                           </h6>
                         </div>
                         <hr className="w-full my-2 sm:my-3 border-primary border-opacity-50" />

@@ -83,7 +83,7 @@ const Input: React.FC<InputProps> = ({
             placeholder={placeholder}
             value={inputValue}
             className={classNames(
-              "px-4 py-3 text-gray-600 placeholder-gray-400 border border-gray-300 rounded w-full bg-gray-100 resize-none",
+              "px-4 py-3 text-gray-600 placeholder-gray-400 border border-gray-300 rounded w-full bg-white resize-none focus:border-primary focus:!shadow-none focus:ring-0",
               inputClass
             )}
           />
@@ -99,7 +99,7 @@ const Input: React.FC<InputProps> = ({
             value={inputValue}
             min={type === "number" ? 0 : undefined} // Prevent negative numbers
             className={classNames(
-              "py-3 leading-4 text-gray-600 placeholder-gray-400 border border-gray-300 rounded w-full bg-gray-100",
+              "py-3 leading-4 text-gray-600 placeholder-gray-400 border border-gray-300 rounded w-full bg-white focus:border-primary",
               {
                 "pr-10 pl-4": type === "password",
                 "px-4": type !== "password",

@@ -705,6 +705,7 @@ export const fetchQueriesByUser = async (user: string) => {
   return response.data;
 }
 export const replyContactQuery = async ({id, updates}: {id: string, updates: {status: string, reply: string}}) => {
-  const response = await axiosInstance.put(`/admin/reply-query/${id}`, updates);
+
+  const response = await axiosInstance.put(`/admin/reply-query/${id}`, {updates});
   return response.data;
 }

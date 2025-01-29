@@ -2,6 +2,10 @@ import { Modal } from "flowbite-react"
 import { CloseOutlined } from "@mui/icons-material";
 import { Query } from "../../types/contactQueries";
 import { Form, FormikProvider, useFormik } from "formik";
+import { usePutContactQuery } from "../../hooks/react-query/contact-support/usePutContactQuery";
+import { showToast } from "../../utils/toaster/toastWrapper";
+import useUserContactQueriesStore from "../../store/useUserContactQueriesStore";
+import { contactQuerySchema } from "../../utils/validations/legalsValidations";
 
 interface IProps {
     showModal: boolean;
@@ -10,6 +14,9 @@ interface IProps {
 }
 
 const ContactSupportReply = ({ showModal, setShowModal, query }: IProps) => {
+    const replyMutation = usePutContactQuery();
+    const { updateQuery } = useUserContactQueriesStore();
+
     const initialValues = {
         reply: "",
         status: "Replied"
@@ -17,10 +24,22 @@ const ContactSupportReply = ({ showModal, setShowModal, query }: IProps) => {
 
     const formik = useFormik({
         initialValues: initialValues,
+        validationSchema: contactQuerySchema,
         enableReinitialize: true,
         onSubmit: async (values) => {
-            console.log(values);
-            
+            if (query?._id) {
+                replyMutation.mutate(
+                    { id: query._id, updates: values },
+                    {
+                        onSuccess: () => {
+                            updateQuery({ ...query, ...values })
+                            setShowModal(false)
+                        }
+                    }
+                );
+            } else {
+                showToast("error", "Query not selected");
+            }
         },
     });
 
@@ -58,12 +77,15 @@ const ContactSupportReply = ({ showModal, setShowModal, query }: IProps) => {
                                         placeholder="Write your reply..."
                                         rows={3}
                                     />
+                                    {formik.touched.reply && formik.errors.reply ? (
+                                        <div className="text-red-600">{formik.errors.reply}</div>
+                                    ) : null}
                                 </div>
                                 <div className="mt-2 text-end">
                                     <button type="submit"
                                         className="btn1 rounded-full h-10 !px-8 tracking-wider"
                                     >
-                                        Submit
+                                        {replyMutation.status === 'pending' ? "Submitting" : "Submit"}
                                     </button>
                                 </div>
                             </Form>

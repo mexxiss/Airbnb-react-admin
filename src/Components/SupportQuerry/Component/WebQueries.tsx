@@ -2,12 +2,12 @@ import { CloseOutlined, VisibilityOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 import EllipsisTooltip from '../../EllipsisTooltip/EllipsisTooltip'
 import { Modal } from 'flowbite-react'
+import { contactQueries } from '../../../types/contactQueries'
 
-const WebQueries = ({ queries }) => {
+const WebQueries = ({ queries }: {queries?: contactQueries[]}) => {
     const [showModal, setShowModal] = useState(false);
     return (
         <>
-
             <table
                 className="w-full border-separate min-w-full"
                 style={{ borderSpacing: "0 10px" }}

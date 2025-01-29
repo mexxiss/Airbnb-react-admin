@@ -129,7 +129,7 @@ const UserQueries = () => {
                                         </span>
                                     </td>
                                     <td className="py-3 px-3 rounded-r-xl text-left max-w-[60px]">
-                                        <Link to={`/admin/support/chat?user=${query.user._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
+                                        <Link to={`/admin/support/chat?name=${query?.user.first_name} ${query?.user?.last_name}&id=${query.user._id}`} className="text-[#bb9e6c] hover:text-primaryDark duration-300">
                                             <VisibilityOutlined className="!text-xl " />
                                         </Link>
                                     </td>

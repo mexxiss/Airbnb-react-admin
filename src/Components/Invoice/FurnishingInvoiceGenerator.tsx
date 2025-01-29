@@ -29,7 +29,7 @@ const FurnishingInvoiceGenerator = ({
   const neWObj = { ...invoiceData } as FurnishingResponseInvoice;
   const [isGenerating, setIsGenerating] = useState(false);
   const [blob, setBlob] = useState<Blob | null>(null);
-  const { mutate: createInvoiceMutation, isPending: isPendingCreate } =
+  const { mutate: createInvoice, isPending: isPendingCreate } =
     useCreateInvoice();
   const { mutate: deleteStatement, isPending } = useDeleteStatement();
 
@@ -42,7 +42,7 @@ const FurnishingInvoiceGenerator = ({
     );
 
     if (isConfirmed) {
-      createInvoiceMutation(
+      createInvoice(
         { invoiceData },
         {
           onSuccess: () => {

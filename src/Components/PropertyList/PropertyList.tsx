@@ -140,7 +140,7 @@ const PropertyList = () => {
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-        <div className="flex items-center justify-between border-b border-[#00858e5e] pb-5">
+        <div className="flex items-center justify-between border-b border-primary pb-5">
           <h5 className="text-22 text-primary font-bold">Properties</h5>
 
           <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5 hidden sm:block border border-gray-300">
@@ -301,6 +301,15 @@ const PropertyList = () => {
                       <th
                         scope="col"
                         className="py-2 px-3"
+                        style={{ minWidth: "140px" }}
+                      >
+                        <div className="flex items-center gap-2.5 text-nowrap">
+                          Bookings
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-2 px-3"
                         style={{ minWidth: "100px" }}
                       >
                         <div className="flex items-center gap-2.5 text-nowrap">
@@ -366,7 +375,15 @@ const PropertyList = () => {
                               />
                             </div>
                           </td>
-                          <td className=" py-3 px-3 text-center rounded-r-xl">
+                          <td className=" py-3 px-3">
+                            <Link
+                              to={`/admin/booking-list/${property._id}`}
+                              className="mx-auto"
+                            >
+                              <span className="text-sm text-primary bg-primary font-medium bg-opacity-15 hover:bg-opacity-25 duration-300 rounded px-2 py-1">View</span>
+                            </Link>
+                          </td>
+                          <td className=" py-3 px-3 rounded-r-xl">
                             <Link
                               to={`/admin/property-details/${property._id}`}
                               className="mx-auto"
@@ -407,8 +424,8 @@ const PropertyList = () => {
                     }}
                     shape="circular"
                     size="large"
-                    // showFirstButton
-                    // showLastButton
+                  // showFirstButton
+                  // showLastButton
                   />
                 </div>
               </div>

@@ -71,8 +71,8 @@ const DETLicenseForm: React.FC = () => {
       expiryDate: license?.data?.expiryDate
         ? formatDate(license.data.expiryDate)
         : formatDate(
-            new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-          ),
+          new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+        ),
       renewed: license?.data?.renewed || false,
       renewalDate: license?.data?.renewalDate || "",
     }),
@@ -156,9 +156,11 @@ const DETLicenseForm: React.FC = () => {
       errorStates={[{ isError, error }]}
     >
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-        <h5 className="text-22 text-primary font-bold mb-5">
-          {isEditMode && id ? "Edit License" : "Add License"}
-        </h5>
+        <div className="flex items-center justify-between border-b border-primary pb-5 mb-5">
+          <h5 className="text-22 text-primary font-bold">
+            {isEditMode && id ? "Edit License" : "Add License"}
+          </h5>
+        </div>
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -186,7 +188,7 @@ const DETLicenseForm: React.FC = () => {
                   onChange={handleUserSelection}
                   placeholder="Select an option"
                   className="mb-4"
-                  // error={!selectedValue ? "This field is required" : ""}
+                // error={!selectedValue ? "This field is required" : ""}
                 />
                 {formik.touched.owner && formik.errors.owner ? (
                   <div className="text-red-600">{formik.errors.owner}</div>
@@ -201,7 +203,7 @@ const DETLicenseForm: React.FC = () => {
                   onChange={handlePropertySelection}
                   placeholder="Select an option"
                   className="mb-4"
-                  // error={!selectedProperty ? "This field is required" : ""}
+                // error={!selectedProperty ? "This field is required" : ""}
                 />
                 {formik.touched.property && formik.errors.property ? (
                   <div className="text-red-600">{formik.errors.property}</div>
@@ -304,8 +306,8 @@ const DETLicenseForm: React.FC = () => {
                     ? "Updating..."
                     : "Submitting..."
                   : isEditMode
-                  ? "Update"
-                  : "Create"}
+                    ? "Update"
+                    : "Create"}
               </button>
             </div>
           </Form>

@@ -787,3 +787,8 @@ export const getWebContactQueries = async (page: number, limit: number) => {
   const response = await axiosInstance.get(`/admin/contact-queries?page=${page}&limit=${limit}`);
   return response.data;
 }
+
+export const getAllBookings = async (page: number, limit: number, property: string) => {
+  const res = await axiosInstance.get(`/admin/bookings?page=${page}&limit=${limit}&property=${property}`);
+  return res.data;
+};

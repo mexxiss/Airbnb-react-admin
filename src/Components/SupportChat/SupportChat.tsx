@@ -42,7 +42,7 @@ const SupportChat = () => {
   return (
     <div>
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between border-b border-primary pb-5 mb-5">
           <div className="flex items-center gap-2">
             <Link to="/admin/support">
               <KeyboardArrowLeftOutlined className="!text-3xl" />
@@ -129,11 +129,10 @@ const SupportChat = () => {
                     </td>
                     <td className="py-3 px-3 text-left max-w-[60px]">
                       <span
-                        className={`text-sm px-2 py-1 rounded ${
-                          query?.status === "Pending"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-green-100 text-green-700"
-                        }`}
+                        className={`text-sm px-2 py-1 rounded ${query?.status === "Pending"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-green-100 text-green-700"
+                          }`}
                       >
                         {query?.status}
                       </span>

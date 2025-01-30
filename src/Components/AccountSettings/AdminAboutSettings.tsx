@@ -70,7 +70,9 @@ const AdminAboutSettings = () => {
   return (
     <div>
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-        <h5 className="text-22 text-primary font-bold mb-5">About Us</h5>
+        <div className="flex items-center justify-between border-b border-primary pb-5 mb-5">
+          <h5 className="text-22 text-primary font-bold">About Us</h5>
+        </div>
         <div>
           <FormikProvider value={formik}>
             <Form onSubmit={formik.handleSubmit}>

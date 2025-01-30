@@ -127,7 +127,7 @@ const Faq = () => {
       errorStates={[{ isError, error }]}
     >
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
-        <div className="flex items-center justify-between border-b border-[#00858e5e] pb-5 mb-5">
+        <div className="flex items-center justify-between border-b border-primary pb-5 mb-5">
           <h5 className="text-22 text-primary font-bold">FAQs</h5>
           <div className="flex items-center gap-3">
             <div className="relative bg-white rounded-lg py-1.5 pl-10 pr-5">
@@ -144,7 +144,7 @@ const Faq = () => {
             </div>
             {
               <button
-                className="text-sm py-2 px-5 rounded-full text-white border border-primary bg-primary hover:bg-[#00858ed0] duration-300"
+                className="text-sm py-2 px-5 rounded-full text-white border border-primary bg-primary hover:bg-primaryDark duration-300"
                 onClick={() => handleFaqCreateClick()}
               >
                 Add FAQ

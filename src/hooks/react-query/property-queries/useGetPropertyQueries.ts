@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchPropertyQueries } from "../../services/apiServices"
+import { fetchPropertyQueries } from "../../../services/apiServices"
 
 export const useGetPropertyQueries = ({page, limit}: {page: number, limit: number}) => {
     return useQuery({

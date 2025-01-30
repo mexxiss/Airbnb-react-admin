@@ -160,6 +160,21 @@ const PropertyDetails = () => {
                         {data?.data?.property_details.isWifiAvailable
                           ? "Wifi Avalable"
                           : "Wifi Not Available"}
+                        <div className="mt-2">
+                          <div className="flex items-center gap-2">
+                            <p className="text-[#1F1607] font-medium text-sm">
+                              Wifi Name:
+                            </p>
+                            {data?.data?.property_details.wifi?.name || "N/A"}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <p className="text-[#1F1607] font-medium text-sm">
+                              Wifi Password:
+                            </p>
+                            {data?.data?.property_details.wifi?.password ||
+                              "N/A"}
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <hr className="my-6 border-[#C3C3C3]" />

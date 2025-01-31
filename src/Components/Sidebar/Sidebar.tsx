@@ -27,7 +27,9 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
       "/admin/setting/account-setting",
       "/admin/setting/privacy-policy",
       "/admin/setting/terms-and-conditions",
+      "/admin/setting/refund-policy",
       "/admin/setting/about-us",
+      "/admin/setting/faq",
     ];
     const invoicePaths = ["/admin/invoices", "/admin/invoice/create"];
 
@@ -163,6 +165,20 @@ const Sidebar = ({ isActiveMenu }: SidebarProps) => {
                       }
                     >
                       Terms & Conditions
+                    </NavLink>
+                  </li>
+                  <li className="">
+                    <NavLink
+                      to="/admin/setting/refund-policy"
+                      className={({ isActive }) =>
+                        `flex relative gap-3 items-center text-white px-5 text-nowrap py-2 ${
+                          isActive
+                            ? "text-white before:bg-white before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full"
+                            : ""
+                        }`
+                      }
+                    >
+                      Refund Policy
                     </NavLink>
                   </li>
                   <li className="">

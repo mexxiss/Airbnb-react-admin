@@ -43,7 +43,9 @@ export const PersonalDetailsForm = ({ formik }: { formik: any }) => {
         <div className="mb-6">
           <div className="relative min-w-28 w-28 h-28 rounded-full bg-gray-400 mx-auto">
             {isPendingUpload ? (
-              <CircularProgress />
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <CircularProgress />
+              </div>
             ) : (
               <img
                 src={

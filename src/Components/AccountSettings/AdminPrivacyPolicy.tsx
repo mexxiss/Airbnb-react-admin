@@ -44,6 +44,15 @@ const AdminPrivacyPolicy = () => {
             <Form onSubmit={formik.handleSubmit}>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
+                  <SelectInput
+                    label="Select Type"
+                    name="type"
+                    options={optionsLegals}
+                    placeholder="Choose an option"
+                    className=""
+                  />
+                </div>
+                <div className="sm:col-span-2">
                   <Input
                     name="title"
                     type="text"
@@ -56,17 +65,8 @@ const AdminPrivacyPolicy = () => {
                     <div className="text-red-600">{formik.errors.title}</div>
                   ) : null}
                 </div>
-                <div className="sm:col-span-2">
-                  <SelectInput
-                    label="Select Type"
-                    name="type"
-                    options={optionsLegals}
-                    placeholder="Choose an option"
-                    className="mb-4"
-                  />
-                </div>
               </div>
-              <div className="">
+              <div className="mt-4">
                 <ReactQuillInput
                   name="body"
                   placeholder="Policy..."

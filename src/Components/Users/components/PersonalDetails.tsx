@@ -54,7 +54,7 @@ const PersonalDetails = () => {
               <div>
                 <div className="flex flex-col sm:flex-row gap-3 items-center text-center sm:text-start relative w-max mx-auto sm:mx-0 pr-10">
                   <div className="w-16 h-16 min-w-16 rounded-full bg-gray-500 overflow-hidden border">
-                    <img src={userImg2 || "/placeholder.svg"} alt="" />
+                    <img src={personalData?.profile_img || userImg2} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <p className="text-lg font-medium">

@@ -19,6 +19,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import CreateUser from "./Components/Users/CreateUser.tsx";
 import AdminPrivacyPolicy from "./Components/AccountSettings/AdminPrivacyPolicy.tsx";
 import AdminTermsAndConditions from "./Components/AccountSettings/AdminTermsAndConditions.tsx";
+import AdminRefundPolicy from "./Components/AccountSettings/AdminRefundPolicy.tsx";
 import AdminAboutSettings from "./Components/AccountSettings/AdminAboutSettings.tsx";
 import "flatpickr/dist/themes/material_green.css";
 import InvoiceList from "./Components/Invoice/InvoiceList.tsx";
@@ -215,6 +216,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin", "Owner"]}>
               <AdminTermsAndConditions />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "setting/refund-policy",
+          element: (
+            <ProtectedRoute roles={["Admin", "Owner"]}>
+              <AdminRefundPolicy />
             </ProtectedRoute>
           ),
         },

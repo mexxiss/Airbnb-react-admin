@@ -40,6 +40,7 @@ const phoneValidation = (isMultiple: boolean) => {
 export const personalDetailsValidationSchema = (isMultiple = false) => {
   const schema = Yup.object({
     first_name: Yup.string().required("First name is required"),
+    profile_img: Yup.string(),
     last_name: Yup.string().required("Last name is required"),
     email: Yup.string()
       .required("Please enter your email")

@@ -29,6 +29,7 @@ export const usePersonalDetails = (
       SecEmail: finalData?.email[1] || "",
       country: finalData?.address?.country || "",
       SecNumber: finalData?.phone[1] || "",
+      profile_img: finalData?.profile_img || "",
     },
     enableReinitialize: true,
     onSubmit: async (values) => {

@@ -37,6 +37,7 @@ import SupportChat from "./Components/SupportChat/SupportChat.tsx";
 import DETLicenseForm from "./Components/DETLicenseForm/DETLicenseForm.tsx";
 import DETLicenseList from "./Components/DETLicenseForm/DETLicenseList.tsx";
 import DETLicenseDetail from "./Components/DETLicenseForm/DETLicenseDetail.tsx";
+import BookingList from "./Components/BookingList/BookingList.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -117,6 +118,14 @@ const App = () => {
           element: (
             <ProtectedRoute roles={["Admin"]}>
               <PropertyList />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "booking-list/:property",
+          element: (
+            <ProtectedRoute roles={["Admin"]}>
+              <BookingList />
             </ProtectedRoute>
           ),
         },

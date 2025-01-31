@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between border-b border-[#00858e5e] pb-5 ${className}`}
+      className={`flex items-center justify-between border-b border-primary pb-5 ${className}`}
     >
       {title && <h5 className="text-22 text-primary font-bold">{title}</h5>}
 

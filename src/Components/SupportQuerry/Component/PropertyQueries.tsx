@@ -1,7 +1,7 @@
 import { CloseOutlined, VisibilityOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 import { Modal } from 'flowbite-react'
-import { useGetPropertyQueries } from '../../../hooks/property-queries/useGetPropertyQueries'
+import { useGetPropertyQueries } from '../../../hooks/react-query/property-queries/useGetPropertyQueries'
 import ErrorHandleMessage from '../../ErrorHandleMessage/ErrorHandleMessage'
 import Loader from '../../Loader/Loader';
 import { Pagination as MuiPagination } from "@mui/material";

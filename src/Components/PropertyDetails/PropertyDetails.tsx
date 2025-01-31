@@ -33,25 +33,6 @@ const PropertyDetails = () => {
     document.body.classList.remove("lg:overflow-hidden");
   };
 
-  const location = {
-    latitude: "25.266666",
-    longitude: "55.316666",
-  };
-
-  // Convert string coordinates to numbers
-  const center = {
-    lat: parseFloat(location.latitude),
-    lng: parseFloat(location.longitude),
-  };
-
-  const markers = [
-    {
-      lat: center.lat,
-      lng: center.lng,
-      text: "Dubai Location",
-    },
-  ];
-
   return (
     <DataHandler loadingStates={[isLoading]} errorStates={[{ isError, error }]}>
       <div className="px-6 pt-6 h-[calc(100vh_-_81px)] overflow-y-auto pb-6">
@@ -171,6 +152,29 @@ const PropertyDetails = () => {
                             {data?.data.costs.prices.security_amount || "0"}
                           </li>
                         </ul>
+                      </div>
+                      <div>
+                        <p className="text-[#1F1607] font-medium text-lg">
+                          WIFI
+                        </p>
+                        {data?.data?.property_details.isWifiAvailable
+                          ? "Wifi Avalable"
+                          : "Wifi Not Available"}
+                        <div className="mt-2">
+                          <div className="flex items-center gap-2">
+                            <p className="text-[#1F1607] font-medium text-sm">
+                              Wifi Name:
+                            </p>
+                            {data?.data?.property_details.wifi?.name || "N/A"}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <p className="text-[#1F1607] font-medium text-sm">
+                              Wifi Password:
+                            </p>
+                            {data?.data?.property_details.wifi?.password ||
+                              "N/A"}
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <hr className="my-6 border-[#C3C3C3]" />

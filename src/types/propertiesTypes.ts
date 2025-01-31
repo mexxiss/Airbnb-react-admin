@@ -3,6 +3,7 @@ interface PropertyDetails {
     permit_code: string;
     permit_expiry_date: string; // ISO 8601 date format
   };
+  isWifiAvailable?: boolean;
   wifi?: {
     name: string;
     password: string;
@@ -67,6 +68,7 @@ export interface PropertyResponse {
   costs: Costs;
   staying_rules: string; // Array of staying rules
   cancellation_policy: string;
+
   amenities?: Amenity[] | string[];
   createdAt?: string;
   updatedAt: string;

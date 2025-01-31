@@ -1,5 +1,7 @@
+import axiosInstance from "../services/axiosInstance";
 import { colors } from "../theme/colors";
 import moment from "moment";
+import { saveAs } from "file-saver";
 
 /**
  * Formats the given amount with the specified currency code and symbol.
@@ -211,4 +213,71 @@ export const formatBHK = (bhk: string): string => {
     .replace("bhk", "BHK")
     .replace("studio", "Studio")
     .replace(/\+/, "+ ");
+};
+
+// Define Types
+type PDFType = "maintenance" | "statement" | "furnishing";
+
+interface Reservation {
+  id: number;
+  code: string;
+  guestName: string;
+  checkIn: string;
+  checkOut: string;
+  totalNights: number;
+  amount: string;
+}
+
+interface PDFData {
+  invoiceNumber: string;
+  date: string;
+  owner: string;
+  phone: string;
+  statementPeriod: string;
+  reservations: Reservation[];
+  managementFee: string;
+  licenseFee: string;
+  netAmountDue: string;
+}
+
+export const handleDownloadPDF = async (type: PDFType): Promise<void> => {
+  try {
+    const requestData = {
+      type,
+      data: {
+        invoiceNumber: "INV-12345",
+        date: "March 15, 2024",
+        owner: "John Doe",
+        phone: "+1 802-448-2354",
+        statementPeriod: "2024/11",
+        reservations: [
+          {
+            id: 1,
+            code: "RS-98765",
+            guestName: "Alice Brown",
+            checkIn: "2024-10-27",
+            checkOut: "2024-10-30",
+            totalNights: 3,
+            amount: "AED 1,803.00",
+          },
+        ],
+        managementFee: "AED 303",
+        licenseFee: "AED 370",
+        netAmountDue: "AED 1,130.00",
+      } as PDFData,
+    };
+
+    const response = await axiosInstance.post<Blob>(
+      "/users/generate-pdf",
+      requestData,
+      { responseType: "blob" } // Ensures we get a PDF blob
+    );
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    saveAs(blob, `${type}.pdf`); // Downloads the file
+
+    console.log("PDF downloaded successfully");
+  } catch (error: any) {
+    console.error("Error downloading PDF:", error);
+  }
 };

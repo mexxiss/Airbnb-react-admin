@@ -37,6 +37,7 @@ export const usePersonalDetails = (
         const updates = {
           ...values,
           address: {
+            ...finalData?.address,
             country: values.country,
           },
           email: [values.email, values.SecEmail].filter(Boolean),

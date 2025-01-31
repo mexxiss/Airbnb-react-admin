@@ -1,13 +1,26 @@
 import React, { useCallback, useState } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 
 interface Location {
   latitude: string;
   longitude: string;
+  name?: string;
+  description?: string;
+  _id?: string;
+  title?: string;
+  imgUrl?: string;
+  price_per_night?: number;
+  max_guest_count?: number;
+  rooms_count?: number;
 }
 
 interface MapProps {
-  location: Location | Location[]; // Supports both single & multiple locations
+  location: Location | Location[];
   zoom?: number;
   width?: string;
   height?: string;
@@ -26,6 +39,8 @@ const Map: React.FC<MapProps> = ({
   });
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [hoveredLocation, setHoveredLocation] = useState<Location | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   // Convert location(s) to array for uniform handling
   const locations = Array.isArray(location) ? location : [location];
@@ -75,8 +90,41 @@ const Map: React.FC<MapProps> = ({
             lat: parseFloat(loc.latitude),
             lng: parseFloat(loc.longitude),
           }}
+          onMouseOver={() => {
+            if (hoverTimeout) clearTimeout(hoverTimeout);
+            setHoveredLocation(loc);
+          }}
+          onMouseOut={() => {
+            const timeout = setTimeout(() => setHoveredLocation(null), 500);
+            setHoverTimeout(timeout);
+          }}
         />
       ))}
+      {hoveredLocation && (
+        <InfoWindow
+          position={{
+            lat: parseFloat(hoveredLocation.latitude),
+            lng: parseFloat(hoveredLocation.longitude),
+          }}
+          onCloseClick={() => setHoveredLocation(null)}
+          options={{ disableAutoPan: true }}
+        >
+          <div
+            onMouseEnter={() => {
+              if (hoverTimeout) clearTimeout(hoverTimeout);
+            }}
+            onMouseLeave={() => {
+              setHoveredLocation(null);
+            }}
+            style={{ padding: "10px", maxWidth: "200px" }}
+          >
+            <h3 style={{ margin: 0 }}>{hoveredLocation.name || "Location"}</h3>
+            <p style={{ margin: "5px 0" }}>
+              {hoveredLocation.description || "No details available."}
+            </p>
+          </div>
+        </InfoWindow>
+      )}
     </GoogleMap>
   ) : null;
 };

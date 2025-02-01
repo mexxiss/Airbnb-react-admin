@@ -5,7 +5,6 @@ export const useGetWebContactQueries = ({page, limit}: {page: number, limit: num
     return useQuery({
         queryKey: ["contact-support", {page, limit}],
         queryFn: () => getWebContactQueries(page, limit),
-        enabled: page > 0 && limit > 0,
-        staleTime: 60 * 1000, 
+        enabled: !!page,
     })
 }

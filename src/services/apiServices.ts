@@ -343,10 +343,13 @@ export const createLegalsApi = async (
   payload: PaylodLegals
 ): Promise<PropertiesPostResponse<any>> => {
   try {
+    console.log("Payload: ", payload);
+    
     const response = await axiosInstance.post<PropertiesPostResponse<any>>(
       "/admin/content",
       payload
     );
+    
     return response.data;
   } catch (error: any) {
     throw new Error(

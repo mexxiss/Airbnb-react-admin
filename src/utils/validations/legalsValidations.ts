@@ -6,8 +6,8 @@ export const legalContentValidationSchema = Yup.object({
   type: Yup.string()
     .required("Type is required")
     .oneOf(
-      ["terms", "privacy", "refund"],
-      "Type must be one of 'terms', 'policy', or 'refund'"
+      ["terms", "privacy", "refund", "booking_refund", "booking_privacy", "booking_terms"],
+      "Type must be one of 'terms', 'policy', 'refund', 'booking_refund', 'booking_privacy', or 'booking_terms'"
     ),
 });
 

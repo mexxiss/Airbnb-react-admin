@@ -40,7 +40,7 @@ const WebsiteRefund = () => {
                     <FormikProvider value={formik}>
                         <Form onSubmit={formik.handleSubmit}>
                             <div className="grid sm:grid-cols-2 gap-4">
-                                <div className="sm:col-span-2 ">
+                                <div className="sm:col-span-2">
                                     <Input
                                         name="title"
                                         type="text"

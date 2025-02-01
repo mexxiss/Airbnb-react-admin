@@ -8,22 +8,15 @@ interface useMutateUpdateLegalsPayload {
   type: string;
 }
 
-export const useMutateUpdateLegals = () => {
+export const useMutateUpdateLegals = () => { // No payload in the hook
   return useMutation({
-    mutationFn: (payload: useMutateUpdateLegalsPayload) =>
-      createLegalsApi(payload),
+    mutationFn: (payload: useMutateUpdateLegalsPayload) => createLegalsApi(payload),
     onSuccess: (data) => {
-      showToast(
-        "success",
-        data.message || "Legal document section saved successfully"
-      );
+      showToast("success", data.message || "Legal document section saved successfully");
     },
-    onError: (error: any) => {
-      showToast(
-        "error",
-        error?.response?.data?.message ||
-          "Legal document section saved successfully"
-      );
+    onError: () => {
+      showToast("error", "Legal document section could not be saved");
     },
   });
 };
+
